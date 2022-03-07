@@ -1,17 +1,16 @@
-﻿namespace BookStore.Application.Common
-{
-    public class EntityCommand<TId>
-    {
-        public TId Id { get; set; } = default!;
-    }
+﻿namespace BookStore.Application.Common;
 
-    public static class EntityCommandExtensions
+public class EntityCommand<TId>
+{
+    public TId Id { get; set; } = default!;
+}
+
+public static class EntityCommandExtensions
+{
+    public static TCommand SetId<TCommand, TId>(this TCommand command, TId id)
+        where TCommand : EntityCommand<TId>
     {
-        public static TCommand SetId<TCommand, TId>(this TCommand command, TId id)
-            where TCommand : EntityCommand<TId>
-        {
-            command.Id = id;
-            return command;
-        }
+        command.Id = id;
+        return command;
     }
 }

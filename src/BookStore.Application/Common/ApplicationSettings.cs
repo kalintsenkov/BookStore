@@ -1,9 +1,8 @@
-﻿namespace BookStore.Application.Common
-{
-    public class ApplicationSettings
-    {
-        public ApplicationSettings() => this.Secret = default!;
+﻿namespace BookStore.Application.Common;
 
-        public string Secret { get; private set; }
-    }
+public class ApplicationSettings
+{
+    public ApplicationSettings() => this.Secret = default!;
+
+    public string Secret { get; private set; }
 }

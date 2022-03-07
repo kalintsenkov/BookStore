@@ -1,15 +1,14 @@
-﻿namespace BookStore.Domain.Common
+﻿namespace BookStore.Domain.Common;
+
+using System;
+
+public abstract class BaseDomainException : Exception
 {
-    using System;
+    private string? error;
 
-    public abstract class BaseDomainException : Exception
+    public string Error
     {
-        private string? error;
-
-        public string Error
-        {
-            get => this.error ?? base.Message;
-            set => this.error = value;
-        }
+        get => this.error ?? base.Message;
+        set => this.error = value;
     }
 }

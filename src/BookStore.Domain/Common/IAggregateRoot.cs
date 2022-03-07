@@ -1,6 +1,5 @@
-﻿namespace BookStore.Domain.Common
+﻿namespace BookStore.Domain.Common;
+
+public interface IAggregateRoot
 {
-    public interface IAggregateRoot
-    {
-    }
 }

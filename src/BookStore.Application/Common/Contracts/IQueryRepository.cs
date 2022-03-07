@@ -1,9 +1,8 @@
-﻿namespace BookStore.Application.Common.Contracts
-{
-    using Domain.Common;
+﻿namespace BookStore.Application.Common.Contracts;
 
-    public interface IQueryRepository<in TEntity>
-        where TEntity : IAggregateRoot
-    {
-    }
+using Domain.Common;
+
+public interface IQueryRepository<in TEntity>
+    where TEntity : IAggregateRoot
+{
 }

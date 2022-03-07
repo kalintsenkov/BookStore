@@ -1,7 +1,6 @@
-﻿namespace BookStore.Application.Common.Contracts
+﻿namespace BookStore.Application.Common.Contracts;
+
+public interface ICurrentUser
 {
-    public interface ICurrentUser
-    {
-        string UserId { get; }
-    }
+    string UserId { get; }
 }

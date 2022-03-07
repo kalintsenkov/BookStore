@@ -1,12 +1,11 @@
-﻿namespace BookStore.Domain.Common
+﻿namespace BookStore.Domain.Common;
+
+using System;
+using System.Collections.Generic;
+
+public interface IInitialData
 {
-    using System;
-    using System.Collections.Generic;
+    Type EntityType { get; }
 
-    public interface IInitialData
-    {
-        Type EntityType { get; }
-
-        IEnumerable<object> GetData();
-    }
+    IEnumerable<object> GetData();
 }

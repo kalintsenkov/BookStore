@@ -1,35 +1,34 @@
-﻿namespace BookStore.Application.Common.Mapping
+﻿namespace BookStore.Application.Common.Mapping;
+
+using System;
+using System.Linq;
+using System.Reflection;
+using AutoMapper;
+
+public class MappingProfile : Profile
 {
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using AutoMapper;
+    public MappingProfile()
+        => this.ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
 
-    public class MappingProfile : Profile
+    private void ApplyMappingsFromAssembly(Assembly assembly)
     {
-        public MappingProfile()
-               => ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+        var types = assembly
+            .GetExportedTypes()
+            .Where(t => t
+                .GetInterfaces()
+                .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IMapFrom<>)))
+            .ToList();
 
-        private void ApplyMappingsFromAssembly(Assembly assembly)
+        foreach (var type in types)
         {
-            var types = assembly
-                .GetExportedTypes()
-                .Where(t => t
-                    .GetInterfaces()
-                    .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IMapFrom<>)))
-                .ToList();
+            var instance = Activator.CreateInstance(type);
 
-            foreach (var type in types)
-            {
-                var instance = Activator.CreateInstance(type);
+            const string mappingMethodName = "Mapping";
 
-                const string mappingMethodName = "Mapping";
+            var methodInfo = type.GetMethod(mappingMethodName)
+                             ?? type.GetInterface("IMapFrom`1")?.GetMethod(mappingMethodName);
 
-                var methodInfo = type.GetMethod(mappingMethodName)
-                                 ?? type.GetInterface("IMapFrom`1")?.GetMethod(mappingMethodName);
-
-                methodInfo?.Invoke(instance, new object[] { this });
-            }
+            methodInfo?.Invoke(instance, new object[] { this });
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace BookStore.Domain.Common
+﻿namespace BookStore.Domain.Common;
+
+public interface IFactory<out TEntity>
+    where TEntity : IAggregateRoot
 {
-    public interface IFactory<out TEntity>
-        where TEntity : IAggregateRoot
-    {
-        TEntity Build();
-    }
+    TEntity Build();
 }

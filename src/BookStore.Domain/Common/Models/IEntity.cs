@@ -1,11 +1,10 @@
-﻿namespace BookStore.Domain.Common.Models
+﻿namespace BookStore.Domain.Common.Models;
+
+using System.Collections.Generic;
+
+public interface IEntity
 {
-    using System.Collections.Generic;
+    IReadOnlyCollection<IDomainEvent> Events { get; }
 
-    public interface IEntity
-    {
-        IReadOnlyCollection<IDomainEvent> Events { get; }
-
-        void ClearEvents();
-    }
+    void ClearEvents();
 }
