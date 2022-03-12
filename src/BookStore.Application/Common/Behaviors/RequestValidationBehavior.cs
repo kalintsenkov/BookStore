@@ -1,4 +1,4 @@
-﻿namespace BookStore.Application.Common.Behaviours;
+﻿namespace BookStore.Application.Common.Behaviors;
 
 using System.Collections.Generic;
 using System.Linq;
