@@ -1,4 +1,4 @@
-﻿namespace BookStore.Application.Common;
+﻿namespace BookStore.Application.Common.Contracts;
 
 using System.Threading.Tasks;
 using Domain.Common;

@@ -3,6 +3,7 @@
 using System.Reflection;
 using Common;
 using Common.Behaviors;
+using Common.Contracts;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
