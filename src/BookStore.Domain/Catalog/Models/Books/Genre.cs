@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Books.Models.Books;
+﻿namespace BookStore.Domain.Catalog.Models.Books;
 
 using Common.Models;
 using Exceptions;

@@ -1,8 +1,8 @@
 ﻿namespace BookStore.Web.Features;
 
 using System.Threading.Tasks;
-using Application.Books.Queries.Details;
-using Domain.Books.Models.Books;
+using Application.Catalog.Books.Queries.Details;
+using Domain.Catalog.Models.Books;
 using Microsoft.AspNetCore.Mvc;
 
 public class BooksController : ApiController

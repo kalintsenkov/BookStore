@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Books.Factories.Authors;
+﻿namespace BookStore.Domain.Catalog.Factories.Authors;
 
 using Exceptions;
 using Models.Authors;

@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Books.Models;
+﻿namespace BookStore.Domain.Catalog.Models;
 
 public class ModelConstants
 {

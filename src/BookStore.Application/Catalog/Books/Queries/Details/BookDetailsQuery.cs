@@ -1,9 +1,9 @@
-﻿namespace BookStore.Application.Books.Queries.Details;
+﻿namespace BookStore.Application.Catalog.Books.Queries.Details;
 
 using System.Threading;
 using System.Threading.Tasks;
-using Domain.Books.Factories.Books;
-using Domain.Books.Models.Books;
+using Domain.Catalog.Factories.Books;
+using Domain.Catalog.Models.Books;
 using MediatR;
 
 public class BookDetailsQuery : IRequest<Book>

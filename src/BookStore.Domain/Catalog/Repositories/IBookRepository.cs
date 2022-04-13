@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Books.Repositories;
+﻿namespace BookStore.Domain.Catalog.Repositories;
 
 using System.Threading;
 using System.Threading.Tasks;

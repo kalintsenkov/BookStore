@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Books.Models.Authors;
+﻿namespace BookStore.Domain.Catalog.Models.Authors;
 
 using System.Collections.Generic;
 using System.Linq;
