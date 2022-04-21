@@ -2,11 +2,12 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Common;
 using Domain.Catalog.Factories.Books;
 using Domain.Catalog.Models.Books;
 using MediatR;
 
-public class BookDetailsQuery : IRequest<Book>
+public class BookDetailsQuery : EntityCommand<int>, IRequest<Book>
 {
     public class BookDetailsQueryHandler : IRequestHandler<BookDetailsQuery, Book>
     {

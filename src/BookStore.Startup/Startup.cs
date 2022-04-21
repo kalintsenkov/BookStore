@@ -2,6 +2,7 @@
 
 using Application;
 using Domain;
+using Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +22,7 @@ public class Startup
         => services
             .AddDomain()
             .AddApplication(this.Configuration)
+            .AddInfrastructure(this.Configuration)
             .AddWebComponents();
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -36,5 +38,6 @@ public class Startup
             .UseAuthentication()
             .UseAuthorization()
             .UseEndpoints(endpoints => endpoints
-                .MapControllers());
+                .MapControllers())
+            .Initialize();
 }

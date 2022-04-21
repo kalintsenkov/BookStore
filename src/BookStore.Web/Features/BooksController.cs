@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 public class BooksController : ApiController
 {
     [HttpGet]
+    [Route(Id)]
     public async Task<ActionResult<Book>> Details(
-        BookDetailsQuery query)
+        [FromRoute] BookDetailsQuery query)
         => await this.Send(query);
 }
