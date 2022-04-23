@@ -37,5 +37,12 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
                     .Property(g => g.Value)
                     .IsRequired();
             });
+
+        builder
+            .HasOne(b => b.Author)
+            .WithMany()
+            .HasForeignKey("AuthorId")
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

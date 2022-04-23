@@ -1,8 +1,5 @@
 ﻿namespace BookStore.Domain.Catalog.Models.Authors;
 
-using System.Collections.Generic;
-using System.Linq;
-using Books;
 using Common;
 using Common.Models;
 using Exceptions;
@@ -11,23 +8,17 @@ using static ModelConstants.Common;
 
 public class Author : Entity<int>, IAggregateRoot
 {
-    private readonly HashSet<Book> books;
-
     internal Author(string name, string description)
     {
         this.Validate(name, description);
 
         this.Name = name;
         this.Description = description;
-
-        this.books = new HashSet<Book>();
     }
 
     public string Name { get; private set; }
 
     public string Description { get; private set; }
-
-    public IReadOnlyCollection<Book> Books => this.books.ToList().AsReadOnly();
 
     public Author UpdateName(string name)
     {
@@ -43,13 +34,6 @@ public class Author : Entity<int>, IAggregateRoot
         this.ValidateDescription(description);
 
         this.Description = description;
-
-        return this;
-    }
-
-    public Author AddBook(Book book)
-    {
-        this.books.Add(book);
 
         return this;
     }

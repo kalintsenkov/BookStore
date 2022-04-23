@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Domain.Catalog.Models.Books;
 
+using Authors;
 using Common;
 using Common.Models;
 using Exceptions;
@@ -13,6 +14,7 @@ public class Book : Entity<int>, IAggregateRoot
         string title,
         decimal price,
         Genre genre,
+        Author author,
         bool isAvailable)
     {
         this.Validate(title, price);
@@ -20,6 +22,7 @@ public class Book : Entity<int>, IAggregateRoot
         this.Title = title;
         this.Price = price;
         this.Genre = genre;
+        this.Author = author;
         this.IsAvailable = isAvailable;
     }
 
@@ -33,6 +36,7 @@ public class Book : Entity<int>, IAggregateRoot
         this.IsAvailable = isAvailable;
 
         this.Genre = default!;
+        this.Author = default!;
     }
 
     public string Title { get; private set; }
@@ -40,6 +44,8 @@ public class Book : Entity<int>, IAggregateRoot
     public decimal Price { get; private set; }
 
     public Genre Genre { get; private set; }
+
+    public Author Author { get; private set; }
 
     public bool IsAvailable { get; private set; }
 
@@ -64,6 +70,13 @@ public class Book : Entity<int>, IAggregateRoot
     public Book UpdateGenre(Genre genre)
     {
         this.Genre = genre;
+
+        return this;
+    }
+
+    public Book UpdateAuthor(Author author)
+    {
+        this.Author = author;
 
         return this;
     }

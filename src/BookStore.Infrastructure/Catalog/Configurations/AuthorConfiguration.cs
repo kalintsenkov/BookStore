@@ -22,14 +22,5 @@ internal class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .Property(g => g.Description)
             .HasMaxLength(MaxDescriptionLength)
             .IsRequired();
-
-        builder
-            .HasMany(a => a.Books)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Restrict)
-            .IsRequired()
-            .Metadata
-            .PrincipalToDependent!
-            .SetField("books");
     }
 }
