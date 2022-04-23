@@ -5,9 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
+using Persistence;
 
 internal abstract class DataRepository<TDbContext, TEntity> : IDomainRepository<TEntity>
-    where TDbContext : DbContext
+    where TDbContext : IDbContext
     where TEntity : class, IAggregateRoot
 {
     protected DataRepository(TDbContext db) => this.Data = db;

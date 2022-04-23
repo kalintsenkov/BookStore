@@ -2,33 +2,24 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Common;
-using Domain.Catalog.Factories.Books;
-using Domain.Catalog.Models.Books;
 using MediatR;
 
-public class BookDetailsQuery : EntityCommand<int>, IRequest<Book>
+public class BookDetailsQuery : IRequest<BookDetailsResponseModel>
 {
-    public class BookDetailsQueryHandler : IRequestHandler<BookDetailsQuery, Book>
+    public int Id { get; init; }
+
+    public class BookDetailsQueryHandler : IRequestHandler<BookDetailsQuery, BookDetailsResponseModel?>
     {
-        private readonly IBookFactory bookFactory;
+        private readonly IBookQueryRepository bookRepository;
 
-        public BookDetailsQueryHandler(IBookFactory bookFactory)
-            => this.bookFactory = bookFactory;
+        public BookDetailsQueryHandler(IBookQueryRepository bookRepository)
+            => this.bookRepository = bookRepository;
 
-        public Task<Book> Handle(
+        public async Task<BookDetailsResponseModel?> Handle(
             BookDetailsQuery request,
             CancellationToken cancellationToken)
-        {
-            var book = this.bookFactory
-                .WithTitle("Some Title")
-                .WithPrice(15.5m)
-                .WithGenre(new Genre(
-                    "Cool Genre",
-                    "Some description"))
-                .Build();
-
-            return Task.FromResult(book);
-        }
+            => await this.bookRepository.Details(
+                request.Id,
+                cancellationToken);
     }
 }

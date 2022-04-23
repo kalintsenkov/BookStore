@@ -1,41 +1,23 @@
 ﻿namespace BookStore.Domain.Catalog.Models.Books;
 
 using Common.Models;
-using Exceptions;
 
-using static ModelConstants.Common;
-
-public class Genre : Entity<int>
+public class Genre : Enumeration
 {
-    public Genre(string name, string description)
-    {
-        this.Validate(name, description);
+    public static readonly Genre Horror = new(1, nameof(Horror));
+    public static readonly Genre Fantasy = new(2, nameof(Fantasy));
+    public static readonly Genre Mystery = new(3, nameof(Mystery));
+    public static readonly Genre Romance = new(4, nameof(Romance));
+    public static readonly Genre History = new(5, nameof(History));
+    public static readonly Genre Biography = new(6, nameof(Biography));
 
-        this.Name = name;
-        this.Description = description;
+    private Genre(int value)
+        : this(value, FromValue<Genre>(value).Name)
+    {
     }
 
-    public string Name { get; private set; }
-
-    public string Description { get; private set; }
-
-    private void Validate(string name, string description)
+    private Genre(int value, string name)
+        : base(value, name)
     {
-        this.ValidateName(name);
-        this.ValidateDescription(description);
     }
-
-    private void ValidateName(string name)
-        => Guard.ForStringLength<InvalidBookException>(
-            name,
-            MinNameLength,
-            MaxNameLength,
-            nameof(this.Name));
-
-    private void ValidateDescription(string description)
-        => Guard.ForStringLength<InvalidBookException>(
-            description,
-            MinDescriptionLength,
-            MaxDescriptionLength,
-            nameof(this.Description));
 }

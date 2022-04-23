@@ -4,6 +4,7 @@ using System.Text;
 using Application.Common;
 using Application.Common.Contracts;
 using Application.Identity;
+using Catalog;
 using Common.Events;
 using Common.Extensions;
 using Common.Persistence;
@@ -37,6 +38,7 @@ public static class InfrastructureConfiguration
                     configuration.GetDefaultConnectionString(),
                     sqlServer => sqlServer.MigrationsAssembly(
                         typeof(BookStoreDbContext).Assembly.FullName)))
+            .AddScoped<ICatalogDbContext>(provider => provider.GetService<BookStoreDbContext>()!)
             .AddTransient<IDbInitializer, DbInitializer>();
 
     internal static IServiceCollection AddRepositories(

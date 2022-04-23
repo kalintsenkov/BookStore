@@ -28,9 +28,14 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
             .IsRequired();
 
         builder
-            .HasOne(b => b.Genre)
-            .WithMany()
-            .HasForeignKey("GenreId")
-            .OnDelete(DeleteBehavior.Restrict);
+            .OwnsOne(b => b.Genre, genre =>
+            {
+                genre
+                    .WithOwner();
+
+                genre
+                    .Property(g => g.Value)
+                    .IsRequired();
+            });
     }
 }

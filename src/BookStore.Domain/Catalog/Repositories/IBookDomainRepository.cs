@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Common;
 using Models.Books;
 
-public interface IBookRepository : IDomainRepository<Book>
+public interface IBookDomainRepository : IDomainRepository<Book>
 {
     Task<Book?> Find(
         int id,
