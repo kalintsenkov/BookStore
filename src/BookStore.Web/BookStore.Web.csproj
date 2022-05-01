@@ -9,6 +9,8 @@
 
 	<ItemGroup>
 		<ProjectCapability Include="DynamicFileNesting" />
+		<ProjectCapability Include="ConfigurableFileNesting" />
+		<ProjectCapability Include="ConfigurableFileNestingFeatureEnabled" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -16,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
+		<PackageReference Include="FluentValidation.AspNetCore" Version="11.0.0" />
 		<PackageReference Include="MediatR" Version="10.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.4" />
 	</ItemGroup>

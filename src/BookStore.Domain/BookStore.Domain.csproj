@@ -9,6 +9,8 @@
 
 	<ItemGroup>
 		<ProjectCapability Include="DynamicFileNesting" />
+		<ProjectCapability Include="ConfigurableFileNesting" />
+		<ProjectCapability Include="ConfigurableFileNestingFeatureEnabled" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Release'">
