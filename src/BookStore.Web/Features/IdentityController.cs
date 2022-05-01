@@ -16,7 +16,7 @@ public class IdentityController : ApiController
 
     [HttpPost]
     [Route(nameof(Register))]
-    public async Task<ActionResult> Register(
+    public async Task<ActionResult<UserResponseModel>> Register(
         UserRegisterCommand command)
         => await this.Send(command);
 }

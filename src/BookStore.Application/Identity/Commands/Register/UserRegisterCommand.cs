@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Common;
 using MediatR;
 
-public class UserRegisterCommand : UserRequestModel, IRequest<Result>
+public class UserRegisterCommand : UserRequestModel, IRequest<Result<UserResponseModel>>
 {
     public UserRegisterCommand(
         string email,
@@ -16,16 +16,25 @@ public class UserRegisterCommand : UserRequestModel, IRequest<Result>
 
     public string ConfirmPassword { get; }
 
-    public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, Result>
+    public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, Result<UserResponseModel>>
     {
         private readonly IIdentity identity;
 
         public UserRegisterCommandHandler(IIdentity identity)
             => this.identity = identity;
 
-        public async Task<Result> Handle(
+        public async Task<Result<UserResponseModel>> Handle(
             UserRegisterCommand request,
             CancellationToken cancellationToken)
-            => await this.identity.Register(request);
+        {
+            var userResult = await this.identity.Register(request);
+
+            if (!userResult.Succeeded)
+            {
+                return userResult.Errors;
+            }
+
+            return await this.identity.Login(request);
+        }
     }
 }
