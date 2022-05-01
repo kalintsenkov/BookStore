@@ -20,7 +20,7 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
 
         builder
             .Property(b => b.Price)
-            .HasPrecision(19, 4)
+            .HasPrecision(18, 2)
             .IsRequired();
 
         builder

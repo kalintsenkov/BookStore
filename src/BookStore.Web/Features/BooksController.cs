@@ -5,15 +5,22 @@ using Application.Catalog.Books.Commands.ChangeAvailability;
 using Application.Catalog.Books.Commands.Create;
 using Application.Catalog.Books.Commands.Delete;
 using Application.Catalog.Books.Commands.Edit;
+using Application.Catalog.Books.Queries.Common;
 using Application.Catalog.Books.Queries.Details;
+using Application.Catalog.Books.Queries.Search;
 using Application.Common;
 using Microsoft.AspNetCore.Mvc;
 
 public class BooksController : ApiController
 {
     [HttpGet]
+    public async Task<ActionResult<BooksSearchResponseModel>> Search(
+        [FromQuery] BooksSearchQuery query)
+        => await this.Send(query);
+
+    [HttpGet]
     [Route(Id)]
-    public async Task<ActionResult<BookDetailsResponseModel>> Details(
+    public async Task<ActionResult<BookResponseModel>> Details(
         [FromRoute] BookDetailsQuery query)
         => await this.Send(query);
 
