@@ -1,38 +1,45 @@
-﻿namespace BookStore.Application.Catalog.Books.Commands.Create;
+﻿namespace BookStore.Application.Catalog.Books.Commands.Edit;
 
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common;
 using Application.Common.Exceptions;
 using Common;
-using Domain.Catalog.Factories.Books;
 using Domain.Catalog.Models.Books;
 using Domain.Catalog.Repositories;
 using Domain.Common.Models;
 using MediatR;
 
-public class BookCreateCommand : BookCommand<BookCreateCommand>, IRequest<Result<int>>
+public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int>>
 {
-    public class BookCreateCommandHandler : IRequestHandler<BookCreateCommand, Result<int>>
+    public class BookEditCommandHandler : IRequestHandler<BookEditCommand, Result<int>>
     {
-        private readonly IBookFactory bookFactory;
         private readonly IBookDomainRepository bookRepository;
         private readonly IAuthorDomainRepository authorRepository;
 
-        public BookCreateCommandHandler(
-            IBookFactory bookFactory,
+        public BookEditCommandHandler(
             IBookDomainRepository bookRepository,
             IAuthorDomainRepository authorRepository)
         {
-            this.bookFactory = bookFactory;
             this.bookRepository = bookRepository;
             this.authorRepository = authorRepository;
         }
 
         public async Task<Result<int>> Handle(
-            BookCreateCommand request,
+            BookEditCommand request,
             CancellationToken cancellationToken)
         {
+            var book = await this.bookRepository.Find(
+                request.Id,
+                cancellationToken);
+
+            if (book is null)
+            {
+                throw new NotFoundException(
+                    nameof(book),
+                    request.Id);
+            }
+
             var author = await this.authorRepository.Find(
                 request.Author,
                 cancellationToken);
@@ -44,13 +51,12 @@ public class BookCreateCommand : BookCommand<BookCreateCommand>, IRequest<Result
                     request.Author);
             }
 
-            var book = this.bookFactory
-                .WithTitle(request.Title)
-                .WithPrice(request.Price)
-                .WithGenre(Enumeration.FromName<Genre>(
+            book
+                .UpdateTitle(request.Title)
+                .UpdatePrice(request.Price)
+                .UpdateGenre(Enumeration.FromName<Genre>(
                     request.Genre))
-                .FromAuthor(author)
-                .Build();
+                .UpdateAuthor(author);
 
             await this.bookRepository.Save(book, cancellationToken);
 

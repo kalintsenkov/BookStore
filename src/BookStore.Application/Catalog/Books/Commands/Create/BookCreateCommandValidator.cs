@@ -1,27 +1,10 @@
 ﻿namespace BookStore.Application.Catalog.Books.Commands.Create;
 
+using Common;
 using FluentValidation;
-
-using static Domain.Catalog.Models.ModelConstants.Common;
-using static Domain.Catalog.Models.ModelConstants.Book;
 
 public class BookCreateCommandValidator : AbstractValidator<BookCreateCommand>
 {
     public BookCreateCommandValidator()
-    {
-        this.RuleFor(b => b.Title)
-            .MinimumLength(MinNameLength)
-            .MaximumLength(MaxNameLength)
-            .NotEmpty();
-
-        this.RuleFor(b => b.Price)
-            .GreaterThanOrEqualTo(MinPriceValue)
-            .LessThan(MaxPriceValue)
-            .NotEmpty();
-
-        this.RuleFor(b => b.Author)
-            .MinimumLength(MinNameLength)
-            .MaximumLength(MaxNameLength)
-            .NotEmpty();
-    }
+        => this.Include(new BookCommandValidator<BookCreateCommand>());
 }
