@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using Application;
 using Application.Common.Contracts;
+using Catalog;
+using Common.Events;
 using Common.Extensions;
 using Common.Persistence;
 using Domain;
@@ -21,13 +23,16 @@ public class InfrastructureConfigurationSpecs
     {
         var serviceCollection = new ServiceCollection()
             .AddDbContext<BookStoreDbContext>(options => options
-                .UseInMemoryDatabase(Guid.NewGuid().ToString()));
+                .UseInMemoryDatabase(Guid.NewGuid().ToString()))
+            .AddScoped<ICatalogDbContext>(provider => provider
+                .GetService<BookStoreDbContext>()!);
 
         var assembly = Assembly.GetExecutingAssembly();
 
         var services = serviceCollection
             .AddAutoMapper(assembly)
             .AddRepositories()
+            .AddTransient<IEventDispatcher, EventDispatcher>()
             .BuildServiceProvider();
 
         AssertRepositoriesAreNotNull(
