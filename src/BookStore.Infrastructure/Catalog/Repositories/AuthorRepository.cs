@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Catalog.Authors;
-using Application.Catalog.Authors.Books;
+using Application.Catalog.Authors.Queries.Books;
 using Common.Repositories;
 using Domain.Catalog.Models.Authors;
 using Domain.Catalog.Repositories;

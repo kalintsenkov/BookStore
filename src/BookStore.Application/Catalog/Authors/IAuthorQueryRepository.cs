@@ -3,9 +3,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Books;
 using Common.Contracts;
 using Domain.Catalog.Models.Authors;
+using Queries.Books;
 
 public interface IAuthorQueryRepository : IQueryRepository<Author>
 {
