@@ -3,6 +3,7 @@
 using System.Threading.Tasks;
 using Application.Catalog.Books.Commands.ChangeAvailability;
 using Application.Catalog.Books.Commands.Create;
+using Application.Catalog.Books.Commands.Delete;
 using Application.Catalog.Books.Commands.Edit;
 using Application.Catalog.Books.Queries.Details;
 using Application.Common;
@@ -31,5 +32,11 @@ public class BooksController : ApiController
     [Route(Id + PathSeparator + nameof(ChangeAvailability))]
     public async Task<ActionResult> ChangeAvailability(
         [FromRoute] BookChangeAvailabilityCommand command)
+        => await this.Send(command);
+
+    [HttpDelete]
+    [Route(Id)]
+    public async Task<ActionResult> Delete(
+        [FromRoute] BookDeleteCommand command)
         => await this.Send(command);
 }

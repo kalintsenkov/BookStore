@@ -29,6 +29,24 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
             .Where(b => b.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
 
+    public async Task<bool> Delete(
+        int id,
+        CancellationToken cancellationToken = default)
+    {
+        var book = await this.Data.Books.FindAsync(id);
+
+        if (book is null)
+        {
+            return false;
+        }
+
+        this.Data.Books.Remove(book);
+
+        await this.Data.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
     public async Task<BookDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default)
