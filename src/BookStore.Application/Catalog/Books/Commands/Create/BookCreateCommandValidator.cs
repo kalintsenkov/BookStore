@@ -15,7 +15,8 @@ public class BookCreateCommandValidator : AbstractValidator<BookCreateCommand>
             .NotEmpty();
 
         this.RuleFor(b => b.Price)
-            .InclusiveBetween(MinPriceValue, MaxPriceValue)
+            .GreaterThanOrEqualTo(MinPriceValue)
+            .LessThan(MaxPriceValue)
             .NotEmpty();
 
         this.RuleFor(b => b.Author)
