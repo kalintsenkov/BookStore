@@ -18,6 +18,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
+using static Domain.Common.Models.ModelConstants.Identity;
+
 public static class InfrastructureConfiguration
 {
     public static IServiceCollection AddInfrastructure(
@@ -61,7 +63,7 @@ public static class InfrastructureConfiguration
             .AddTransient<IJwtGenerator, JwtGeneratorService>()
             .AddIdentity<User, IdentityRole>(options =>
             {
-                options.Password.RequiredLength = 6;
+                options.Password.RequiredLength = MinPasswordLength;
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
