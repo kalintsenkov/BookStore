@@ -9,17 +9,22 @@ using Application.Catalog.Books.Queries.Common;
 using Application.Catalog.Books.Queries.Details;
 using Application.Catalog.Books.Queries.Search;
 using Application.Common;
+using Attributes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+[AuthorizeAdministrator]
 public class BooksController : ApiController
 {
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<BooksSearchResponseModel>> Search(
         [FromQuery] BooksSearchQuery query)
         => await this.Send(query);
 
     [HttpGet]
     [Route(Id)]
+    [AllowAnonymous]
     public async Task<ActionResult<BookResponseModel>> Details(
         [FromRoute] BookDetailsQuery query)
         => await this.Send(query);
