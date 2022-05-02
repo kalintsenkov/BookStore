@@ -2,7 +2,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Common;
+using Common.Models;
 using Domain.Catalog.Factories.Authors;
 using Domain.Catalog.Repositories;
 using MediatR;

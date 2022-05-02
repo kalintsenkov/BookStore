@@ -1,17 +1,22 @@
 ﻿namespace BookStore.Web.Features;
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Catalog.Authors.Commands.Create;
-using Application.Catalog.Authors.Queries.Books;
+using Application.Catalog.Authors.Queries.Details;
+using Application.Catalog.Authors.Queries.Search;
 using Microsoft.AspNetCore.Mvc;
 
 public class AuthorsController : ApiController
 {
     [HttpGet]
-    [Route(Id + PathSeparator + nameof(Books))]
-    public async Task<ActionResult<IEnumerable<AuthorBooksResponseModel>>> Books(
-        [FromRoute] AuthorBooksQuery query)
+    public async Task<ActionResult<AuthorsSearchResponseModel>> Search(
+        [FromQuery] AuthorsSearchQuery query)
+        => await this.Send(query);
+
+    [HttpGet]
+    [Route(Id)]
+    public async Task<ActionResult<AuthorDetailsResponseModel>> Details(
+        [FromRoute] AuthorDetailsQuery query)
         => await this.Send(query);
 
     [HttpPost]

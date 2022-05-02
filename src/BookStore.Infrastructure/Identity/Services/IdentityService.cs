@@ -2,7 +2,7 @@
 
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Common;
+using Application.Common.Models;
 using Application.Identity;
 using Application.Identity.Commands;
 using Microsoft.AspNetCore.Identity;

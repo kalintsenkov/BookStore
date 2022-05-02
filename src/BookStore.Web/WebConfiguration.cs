@@ -1,7 +1,7 @@
 ﻿namespace BookStore.Web;
 
-using Application.Common;
 using Application.Common.Contracts;
+using Application.Common.Models;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;

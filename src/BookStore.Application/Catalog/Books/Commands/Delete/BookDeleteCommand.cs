@@ -3,6 +3,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common;
+using Application.Common.Models;
 using Domain.Catalog.Repositories;
 using MediatR;
 

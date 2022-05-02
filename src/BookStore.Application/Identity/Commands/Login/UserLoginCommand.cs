@@ -2,7 +2,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Common;
+using Common.Models;
 using MediatR;
 
 public class UserLoginCommand : UserRequestModel, IRequest<Result<UserResponseModel>>

@@ -1,23 +1,16 @@
 ﻿namespace BookStore.Application.Catalog.Books.Queries.Search;
 
 using System.Collections.Generic;
+using Application.Common.Models;
 using Common;
 
-public class BooksSearchResponseModel
+public class BooksSearchResponseModel : PaginatedResponseModel<BookResponseModel>
 {
     internal BooksSearchResponseModel(
         IEnumerable<BookResponseModel> books,
         int page,
         int totalPages)
+        : base(books, page, totalPages)
     {
-        this.Books = books;
-        this.Page = page;
-        this.TotalPages = totalPages;
     }
-
-    public IEnumerable<BookResponseModel> Books { get; }
-
-    public int Page { get; }
-
-    public int TotalPages { get; }
 }

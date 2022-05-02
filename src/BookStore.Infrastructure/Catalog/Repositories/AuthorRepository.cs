@@ -5,12 +5,13 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Catalog.Authors;
-using Application.Catalog.Authors.Queries.Books;
+using Application.Catalog.Authors.Queries.Common;
+using Application.Catalog.Authors.Queries.Details;
 using AutoMapper;
 using Common.Repositories;
 using Domain.Catalog.Models.Authors;
-using Domain.Catalog.Models.Books;
 using Domain.Catalog.Repositories;
+using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
 internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
@@ -31,18 +32,38 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
             .Where(a => a.Name == name)
             .FirstOrDefaultAsync(cancellationToken);
 
-    public async Task<IEnumerable<AuthorBooksResponseModel>> GetBooks(
+    public async Task<AuthorDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default)
         => await this.mapper
-            .ProjectTo<AuthorBooksResponseModel>(this
-                .AllBooks()
-                .Where(b => b.Author.Id == id))
+            .ProjectTo<AuthorDetailsResponseModel>(this
+                .AllAsNoTracking()
+                .Where(a => a.Id == id))
+            .FirstOrDefaultAsync(cancellationToken);
+
+    public async Task<int> Total(
+        Specification<Author> specification,
+        CancellationToken cancellationToken = default)
+        => await this
+            .GetAuthorsQuery(specification)
+            .CountAsync(cancellationToken);
+
+    public async Task<IEnumerable<AuthorResponseModel>> GetAuthorsListing(
+        Specification<Author> specification,
+        int skip = 0,
+        int take = int.MaxValue,
+        CancellationToken cancellationToken = default)
+        => await this.mapper
+            .ProjectTo<AuthorResponseModel>(this
+                .GetAuthorsQuery(specification)
+                .OrderBy(a => a.Name)
+                .Skip(skip)
+                .Take(take))
             .ToListAsync(cancellationToken);
 
-    private IQueryable<Book> AllBooks()
+    private IQueryable<Author> GetAuthorsQuery(
+        Specification<Author> specification)
         => this
-            .Data
-            .Books
-            .AsNoTracking();
+            .AllAsNoTracking()
+            .Where(specification);
 }

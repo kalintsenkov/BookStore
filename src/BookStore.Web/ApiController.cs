@@ -1,7 +1,7 @@
 ﻿namespace BookStore.Web;
 
 using System.Threading.Tasks;
-using Application.Common;
+using Application.Common.Models;
 using Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

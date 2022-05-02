@@ -2,7 +2,7 @@
 
 using System.Threading.Tasks;
 using Commands;
-using Common;
+using Common.Models;
 
 public interface IIdentity
 {

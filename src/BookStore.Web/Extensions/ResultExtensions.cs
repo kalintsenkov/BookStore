@@ -1,7 +1,7 @@
 ﻿namespace BookStore.Web.Extensions;
 
 using System.Threading.Tasks;
-using Application.Common;
+using Application.Common.Models;
 using Microsoft.AspNetCore.Mvc;
 
 public static class ResultExtensions

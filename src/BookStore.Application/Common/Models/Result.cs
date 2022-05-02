@@ -1,4 +1,4 @@
-﻿namespace BookStore.Application.Common;
+﻿namespace BookStore.Application.Common.Models;
 
 using System;
 using System.Collections.Generic;

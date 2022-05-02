@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Application.Catalog.Books.Queries.Search;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Catalog.Models.Books;
@@ -53,9 +54,11 @@ public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
                 take: BooksPerPage,
                 cancellationToken);
 
-            var totalPages = await this.bookRepository.Total(
+            var totalBooks = await this.bookRepository.Total(
                 specification,
                 cancellationToken);
+
+            var totalPages = (int)Math.Ceiling((double)totalBooks / BooksPerPage);
 
             return new BooksSearchResponseModel(booksListing, request.Page, totalPages);
         }
