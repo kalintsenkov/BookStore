@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Common.Models;
 using Application.Identity;
-using Application.Identity.Commands;
+using Application.Identity.Commands.Common;
 using Microsoft.AspNetCore.Identity;
 
 internal class IdentityService : IIdentity

@@ -1,4 +1,4 @@
-﻿namespace BookStore.Application.Identity.Commands;
+﻿namespace BookStore.Application.Identity.Commands.Common;
 
 public abstract class UserRequestModel
 {

@@ -1,7 +1,7 @@
 ﻿namespace BookStore.Application.Identity;
 
 using System.Threading.Tasks;
-using Commands;
+using Commands.Common;
 using Common.Models;
 
 public interface IIdentity

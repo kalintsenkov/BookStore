@@ -1,7 +1,7 @@
 ﻿namespace BookStore.Web.Features;
 
 using System.Threading.Tasks;
-using Application.Identity.Commands;
+using Application.Identity.Commands.Common;
 using Application.Identity.Commands.Login;
 using Application.Identity.Commands.Register;
 using Microsoft.AspNetCore.Mvc;
