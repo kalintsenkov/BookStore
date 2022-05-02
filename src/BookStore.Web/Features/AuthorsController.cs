@@ -2,6 +2,7 @@
 
 using System.Threading.Tasks;
 using Application.Catalog.Authors.Commands.Create;
+using Application.Catalog.Authors.Commands.Delete;
 using Application.Catalog.Authors.Queries.Details;
 using Application.Catalog.Authors.Queries.Search;
 using Microsoft.AspNetCore.Mvc;
@@ -22,5 +23,11 @@ public class AuthorsController : ApiController
     [HttpPost]
     public async Task<ActionResult<int>> Create(
         AuthorCreateCommand command)
+        => await this.Send(command);
+
+    [HttpDelete]
+    [Route(Id)]
+    public async Task<ActionResult> Delete(
+        [FromRoute] AuthorDeleteCommand command)
         => await this.Send(command);
 }

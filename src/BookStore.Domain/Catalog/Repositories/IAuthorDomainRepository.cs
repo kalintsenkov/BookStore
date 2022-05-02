@@ -10,4 +10,8 @@ public interface IAuthorDomainRepository : IDomainRepository<Author>
     Task<Author?> Find(
         string name,
         CancellationToken cancellationToken = default);
+
+    Task<bool> Delete(
+        int id,
+        CancellationToken cancellationToken = default);
 }

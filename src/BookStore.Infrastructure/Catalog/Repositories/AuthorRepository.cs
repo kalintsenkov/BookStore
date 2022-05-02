@@ -32,6 +32,24 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
             .Where(a => a.Name == name)
             .FirstOrDefaultAsync(cancellationToken);
 
+    public async Task<bool> Delete(
+        int id,
+        CancellationToken cancellationToken = default)
+    {
+        var author = await this.Data.Authors.FindAsync(id);
+
+        if (author is null)
+        {
+            return false;
+        }
+
+        this.Data.Authors.Remove(author);
+
+        await this.Data.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
     public async Task<AuthorDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default)
