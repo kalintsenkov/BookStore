@@ -3,8 +3,10 @@
 using System.Threading.Tasks;
 using Application.Catalog.Authors.Commands.Create;
 using Application.Catalog.Authors.Commands.Delete;
+using Application.Catalog.Authors.Commands.Edit;
 using Application.Catalog.Authors.Queries.Details;
 using Application.Catalog.Authors.Queries.Search;
+using Application.Common;
 using Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +31,12 @@ public class AuthorsController : ApiController
     public async Task<ActionResult<int>> Create(
         AuthorCreateCommand command)
         => await this.Send(command);
+
+    [HttpPut]
+    [Route(Id)]
+    public async Task<ActionResult<int>> Edit(
+        int id, AuthorEditCommand command)
+        => await this.Send(command.SetId(id));
 
     [HttpDelete]
     [Route(Id)]

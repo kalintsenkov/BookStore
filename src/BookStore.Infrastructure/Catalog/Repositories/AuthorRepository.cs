@@ -25,6 +25,14 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
         => this.mapper = mapper;
 
     public async Task<Author?> Find(
+        int id,
+        CancellationToken cancellationToken = default)
+        => await this
+            .All()
+            .Where(a => a.Id == id)
+            .FirstOrDefaultAsync(cancellationToken);
+
+    public async Task<Author?> Find(
         string name,
         CancellationToken cancellationToken = default)
         => await this
