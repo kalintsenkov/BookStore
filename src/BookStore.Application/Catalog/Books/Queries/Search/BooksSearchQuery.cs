@@ -18,7 +18,7 @@ public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
 
     public decimal? MaxPrice { get; init; }
 
-    public string? Genre { get; init; }
+    public int? Genre { get; init; }
 
     public string? Author { get; init; }
 

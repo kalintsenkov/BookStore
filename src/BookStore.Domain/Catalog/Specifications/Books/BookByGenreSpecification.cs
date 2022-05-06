@@ -7,13 +7,12 @@ using Models.Books;
 
 public class BookByGenreSpecification : Specification<Book>
 {
-    private readonly string? genre;
+    private readonly int? genre;
 
-    public BookByGenreSpecification(string? genre) => this.genre = genre;
+    public BookByGenreSpecification(int? genre) => this.genre = genre;
 
     protected override bool Include => this.genre != null;
 
     public override Expression<Func<Book, bool>> ToExpression()
-        => book => book.Genre.Name.ToLower()
-            .Contains(this.genre!.ToLower());
+        => book => book.Genre.Value == this.genre;
 }
