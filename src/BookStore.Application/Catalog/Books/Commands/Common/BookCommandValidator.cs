@@ -5,6 +5,7 @@ using FluentValidation;
 
 using static Domain.Catalog.Models.ModelConstants.Common;
 using static Domain.Catalog.Models.ModelConstants.Book;
+using static Domain.Common.Models.ModelConstants.Common;
 
 public class BookCommandValidator<TCommand> : AbstractValidator<BookCommand<TCommand>>
     where TCommand : EntityCommand<int>

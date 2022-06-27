@@ -7,6 +7,7 @@ using Xunit;
 
 using static Domain.Catalog.Models.ModelConstants.Common;
 using static Domain.Catalog.Models.ModelConstants.Book;
+using static Domain.Common.Models.ModelConstants.Common;
 
 public class BookCreateCommandValidatorSpecs
 {

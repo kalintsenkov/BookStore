@@ -6,8 +6,8 @@ using System.Reflection;
 
 public abstract class ValueObject
 {
-    private readonly BindingFlags privateBindingFlags =
-        BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+    private const BindingFlags PrivateBindingFlags
+        = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 
     public override bool Equals(object? other)
     {
@@ -24,7 +24,7 @@ public abstract class ValueObject
             return false;
         }
 
-        var fields = type.GetFields(this.privateBindingFlags);
+        var fields = type.GetFields(PrivateBindingFlags);
 
         foreach (var field in fields)
         {
@@ -72,7 +72,7 @@ public abstract class ValueObject
 
         while (type != typeof(object) && type != null)
         {
-            fields.AddRange(type.GetFields(this.privateBindingFlags));
+            fields.AddRange(type.GetFields(PrivateBindingFlags));
 
             type = type.BaseType!;
         }

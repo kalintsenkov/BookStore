@@ -4,6 +4,7 @@ using Common;
 using Common.Models;
 using Exceptions;
 
+using static Common.Models.ModelConstants.Common;
 using static ModelConstants.Common;
 
 public class Author : Entity<int>, IAggregateRoot

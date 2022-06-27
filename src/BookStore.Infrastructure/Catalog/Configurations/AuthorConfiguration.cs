@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Domain.Catalog.Models.ModelConstants.Common;
+using static Domain.Common.Models.ModelConstants.Common;
 
 internal class AuthorConfiguration : IEntityTypeConfiguration<Author>
 {

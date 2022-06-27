@@ -9,12 +9,16 @@ using Catalog;
 using Domain.Catalog.Models.Authors;
 using Domain.Catalog.Models.Books;
 using Domain.Common.Models;
+using Domain.Orders.Models.Customers;
 using Events;
 using Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Orders;
 
-internal class BookStoreDbContext : IdentityDbContext<User>, ICatalogDbContext
+internal class BookStoreDbContext : IdentityDbContext<User>,
+    ICatalogDbContext,
+    IOrdersDbContext
 {
     private readonly IEventDispatcher eventDispatcher;
     private readonly Stack<object> savesChangesTracker;
@@ -32,6 +36,8 @@ internal class BookStoreDbContext : IdentityDbContext<User>, ICatalogDbContext
     public DbSet<Book> Books { get; set; } = default!;
 
     public DbSet<Author> Authors { get; set; } = default!;
+
+    public DbSet<Customer> Customers { get; set; } = default!;
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
