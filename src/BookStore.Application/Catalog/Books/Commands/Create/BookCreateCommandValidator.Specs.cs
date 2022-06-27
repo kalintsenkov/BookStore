@@ -47,6 +47,7 @@ public class BookCreateCommandValidatorSpecs
         testResult.IsValid.Should().BeFalse();
         testResult.ShouldHaveValidationErrorFor(b => b.Title);
         testResult.ShouldHaveValidationErrorFor(b => b.Price);
+        testResult.ShouldHaveValidationErrorFor(b => b.Description);
         testResult.ShouldHaveValidationErrorFor(b => b.Author);
     }
 
@@ -69,6 +70,7 @@ public class BookCreateCommandValidatorSpecs
         testResult.IsValid.Should().BeTrue();
         testResult.ShouldNotHaveValidationErrorFor(b => b.Title);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Price);
+        testResult.ShouldNotHaveValidationErrorFor(b => b.Description);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Author);
     }
 
