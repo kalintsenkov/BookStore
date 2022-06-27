@@ -13,15 +13,19 @@ public class BookEditCommandValidatorSpecs
     private readonly BookEditCommandValidator validator = new();
 
     private static readonly string InvalidMinTitleLength = new('t', MinNameLength - 1);
+    private static readonly string InvalidMinDescriptionLength = new('t', MinDescriptionLength - 1);
     private static readonly string InvalidMinAuthorLength = new('t', MinNameLength - 1);
 
     private static readonly string InvalidMaxTitleLength = new('t', MaxNameLength + 1);
+    private static readonly string InvalidMaxDescriptionLength = new('t', MaxDescriptionLength + 1);
     private static readonly string InvalidMaxAuthorLength = new('t', MaxNameLength + 1);
 
     private static readonly string ValidMinTitleLength = new('t', MinNameLength);
+    private static readonly string ValidMinDescriptionLength = new('t', MinDescriptionLength);
     private static readonly string ValidMinAuthorLength = new('t', MinNameLength);
 
     private static readonly string ValidMaxTitleLength = new('t', MaxNameLength);
+    private static readonly string ValidMaxDescriptionLength = new('t', MaxDescriptionLength);
     private static readonly string ValidMaxAuthorLength = new('t', MaxNameLength);
 
     [Theory]
@@ -29,18 +33,21 @@ public class BookEditCommandValidatorSpecs
     public void ShouldHaveValidationErrorIfNameAndDescriptionHaveInvalidLength(
         string title,
         decimal price,
+        string description,
         string author)
     {
         var testResult = this.validator.TestValidate(new BookEditCommand
         {
             Title = title,
             Price = price,
+            Description = description,
             Author = author
         });
 
         testResult.IsValid.Should().BeFalse();
         testResult.ShouldHaveValidationErrorFor(b => b.Title);
         testResult.ShouldHaveValidationErrorFor(b => b.Price);
+        testResult.ShouldHaveValidationErrorFor(b => b.Description);
         testResult.ShouldHaveValidationErrorFor(b => b.Author);
     }
 
@@ -49,30 +56,33 @@ public class BookEditCommandValidatorSpecs
     public void ShouldNotHaveValidationErrorIfNameAndDescriptionHaveValidLength(
         string title,
         decimal price,
+        string description,
         string author)
     {
         var testResult = this.validator.TestValidate(new BookEditCommand
         {
             Title = title,
             Price = price,
+            Description = description,
             Author = author
         });
 
         testResult.IsValid.Should().BeTrue();
         testResult.ShouldNotHaveValidationErrorFor(b => b.Title);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Price);
+        testResult.ShouldNotHaveValidationErrorFor(b => b.Description);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Author);
     }
 
     private static IEnumerable<object[]> InvalidData()
     {
-        yield return new object[] { InvalidMinTitleLength, MinPriceValue - 1, InvalidMinAuthorLength };
-        yield return new object[] { InvalidMaxTitleLength, MaxPriceValue, InvalidMaxAuthorLength };
+        yield return new object[] { InvalidMinTitleLength, MinPriceValue - 1, InvalidMinDescriptionLength, InvalidMinAuthorLength };
+        yield return new object[] { InvalidMaxTitleLength, MaxPriceValue, InvalidMaxDescriptionLength, InvalidMaxAuthorLength };
     }
 
     private static IEnumerable<object[]> ValidData()
     {
-        yield return new object[] { ValidMinTitleLength, MinPriceValue, ValidMinAuthorLength };
-        yield return new object[] { ValidMaxTitleLength, MaxPriceValue - 1, ValidMaxAuthorLength };
+        yield return new object[] { ValidMinTitleLength, MinPriceValue, ValidMinDescriptionLength, ValidMinAuthorLength };
+        yield return new object[] { ValidMaxTitleLength, MaxPriceValue - 1, ValidMaxDescriptionLength, ValidMaxAuthorLength };
     }
 }
