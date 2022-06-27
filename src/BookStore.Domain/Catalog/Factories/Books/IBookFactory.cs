@@ -10,6 +10,8 @@ public interface IBookFactory : IFactory<Book>
 
     IBookFactory WithPrice(decimal price);
 
+    IBookFactory WithDescription(string description);
+
     IBookFactory WithGenre(Genre genre);
 
     IBookFactory FromAuthor(Author author);

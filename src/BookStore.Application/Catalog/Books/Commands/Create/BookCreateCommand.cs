@@ -47,6 +47,7 @@ public class BookCreateCommand : BookCommand<BookCreateCommand>, IRequest<Result
             var book = this.bookFactory
                 .WithTitle(request.Title)
                 .WithPrice(request.Price)
+                .WithDescription(request.Description)
                 .WithGenre(Enumeration.FromName<Genre>(
                     request.Genre))
                 .FromAuthor(author)

@@ -8,7 +8,7 @@ public class ModelConstants
         public const int MaxNameLength = 120;
 
         public const int MinDescriptionLength = 5;
-        public const int MaxDescriptionLength = 160;
+        public const int MaxDescriptionLength = 1200;
     }
 
     public class Book

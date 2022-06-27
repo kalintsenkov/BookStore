@@ -13,14 +13,16 @@ public class Book : Entity<int>, IAggregateRoot
     internal Book(
         string title,
         decimal price,
+        string description,
         Genre genre,
         Author author,
         bool isAvailable)
     {
-        this.Validate(title, price);
+        this.Validate(title, price, description);
 
         this.Title = title;
         this.Price = price;
+        this.Description = description;
         this.Genre = genre;
         this.Author = author;
         this.IsAvailable = isAvailable;
@@ -29,10 +31,12 @@ public class Book : Entity<int>, IAggregateRoot
     private Book(
         string title,
         decimal price,
+        string description,
         bool isAvailable)
     {
         this.Title = title;
         this.Price = price;
+        this.Description = description;
         this.IsAvailable = isAvailable;
 
         this.Genre = default!;
@@ -42,6 +46,8 @@ public class Book : Entity<int>, IAggregateRoot
     public string Title { get; private set; }
 
     public decimal Price { get; private set; }
+
+    public string Description { get; private set; }
 
     public Genre Genre { get; private set; }
 
@@ -67,6 +73,15 @@ public class Book : Entity<int>, IAggregateRoot
         return this;
     }
 
+    public Book UpdateDescription(string description)
+    {
+        this.ValidateDescription(description);
+
+        this.Description = description;
+
+        return this;
+    }
+
     public Book UpdateGenre(Genre genre)
     {
         this.Genre = genre;
@@ -88,10 +103,14 @@ public class Book : Entity<int>, IAggregateRoot
         return this;
     }
 
-    private void Validate(string title, decimal price)
+    private void Validate(
+        string title,
+        decimal price,
+        string description)
     {
         this.ValidateTitle(title);
         this.ValidatePrice(price);
+        this.ValidateDescription(description);
     }
 
     private void ValidateTitle(string title)
@@ -107,4 +126,11 @@ public class Book : Entity<int>, IAggregateRoot
             MinPriceValue,
             MaxPriceValue,
             nameof(this.Price));
+
+    private void ValidateDescription(string description)
+        => Guard.ForStringLength<InvalidBookException>(
+            description,
+            MinDescriptionLength,
+            MaxDescriptionLength,
+            nameof(this.Description));
 }

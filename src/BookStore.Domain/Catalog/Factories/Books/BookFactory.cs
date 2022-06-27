@@ -8,11 +8,13 @@ internal class BookFactory : IBookFactory
 {
     private string bookTitle = default!;
     private decimal bookPrice = default!;
+    private string bookDescription = default!;
     private Genre bookGenre = default!;
     private Author bookAuthor = default!;
 
     private bool isTitleSet = false;
     private bool isPriceSet = false;
+    private bool isDescriptionSet = false;
     private bool isGenreSet = false;
     private bool isAuthorSet = false;
 
@@ -28,6 +30,14 @@ internal class BookFactory : IBookFactory
     {
         this.bookPrice = price;
         this.isPriceSet = true;
+
+        return this;
+    }
+
+    public IBookFactory WithDescription(string description)
+    {
+        this.bookDescription = description;
+        this.isDescriptionSet = true;
 
         return this;
     }
@@ -52,15 +62,17 @@ internal class BookFactory : IBookFactory
     {
         if (!this.isTitleSet ||
             !this.isPriceSet ||
+            !this.isDescriptionSet ||
             !this.isGenreSet ||
             !this.isAuthorSet)
         {
-            throw new InvalidBookException("Title, price, genre and author must have a value.");
+            throw new InvalidBookException("Title, price, description, genre and author must have a value.");
         }
 
         return new Book(
             this.bookTitle,
             this.bookPrice,
+            this.bookDescription,
             this.bookGenre,
             this.bookAuthor,
             isAvailable: true);
