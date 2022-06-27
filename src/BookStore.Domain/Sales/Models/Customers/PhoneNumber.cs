@@ -1,9 +1,8 @@
-﻿namespace BookStore.Domain.Orders.Models.Customers;
+﻿namespace BookStore.Domain.Sales.Models.Customers;
 
 using System.Text.RegularExpressions;
 using Common.Models;
 using Exceptions;
-
 using static ModelConstants.PhoneNumber;
 
 public class PhoneNumber : ValueObject

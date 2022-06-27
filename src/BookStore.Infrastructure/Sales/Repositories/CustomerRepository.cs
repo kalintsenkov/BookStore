@@ -1,16 +1,16 @@
-﻿namespace BookStore.Infrastructure.Orders.Repositories;
+﻿namespace BookStore.Infrastructure.Sales.Repositories;
 
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Repositories;
-using Domain.Orders.Models.Customers;
-using Domain.Orders.Repositories;
+using Domain.Sales.Models.Customers;
+using Domain.Sales.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-internal class CustomerRepository : DataRepository<IOrdersDbContext, Customer>, ICustomerDomainRepository
+internal class CustomerRepository : DataRepository<ISalesDbContext, Customer>, ICustomerDomainRepository
 {
-    public CustomerRepository(IOrdersDbContext db)
+    public CustomerRepository(ISalesDbContext db)
         : base(db)
     {
     }

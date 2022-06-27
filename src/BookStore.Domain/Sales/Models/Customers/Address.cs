@@ -1,8 +1,7 @@
-﻿namespace BookStore.Domain.Orders.Models.Customers;
+﻿namespace BookStore.Domain.Sales.Models.Customers;
 
 using Common.Models;
 using Exceptions;
-
 using static ModelConstants.Address;
 
 public class Address : ValueObject

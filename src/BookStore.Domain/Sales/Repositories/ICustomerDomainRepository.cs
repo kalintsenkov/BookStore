@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Orders.Repositories;
+﻿namespace BookStore.Domain.Sales.Repositories;
 
 using System.Threading;
 using System.Threading.Tasks;

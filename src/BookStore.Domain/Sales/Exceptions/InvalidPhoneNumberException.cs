@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Orders.Exceptions;
+﻿namespace BookStore.Domain.Sales.Exceptions;
 
 using Common;
 

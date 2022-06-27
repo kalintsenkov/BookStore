@@ -1,4 +1,4 @@
-﻿namespace BookStore.Domain.Orders.Factories.Customers;
+﻿namespace BookStore.Domain.Sales.Factories.Customers;
 
 using Exceptions;
 using Models.Customers;

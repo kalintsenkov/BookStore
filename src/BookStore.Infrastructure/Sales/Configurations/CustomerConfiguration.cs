@@ -1,12 +1,12 @@
-﻿namespace BookStore.Infrastructure.Orders.Configurations;
+﻿namespace BookStore.Infrastructure.Sales.Configurations;
 
-using Domain.Orders.Models.Customers;
+using Domain.Sales.Models.Customers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Domain.Common.Models.ModelConstants.Common;
-using static Domain.Orders.Models.ModelConstants.Address;
-using static Domain.Orders.Models.ModelConstants.PhoneNumber;
+using static Domain.Sales.Models.ModelConstants.Address;
+using static Domain.Sales.Models.ModelConstants.PhoneNumber;
 
 internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {

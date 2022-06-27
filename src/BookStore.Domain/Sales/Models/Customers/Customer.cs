@@ -1,9 +1,8 @@
-﻿namespace BookStore.Domain.Orders.Models.Customers;
+﻿namespace BookStore.Domain.Sales.Models.Customers;
 
 using Common;
 using Common.Models;
 using Exceptions;
-
 using static Common.Models.ModelConstants.Common;
 
 public class Customer : Entity<int>, IAggregateRoot

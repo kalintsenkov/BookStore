@@ -9,16 +9,16 @@ using Catalog;
 using Domain.Catalog.Models.Authors;
 using Domain.Catalog.Models.Books;
 using Domain.Common.Models;
-using Domain.Orders.Models.Customers;
+using Domain.Sales.Models.Customers;
 using Events;
 using Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Orders;
+using Sales;
 
 internal class BookStoreDbContext : IdentityDbContext<User>,
     ICatalogDbContext,
-    IOrdersDbContext
+    ISalesDbContext
 {
     private readonly IEventDispatcher eventDispatcher;
     private readonly Stack<object> savesChangesTracker;
