@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Sales;
 
 using static Domain.Common.Models.ModelConstants.Identity;
 
@@ -40,7 +41,10 @@ public static class InfrastructureConfiguration
                     configuration.GetDefaultConnectionString(),
                     sqlServer => sqlServer.MigrationsAssembly(
                         typeof(BookStoreDbContext).Assembly.FullName)))
-            .AddScoped<ICatalogDbContext>(provider => provider.GetService<BookStoreDbContext>()!)
+            .AddScoped<ICatalogDbContext>(provider => provider
+                .GetService<BookStoreDbContext>()!)
+            .AddScoped<ISalesDbContext>(provider => provider
+                .GetService<BookStoreDbContext>()!)
             .AddTransient<IDbInitializer, DbInitializer>();
 
     internal static IServiceCollection AddRepositories(

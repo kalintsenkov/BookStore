@@ -11,9 +11,9 @@ internal class CustomerFactory : ICustomerFactory
     private bool isNameSet = false;
     private bool isUserIdSet = false;
 
-    public ICustomerFactory WithName(string firstName)
+    public ICustomerFactory WithName(string name)
     {
-        this.customerName = firstName;
+        this.customerName = name;
         this.isNameSet = true;
 
         return this;

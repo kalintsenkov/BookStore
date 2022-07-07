@@ -2,12 +2,18 @@
 
 using FluentValidation;
 
+using static Domain.Common.Models.ModelConstants.Common;
 using static Domain.Common.Models.ModelConstants.Identity;
 
 public class UserRegisterCommandValidator : AbstractValidator<UserRegisterCommand>
 {
     public UserRegisterCommandValidator()
     {
+        this.RuleFor(u => u.FullName)
+            .MinimumLength(MinNameLength)
+            .MaximumLength(MaxNameLength)
+            .NotEmpty();
+
         this.RuleFor(u => u.Email)
             .MinimumLength(MinEmailLength)
             .MaximumLength(MaxEmailLength)

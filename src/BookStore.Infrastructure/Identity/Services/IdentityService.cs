@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Application.Common.Models;
 using Application.Identity;
 using Application.Identity.Commands.Common;
+using Common.Events;
+using Domain.Identity.Events;
+using Domain.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 
 internal class IdentityService : IIdentity
@@ -13,13 +16,16 @@ internal class IdentityService : IIdentity
 
     private readonly UserManager<User> userManager;
     private readonly IJwtGenerator jwtGenerator;
+    private readonly IEventDispatcher eventDispatcher;
 
     public IdentityService(
         UserManager<User> userManager,
-        IJwtGenerator jwtGenerator)
+        IJwtGenerator jwtGenerator,
+        IEventDispatcher eventDispatcher)
     {
         this.userManager = userManager;
         this.jwtGenerator = jwtGenerator;
+        this.eventDispatcher = eventDispatcher;
     }
 
     public async Task<Result<IUser>> Register(UserRequestModel userRequest)
@@ -30,11 +36,20 @@ internal class IdentityService : IIdentity
             user,
             userRequest.Password);
 
-        var errors = identityResult.Errors.Select(e => e.Description);
+        if (!identityResult.Succeeded)
+        {
+            var errors = identityResult.Errors.Select(e => e.Description);
 
-        return identityResult.Succeeded
-            ? Result<IUser>.SuccessWith(user)
-            : Result<IUser>.Failure(errors);
+            return Result<IUser>.Failure(errors);
+        }
+
+        var userRegisteredEvent = new UserRegisteredEvent(
+            user.Id,
+            userRequest.FullName);
+
+        await this.eventDispatcher.Dispatch(userRegisteredEvent);
+
+        return Result<IUser>.SuccessWith(user);
     }
 
     public async Task<Result<UserResponseModel>> Login(UserRequestModel userRequest)

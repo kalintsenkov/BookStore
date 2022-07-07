@@ -5,7 +5,7 @@ using Models.Customers;
 
 public interface ICustomerFactory : IFactory<Customer>
 {
-    ICustomerFactory WithName(string firstName);
+    ICustomerFactory WithName(string name);
 
     ICustomerFactory FromUser(string userId);
 }

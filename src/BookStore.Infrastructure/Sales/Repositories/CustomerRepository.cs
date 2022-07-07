@@ -3,12 +3,15 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Sales.Customers;
 using Common.Repositories;
 using Domain.Sales.Models.Customers;
 using Domain.Sales.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-internal class CustomerRepository : DataRepository<ISalesDbContext, Customer>, ICustomerDomainRepository
+internal class CustomerRepository : DataRepository<ISalesDbContext, Customer>, 
+    ICustomerDomainRepository,
+    ICustomerQueryRepository
 {
     public CustomerRepository(ISalesDbContext db)
         : base(db)

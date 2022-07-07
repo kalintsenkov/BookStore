@@ -9,10 +9,11 @@ using MediatR;
 public class UserRegisterCommand : UserRequestModel, IRequest<Result<UserResponseModel>>
 {
     public UserRegisterCommand(
+        string fullName,
         string email,
         string password,
         string confirmPassword)
-        : base(email, password)
+        : base(fullName, email, password)
         => this.ConfirmPassword = confirmPassword;
 
     public string ConfirmPassword { get; }

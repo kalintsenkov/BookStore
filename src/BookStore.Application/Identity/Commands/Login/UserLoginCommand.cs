@@ -8,8 +8,11 @@ using MediatR;
 
 public class UserLoginCommand : UserRequestModel, IRequest<Result<UserResponseModel>>
 {
-    public UserLoginCommand(string email, string password)
-        : base(email, password)
+    public UserLoginCommand(
+        string fullName,
+        string email,
+        string password)
+        : base(fullName, email, password)
     {
     }
 
