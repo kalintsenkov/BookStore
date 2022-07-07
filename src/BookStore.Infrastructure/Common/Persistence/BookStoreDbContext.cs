@@ -37,6 +37,8 @@ internal class BookStoreDbContext : IdentityDbContext<User>,
 
     public DbSet<Author> Authors { get; set; } = default!;
 
+    public DbSet<Address> Addresses { get; set; } = default!;
+
     public DbSet<Customer> Customers { get; set; } = default!;
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())

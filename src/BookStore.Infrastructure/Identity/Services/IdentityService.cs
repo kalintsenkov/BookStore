@@ -40,6 +40,7 @@ internal class IdentityService : IIdentity
     public async Task<Result<UserResponseModel>> Login(UserRequestModel userRequest)
     {
         var user = await this.userManager.FindByEmailAsync(userRequest.Email);
+
         if (user == null)
         {
             return InvalidErrorMessage;

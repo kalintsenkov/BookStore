@@ -1,12 +1,11 @@
 ﻿namespace BookStore.Infrastructure.Sales.Configurations;
 
 using Domain.Sales.Models.Customers;
+using Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Domain.Common.Models.ModelConstants.Common;
-using static Domain.Sales.Models.ModelConstants.Address;
-using static Domain.Sales.Models.ModelConstants.PhoneNumber;
 
 internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
 {
@@ -16,46 +15,20 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
             .HasKey(c => c.Id);
 
         builder
-            .Property(c => c.FirstName)
+            .Property(c => c.Name)
             .HasMaxLength(MaxNameLength)
             .IsRequired();
 
         builder
-            .Property(c => c.LastName)
-            .HasMaxLength(MaxNameLength)
-            .IsRequired();
+            .HasOne<User>()
+            .WithMany()
+            .HasForeignKey(c => c.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder
-            .Property(c => c.UserId)
-            .IsRequired();
-
-        builder
-            .OwnsOne(c => c.Address, address =>
-            {
-                address
-                    .WithOwner();
-
-                address
-                    .Property(a => a.BillingAddress)
-                    .HasMaxLength(MaxAddressLength)
-                    .IsRequired();
-
-                address
-                    .Property(a => a.DeliveryAddress)
-                    .HasMaxLength(MaxAddressLength)
-                    .IsRequired();
-            });
-
-        builder
-            .OwnsOne(c => c.PhoneNumber, phoneNumber =>
-            {
-                phoneNumber
-                    .WithOwner();
-
-                phoneNumber
-                    .Property(pn => pn.Number)
-                    .HasMaxLength(MaxPhoneNumberLength)
-                    .IsRequired();
-            });
+            .HasOne(c => c.Address)
+            .WithOne()
+            .HasForeignKey<Customer>("AddressId")
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

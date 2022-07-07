@@ -4,6 +4,7 @@ using BookStore.Infrastructure.Common.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Infrastructure.Common.Persistence.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    partial class BookStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220707142233_AddressesTable")]
+    partial class AddressesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -88,6 +90,9 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AddressId")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -110,6 +115,10 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddressId")
+                        .IsUnique()
+                        .HasFilter("[AddressId] IS NOT NULL");
+
                     b.ToTable("Addresses");
                 });
 
@@ -121,9 +130,6 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(120)
@@ -134,10 +140,6 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("AddressId")
-                        .IsUnique()
-                        .HasFilter("[AddressId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -374,6 +376,11 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
             modelBuilder.Entity("BookStore.Domain.Sales.Models.Customers.Address", b =>
                 {
+                    b.HasOne("BookStore.Domain.Sales.Models.Customers.Customer", null)
+                        .WithOne("Address")
+                        .HasForeignKey("BookStore.Domain.Sales.Models.Customers.Address", "AddressId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.OwnsOne("BookStore.Domain.Sales.Models.Customers.PhoneNumber", "PhoneNumber", b1 =>
                         {
                             b1.Property<int>("AddressId")
@@ -398,18 +405,11 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
             modelBuilder.Entity("BookStore.Domain.Sales.Models.Customers.Customer", b =>
                 {
-                    b.HasOne("BookStore.Domain.Sales.Models.Customers.Address", "Address")
-                        .WithOne()
-                        .HasForeignKey("BookStore.Domain.Sales.Models.Customers.Customer", "AddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
                     b.HasOne("BookStore.Infrastructure.Identity.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("Address");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -461,6 +461,11 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("BookStore.Domain.Sales.Models.Customers.Customer", b =>
+                {
+                    b.Navigation("Address");
                 });
 #pragma warning restore 612, 618
         }

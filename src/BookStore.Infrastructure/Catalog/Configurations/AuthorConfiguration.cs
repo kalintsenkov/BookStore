@@ -15,12 +15,12 @@ internal class AuthorConfiguration : IEntityTypeConfiguration<Author>
             .HasKey(a => a.Id);
 
         builder
-            .Property(g => g.Name)
+            .Property(a => a.Name)
             .HasMaxLength(MaxNameLength)
             .IsRequired();
 
         builder
-            .Property(g => g.Description)
+            .Property(a => a.Description)
             .HasMaxLength(MaxDescriptionLength)
             .IsRequired();
     }

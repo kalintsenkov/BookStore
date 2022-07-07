@@ -2,32 +2,88 @@
 
 using Common.Models;
 using Exceptions;
+
 using static ModelConstants.Address;
 
-public class Address : ValueObject
+public class Address : Entity<int>
 {
-    internal Address(string billingAddress, string deliveryAddress)
+    public Address(
+        string city,
+        string state,
+        string postalCode,
+        string description,
+        string phoneNumber)
     {
-        this.Validate(billingAddress, deliveryAddress);
+        this.Validate(city, state, postalCode, description);
 
-        this.BillingAddress = billingAddress;
-        this.DeliveryAddress = deliveryAddress;
+        this.City = city;
+        this.State = state;
+        this.PostalCode = postalCode;
+        this.Description = description;
+        this.PhoneNumber = phoneNumber;
     }
 
-    public string BillingAddress { get; }
-
-    public string DeliveryAddress { get; }
-
-    private void Validate(string billingAddress, string deliveryAddress)
+    private Address(
+        string city,
+        string state,
+        string postalCode,
+        string description)
     {
-        this.Validate(billingAddress);
-        this.Validate(deliveryAddress);
+        this.City = city;
+        this.State = state;
+        this.PostalCode = postalCode;
+        this.Description = description;
+
+        this.PhoneNumber = default!;
     }
 
-    private void Validate(string address)
+    public string City { get; }
+
+    public string State { get; }
+
+    public string PostalCode { get; }
+
+    public string Description { get; }
+
+    public PhoneNumber PhoneNumber { get; }
+
+    private void Validate(
+        string city,
+        string state,
+        string postalCode,
+        string description)
+    {
+        this.ValidateCity(city);
+        this.ValidateState(state);
+        this.ValidatePostalCode(postalCode);
+        this.ValidateDescription(description);
+    }
+
+    private void ValidateCity(string city)
         => Guard.ForStringLength<InvalidAddressException>(
-            address,
-            MinAddressLength,
-            MaxAddressLength,
-            nameof(Address));
+            city,
+            MinCityLength,
+            MaxCityLength,
+            nameof(this.City));
+
+    private void ValidateState(string state)
+        => Guard.ForStringLength<InvalidAddressException>(
+            state,
+            MinStateLength,
+            MaxStateLength,
+            nameof(this.State));
+
+    private void ValidatePostalCode(string postalCode)
+        => Guard.ForStringLength<InvalidAddressException>(
+            postalCode,
+            MinPostalCodeLength,
+            MaxPostalCodeLength,
+            nameof(this.PostalCode));
+
+    private void ValidateDescription(string description)
+        => Guard.ForStringLength<InvalidAddressException>(
+            description,
+            MinDescriptionLength,
+            MaxDescriptionLength,
+            nameof(this.Description));
 }
