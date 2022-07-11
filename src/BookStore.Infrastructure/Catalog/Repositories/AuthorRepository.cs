@@ -8,36 +8,42 @@ using Application.Catalog.Authors;
 using Application.Catalog.Authors.Queries.Common;
 using Application.Catalog.Authors.Queries.Details;
 using AutoMapper;
+using Common.Events;
 using Common.Repositories;
+using Data;
 using Domain.Catalog.Models.Authors;
 using Domain.Catalog.Repositories;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
-internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
+internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, AuthorData>,
     IAuthorDomainRepository,
     IAuthorQueryRepository
 {
-    private readonly IMapper mapper;
-
-    public AuthorRepository(ICatalogDbContext db, IMapper mapper)
-        : base(db)
-        => this.mapper = mapper;
+    public AuthorRepository(
+        ICatalogDbContext db,
+        IMapper mapper,
+        IEventDispatcher eventDispatcher)
+        : base(db, mapper, eventDispatcher)
+    {
+    }
 
     public async Task<Author?> Find(
         int id,
         CancellationToken cancellationToken = default)
-        => await this
-            .All()
-            .Where(a => a.Id == id)
+        => await this.Mapper
+            .ProjectTo<Author>(this
+                .All()
+                .Where(a => a.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Author?> Find(
         string name,
         CancellationToken cancellationToken = default)
-        => await this
-            .All()
-            .Where(a => a.Name == name)
+        => await this.Mapper
+            .ProjectTo<Author>(this
+                .All()
+                .Where(a => a.Name == name))
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> Delete(
@@ -61,25 +67,25 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
     public async Task<AuthorDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default)
-        => await this.mapper
+        => await this.Mapper
             .ProjectTo<AuthorDetailsResponseModel>(this
                 .AllAsNoTracking()
                 .Where(a => a.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<int> Total(
-        Specification<Author> specification,
+        Specification<AuthorData> specification,
         CancellationToken cancellationToken = default)
         => await this
             .GetAuthorsQuery(specification)
             .CountAsync(cancellationToken);
 
     public async Task<IEnumerable<AuthorResponseModel>> GetAuthorsListing(
-        Specification<Author> specification,
+        Specification<AuthorData> specification,
         int skip = 0,
         int take = int.MaxValue,
         CancellationToken cancellationToken = default)
-        => await this.mapper
+        => await this.Mapper
             .ProjectTo<AuthorResponseModel>(this
                 .GetAuthorsQuery(specification)
                 .OrderBy(a => a.Name)
@@ -87,8 +93,8 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
                 .Take(take))
             .ToListAsync(cancellationToken);
 
-    private IQueryable<Author> GetAuthorsQuery(
-        Specification<Author> specification)
+    private IQueryable<AuthorData> GetAuthorsQuery(
+        Specification<AuthorData> specification)
         => this
             .AllAsNoTracking()
             .Where(specification);

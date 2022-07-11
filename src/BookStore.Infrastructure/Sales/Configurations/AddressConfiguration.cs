@@ -1,15 +1,15 @@
 ﻿namespace BookStore.Infrastructure.Sales.Configurations;
 
-using Domain.Sales.Models.Customers;
+using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Domain.Sales.Models.ModelConstants.Address;
 using static Domain.Sales.Models.ModelConstants.PhoneNumber;
 
-internal class AddressConfiguration : IEntityTypeConfiguration<Address>
+internal class AddressConfiguration : IEntityTypeConfiguration<AddressData>
 {
-    public void Configure(EntityTypeBuilder<Address> builder)
+    public void Configure(EntityTypeBuilder<AddressData> builder)
     {
         builder
             .HasKey(a => a.Id);

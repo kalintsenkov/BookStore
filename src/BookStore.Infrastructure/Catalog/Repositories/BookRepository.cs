@@ -8,29 +8,34 @@ using Application.Catalog.Books;
 using Application.Catalog.Books.Queries.Common;
 using Application.Catalog.Books.Queries.Search;
 using AutoMapper;
+using Common.Events;
 using Common.Extensions;
 using Common.Repositories;
+using Data;
 using Domain.Catalog.Models.Books;
 using Domain.Catalog.Repositories;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
-internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
+internal class BookRepository : DataRepository<ICatalogDbContext, Book, BookData>,
     IBookDomainRepository,
     IBookQueryRepository
 {
-    private readonly IMapper mapper;
-
-    public BookRepository(ICatalogDbContext db, IMapper mapper)
-        : base(db)
-        => this.mapper = mapper;
+    public BookRepository(
+        ICatalogDbContext db,
+        IMapper mapper,
+        IEventDispatcher eventDispatcher)
+        : base(db, mapper, eventDispatcher)
+    {
+    }
 
     public async Task<Book?> Find(
         int id,
         CancellationToken cancellationToken = default)
-        => await this
-            .All()
-            .Where(b => b.Id == id)
+        => await this.Mapper
+            .ProjectTo<Book>(this
+                .All()
+                .Where(b => b.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> Delete(
@@ -54,26 +59,26 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
     public async Task<BookResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default)
-        => await this.mapper
+        => await this.Mapper
             .ProjectTo<BookResponseModel>(this
                 .AllAsNoTracking()
                 .Where(b => b.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<int> Total(
-        Specification<Book> specification,
+        Specification<BookData> specification,
         CancellationToken cancellationToken = default)
         => await this
             .GetBooksQuery(specification)
             .CountAsync(cancellationToken);
 
     public async Task<IEnumerable<BookResponseModel>> GetBooksListing(
-        Specification<Book> specification,
+        Specification<BookData> specification,
         BooksSearchSortOrder sortOrder,
         int skip = 0,
         int take = int.MaxValue,
         CancellationToken cancellationToken = default)
-        => await this.mapper
+        => await this.Mapper
             .ProjectTo<BookResponseModel>(this
                 .GetBooksQuery(specification)
                 .Sort(sortOrder)
@@ -81,8 +86,8 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
                 .Take(take))
             .ToListAsync(cancellationToken);
 
-    private IQueryable<Book> GetBooksQuery(
-        Specification<Book> specification)
+    private IQueryable<BookData> GetBooksQuery(
+        Specification<BookData> specification)
         => this
             .AllAsNoTracking()
             .Where(specification);

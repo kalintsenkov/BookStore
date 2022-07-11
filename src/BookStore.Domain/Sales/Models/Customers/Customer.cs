@@ -8,26 +8,12 @@ using static Common.Models.ModelConstants.Common;
 
 public class Customer : Entity<int>, IAggregateRoot
 {
-    internal Customer(
-        string name,
-        string userId,
-        Address? address = default)
+    internal Customer(string name, string userId)
     {
         this.Validate(name);
 
         this.Name = name;
         this.UserId = userId;
-        this.Address = address;
-    }
-
-    private Customer(
-        string name,
-        string userId)
-    {
-        this.Name = name;
-        this.UserId = userId;
-
-        this.Address = default!;
     }
 
     public string Name { get; private set; }

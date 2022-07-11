@@ -20,4 +20,10 @@ public class ModelConstants
         public const int MaxPhoneNumberLength = 20;
         public const string PhoneNumberRegularExpression = @"\+[0-9]*";
     }
+
+    public class OrderedBook
+    {
+        public const int MinQuantityValue = 1;
+        public const int MaxQuantityValue = 10;
+    }
 }

@@ -1,15 +1,15 @@
 ﻿namespace BookStore.Infrastructure.Catalog.Configurations;
 
-using Domain.Catalog.Models.Books;
+using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Domain.Catalog.Models.ModelConstants.Common;
 using static Domain.Common.Models.ModelConstants.Common;
 
-internal class BookConfiguration : IEntityTypeConfiguration<Book>
+internal class BookConfiguration : IEntityTypeConfiguration<BookData>
 {
-    public void Configure(EntityTypeBuilder<Book> builder)
+    public void Configure(EntityTypeBuilder<BookData> builder)
     {
         builder
             .HasKey(b => b.Id);
@@ -46,8 +46,8 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
 
         builder
             .HasOne(b => b.Author)
-            .WithMany()
-            .HasForeignKey("AuthorId")
+            .WithMany(a => a.Books)
+            .HasForeignKey(b => b.AuthorId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
     }

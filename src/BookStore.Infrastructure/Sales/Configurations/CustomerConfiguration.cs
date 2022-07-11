@@ -1,15 +1,15 @@
 ﻿namespace BookStore.Infrastructure.Sales.Configurations;
 
-using Domain.Sales.Models.Customers;
+using Data;
 using Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Domain.Common.Models.ModelConstants.Common;
 
-internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
+internal class CustomerConfiguration : IEntityTypeConfiguration<CustomerData>
 {
-    public void Configure(EntityTypeBuilder<Customer> builder)
+    public void Configure(EntityTypeBuilder<CustomerData> builder)
     {
         builder
             .HasKey(c => c.Id);
@@ -28,7 +28,7 @@ internal class CustomerConfiguration : IEntityTypeConfiguration<Customer>
         builder
             .HasOne(c => c.Address)
             .WithOne()
-            .HasForeignKey<Customer>("AddressId")
+            .HasForeignKey<CustomerData>(c => c.AddressId)
             .OnDelete(DeleteBehavior.Restrict);
     }
 }
