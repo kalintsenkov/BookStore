@@ -1,6 +1,6 @@
 ﻿namespace BookStore.Infrastructure.Identity;
 
-using Domain.Identity.Models;
+using Application.Identity;
 using Microsoft.AspNetCore.Identity;
 
 public class User : IdentityUser, IUser

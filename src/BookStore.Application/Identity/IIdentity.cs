@@ -3,7 +3,6 @@
 using System.Threading.Tasks;
 using Commands.Common;
 using Common.Models;
-using Domain.Identity.Models;
 
 public interface IIdentity
 {
