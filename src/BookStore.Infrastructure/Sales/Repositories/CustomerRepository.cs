@@ -33,7 +33,16 @@ internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, Cu
         => await this.Mapper
             .ProjectTo<Customer>(this
                 .AllAsNoTracking()
-                .Where(a => a.Id == id))
+                .Where(c => c.Id == id))
+            .FirstOrDefaultAsync(cancellationToken);
+
+    public async Task<CustomerResponseModel?> Details(
+        int id,
+        CancellationToken cancellationToken = default)
+        => await this.Mapper
+            .ProjectTo<CustomerResponseModel>(this
+                .AllAsNoTracking()
+                .Where(c => c.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<int> Total(

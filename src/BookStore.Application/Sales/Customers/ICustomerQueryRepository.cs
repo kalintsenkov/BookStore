@@ -10,6 +10,10 @@ using Queries.Common;
 
 public interface ICustomerQueryRepository : IQueryRepository<Customer>
 {
+    Task<CustomerResponseModel?> Details(
+        int id,
+        CancellationToken cancellationToken = default);
+
     Task<int> Total(
         Specification<Customer> specification,
         CancellationToken cancellationToken = default);
