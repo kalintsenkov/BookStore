@@ -29,7 +29,7 @@ internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, Cu
         CancellationToken cancellationToken = default)
         => await this.Mapper
             .ProjectTo<Customer>(this
-                .All()
+                .AllAsNoTracking()
                 .Where(a => a.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 }

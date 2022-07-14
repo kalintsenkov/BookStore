@@ -4,6 +4,7 @@ using System.Reflection;
 using Common;
 using Common.Behaviors;
 using Common.Contracts;
+using Common.Mapping;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,8 @@ public static class ApplicationConfiguration
             .Configure<ApplicationSettings>(
                 configuration.GetSection(nameof(ApplicationSettings)),
                 options => options.BindNonPublicProperties = true)
-            .AddAutoMapper(Assembly.GetExecutingAssembly())
+            .AddAutoMapper(cfg => cfg
+                .AddProfile(new MappingProfile(Assembly.GetExecutingAssembly())))
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddEventHandlers()
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));

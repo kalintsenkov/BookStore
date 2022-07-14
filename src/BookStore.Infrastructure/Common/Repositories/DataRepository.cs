@@ -3,6 +3,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Mapping;
 using AutoMapper;
 using Domain.Common;
 using Domain.Common.Models;
@@ -13,7 +14,7 @@ using Persistence;
 internal abstract class DataRepository<TDbContext, TEntity, TEntityData> : IDomainRepository<TEntity>
     where TDbContext : IDbContext
     where TEntity : class, IEntity, IAggregateRoot
-    where TEntityData : class
+    where TEntityData : class, IMapFrom<TEntity>
 {
     private readonly IEventDispatcher eventDispatcher;
 

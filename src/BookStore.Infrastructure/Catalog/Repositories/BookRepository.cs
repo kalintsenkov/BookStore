@@ -34,7 +34,7 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book, BookData
         CancellationToken cancellationToken = default)
         => await this.Mapper
             .ProjectTo<Book>(this
-                .All()
+                .AllAsNoTracking()
                 .Where(b => b.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -66,14 +66,14 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book, BookData
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<int> Total(
-        Specification<BookData> specification,
+        Specification<Book> specification,
         CancellationToken cancellationToken = default)
         => await this
             .GetBooksQuery(specification)
             .CountAsync(cancellationToken);
 
     public async Task<IEnumerable<BookResponseModel>> GetBooksListing(
-        Specification<BookData> specification,
+        Specification<Book> specification,
         BooksSearchSortOrder sortOrder,
         int skip = 0,
         int take = int.MaxValue,
@@ -86,9 +86,10 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book, BookData
                 .Take(take))
             .ToListAsync(cancellationToken);
 
-    private IQueryable<BookData> GetBooksQuery(
-        Specification<BookData> specification)
-        => this
-            .AllAsNoTracking()
+    private IQueryable<Book> GetBooksQuery(
+        Specification<Book> specification)
+        => this.Mapper
+            .ProjectTo<Book>(this
+                .AllAsNoTracking())
             .Where(specification);
 }

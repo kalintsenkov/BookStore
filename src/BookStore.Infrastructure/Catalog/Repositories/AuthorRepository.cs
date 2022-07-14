@@ -33,7 +33,7 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, Auth
         CancellationToken cancellationToken = default)
         => await this.Mapper
             .ProjectTo<Author>(this
-                .All()
+                .AllAsNoTracking()
                 .Where(a => a.Id == id))
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -42,7 +42,7 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, Auth
         CancellationToken cancellationToken = default)
         => await this.Mapper
             .ProjectTo<Author>(this
-                .All()
+                .AllAsNoTracking()
                 .Where(a => a.Name == name))
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -74,14 +74,14 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, Auth
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<int> Total(
-        Specification<AuthorData> specification,
+        Specification<Author> specification,
         CancellationToken cancellationToken = default)
         => await this
             .GetAuthorsQuery(specification)
             .CountAsync(cancellationToken);
 
     public async Task<IEnumerable<AuthorResponseModel>> GetAuthorsListing(
-        Specification<AuthorData> specification,
+        Specification<Author> specification,
         int skip = 0,
         int take = int.MaxValue,
         CancellationToken cancellationToken = default)
@@ -93,9 +93,10 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, Auth
                 .Take(take))
             .ToListAsync(cancellationToken);
 
-    private IQueryable<AuthorData> GetAuthorsQuery(
-        Specification<AuthorData> specification)
-        => this
-            .AllAsNoTracking()
+    private IQueryable<Author> GetAuthorsQuery(
+        Specification<Author> specification)
+        => this.Mapper
+            .ProjectTo<Author>(this
+                .AllAsNoTracking())
             .Where(specification);
 }

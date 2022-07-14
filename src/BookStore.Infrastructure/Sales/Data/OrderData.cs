@@ -25,5 +25,7 @@ internal class OrderData : IMapFrom<Order>
 
     public void Mapping(Profile mapper)
         => mapper
-            .CreateMapAndReverseMapWithBaseRules<OrderData, Order>();
+            .CreateMapAndReverseMapWithBaseRules<
+                OrderData,
+                Order>();
 }

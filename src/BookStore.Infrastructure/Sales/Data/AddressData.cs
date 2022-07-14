@@ -20,5 +20,7 @@ internal class AddressData : IMapFrom<Address>
 
     public void Mapping(Profile mapper)
         => mapper
-            .CreateMapAndReverseMapWithBaseRules<AddressData, Address>();
+            .CreateMapAndReverseMapWithBaseRules<
+                AddressData,
+                Address>();
 }

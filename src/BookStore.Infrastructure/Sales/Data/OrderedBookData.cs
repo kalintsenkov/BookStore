@@ -21,5 +21,7 @@ internal class OrderedBookData : IMapFrom<OrderedBook>
 
     public void Mapping(Profile mapper)
         => mapper
-            .CreateMapAndReverseMapWithBaseRules<OrderedBookData, BookData>();
+            .CreateMapAndReverseMapWithBaseRules<
+                OrderedBookData,
+                BookData>();
 }

@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Infrastructure.Catalog.Data;
 
+using Application.Catalog.Books.Queries.Common;
 using Application.Common.Mapping;
 using AutoMapper;
 using Domain.Catalog.Models.Books;
@@ -30,6 +31,11 @@ internal class BookData :
             .CreateMapAndReverseMapWithBaseRules<
                 BookData,
                 Domain.Catalog.Models.Books.Book>();
+
+        mapper
+            .CreateMapAndReverseMapWithBaseRules<
+                BookData,
+                BookResponseModel>();
 
         mapper
             .CreateMapAndReverseMapWithBaseRules<

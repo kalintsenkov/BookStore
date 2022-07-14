@@ -21,5 +21,7 @@ internal class CustomerData : IMapFrom<Customer>
 
     public void Mapping(Profile mapper)
         => mapper
-            .CreateMapAndReverseMapWithBaseRules<CustomerData, Customer>();
+            .CreateMapAndReverseMapWithBaseRules<
+                CustomerData,
+                Customer>();
 }
