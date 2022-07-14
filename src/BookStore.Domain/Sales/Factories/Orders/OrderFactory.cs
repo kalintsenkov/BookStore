@@ -8,8 +8,6 @@ using Models.Orders;
 internal class OrderFactory : IOrderFactory
 {
     private Customer orderCustomer = default!;
-    private readonly State defaultOrderState = State.Pending;
-    private readonly DateTime defaultOrderDate = DateTime.UtcNow;
 
     private bool isCustomerSet = false;
 
@@ -29,8 +27,8 @@ internal class OrderFactory : IOrderFactory
         }
 
         return new Order(
-            this.defaultOrderDate,
-            this.defaultOrderState,
-            this.orderCustomer);
+            date: DateTime.UtcNow,
+            state: State.Pending,
+            customer: this.orderCustomer);
     }
 }
