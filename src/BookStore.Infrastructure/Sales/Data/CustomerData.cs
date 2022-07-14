@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using Application.Common.Mapping;
+using Application.Sales.Customers.Queries.Common;
 using AutoMapper;
 using Domain.Sales.Models.Customers;
 
@@ -20,8 +21,15 @@ internal class CustomerData : IMapFrom<Customer>
     public ICollection<OrderData> Orders { get; } = new HashSet<OrderData>();
 
     public void Mapping(Profile mapper)
-        => mapper
+    {
+        mapper
             .CreateMapAndReverseMapWithBaseRules<
                 CustomerData,
                 Customer>();
+
+        mapper
+            .CreateMapWithBaseRules<
+                CustomerData,
+                CustomerResponseModel>();
+    }
 }
