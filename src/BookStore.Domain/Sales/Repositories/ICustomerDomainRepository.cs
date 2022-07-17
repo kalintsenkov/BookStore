@@ -7,7 +7,11 @@ using Models.Customers;
 
 public interface ICustomerDomainRepository : IDomainRepository<Customer>
 {
-    Task<Customer?> Find(
-        int id,
+    Task<Customer> FindByUser(
+        string userId,
+        CancellationToken cancellationToken = default);
+
+    Task<int> GetCustomerId(
+        string userId,
         CancellationToken cancellationToken = default);
 }

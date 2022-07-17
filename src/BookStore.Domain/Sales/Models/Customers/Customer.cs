@@ -31,9 +31,31 @@ public class Customer : Entity<int>, IAggregateRoot
         return this;
     }
 
-    public Customer UpdateAddress(Address address)
+    public Customer UpdateAddress(
+        string city,
+        string state,
+        string postalCode,
+        string description,
+        string phoneNumber)
     {
-        this.Address = address;
+        if (this.Address is not null)
+        {
+            this.Address
+                .UpdateCity(city)
+                .UpdateState(state)
+                .UpdatePostalCode(postalCode)
+                .UpdateDescription(description)
+                .UpdatePhoneNumber(phoneNumber);
+        }
+        else
+        {
+            this.Address = new Address(
+                city,
+                state,
+                postalCode,
+                description,
+                phoneNumber);
+        }
 
         return this;
     }

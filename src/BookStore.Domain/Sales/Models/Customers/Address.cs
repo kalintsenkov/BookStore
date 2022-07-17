@@ -7,12 +7,12 @@ using static ModelConstants.Address;
 
 public class Address : Entity<int>
 {
-    public Address(
+    internal Address(
         string city,
         string state,
         string postalCode,
         string description,
-        string phoneNumber)
+        PhoneNumber phoneNumber)
     {
         this.Validate(city, state, postalCode, description);
 
@@ -37,15 +37,58 @@ public class Address : Entity<int>
         this.PhoneNumber = default!;
     }
 
-    public string City { get; }
+    public string City { get; private set; }
 
-    public string State { get; }
+    public string State { get; private set; }
 
-    public string PostalCode { get; }
+    public string PostalCode { get; private set; }
 
-    public string Description { get; }
+    public string Description { get; private set; }
 
-    public PhoneNumber PhoneNumber { get; }
+    public PhoneNumber PhoneNumber { get; private set; }
+
+    public Address UpdateCity(string city)
+    {
+        this.ValidateCity(city);
+
+        this.City = city;
+
+        return this;
+    }
+
+    public Address UpdateState(string state)
+    {
+        this.ValidateState(state);
+
+        this.State = state;
+
+        return this;
+    }
+
+    public Address UpdatePostalCode(string postalCode)
+    {
+        this.ValidatePostalCode(postalCode);
+
+        this.PostalCode = postalCode;
+
+        return this;
+    }
+
+    public Address UpdateDescription(string description)
+    {
+        this.ValidateDescription(description);
+
+        this.Description = description;
+
+        return this;
+    }
+
+    public Address UpdatePhoneNumber(string phoneNumber)
+    {
+        this.PhoneNumber = phoneNumber;
+
+        return this;
+    }
 
     private void Validate(
         string city,
