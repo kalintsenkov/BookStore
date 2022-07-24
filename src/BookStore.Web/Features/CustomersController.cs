@@ -3,9 +3,9 @@
 using System.Threading.Tasks;
 using Application.Common;
 using Application.Sales.Customers.Commands.Edit;
-using Application.Sales.Customers.Queries.Common;
 using Application.Sales.Customers.Queries.Details;
 using Application.Sales.Customers.Queries.Search;
+using Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,15 +13,14 @@ using Microsoft.AspNetCore.Mvc;
 public class CustomersController : ApiController
 {
     [HttpGet]
-    [AllowAnonymous]
+    [AuthorizeAdministrator]
     public async Task<ActionResult<CustomersSearchResponseModel>> Search(
         [FromQuery] CustomersSearchQuery query)
         => await this.Send(query);
 
     [HttpGet]
     [Route(Id)]
-    [AllowAnonymous]
-    public async Task<ActionResult<CustomerResponseModel?>> Details(
+    public async Task<ActionResult<CustomerDetailsResponseModel?>> Details(
         [FromRoute] CustomerDetailsQuery query)
         => await this.Send(query);
 

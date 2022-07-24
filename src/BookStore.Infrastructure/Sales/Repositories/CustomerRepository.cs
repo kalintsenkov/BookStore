@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Sales.Customers;
 using Application.Sales.Customers.Queries.Common;
+using Application.Sales.Customers.Queries.Details;
 using AutoMapper;
 using Common.Events;
 using Common.Repositories;
@@ -48,11 +49,11 @@ internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, Cu
             customer => customer.Id,
             cancellationToken: cancellationToken);
 
-    public async Task<CustomerResponseModel?> Details(
+    public async Task<CustomerDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default)
         => await this.Mapper
-            .ProjectTo<CustomerResponseModel>(this
+            .ProjectTo<CustomerDetailsResponseModel>(this
                 .AllAsNoTracking()
                 .Where(c => c.Id == id))
             .FirstOrDefaultAsync(cancellationToken);

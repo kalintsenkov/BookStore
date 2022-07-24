@@ -2,21 +2,20 @@
 
 using System.Threading;
 using System.Threading.Tasks;
-using Common;
 using MediatR;
 
-public class CustomerDetailsQuery : IRequest<CustomerResponseModel?>
+public class CustomerDetailsQuery : IRequest<CustomerDetailsResponseModel?>
 {
     public int Id { get; init; }
 
-    public class CustomerDetailsQueryHandler : IRequestHandler<CustomerDetailsQuery, CustomerResponseModel?>
+    public class CustomerDetailsQueryHandler : IRequestHandler<CustomerDetailsQuery, CustomerDetailsResponseModel?>
     {
         private readonly ICustomerQueryRepository customerRepository;
 
         public CustomerDetailsQueryHandler(ICustomerQueryRepository customerRepository)
             => this.customerRepository = customerRepository;
 
-        public async Task<CustomerResponseModel?> Handle(
+        public async Task<CustomerDetailsResponseModel?> Handle(
             CustomerDetailsQuery request,
             CancellationToken cancellationToken)
             => await this.customerRepository.Details(

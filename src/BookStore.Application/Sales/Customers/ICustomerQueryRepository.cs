@@ -7,10 +7,11 @@ using Common.Contracts;
 using Domain.Common;
 using Domain.Sales.Models.Customers;
 using Queries.Common;
+using Queries.Details;
 
 public interface ICustomerQueryRepository : IQueryRepository<Customer>
 {
-    Task<CustomerResponseModel?> Details(
+    Task<CustomerDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default);
 

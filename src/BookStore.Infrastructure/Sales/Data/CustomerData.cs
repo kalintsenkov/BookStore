@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Application.Common.Mapping;
 using Application.Sales.Customers.Queries.Common;
+using Application.Sales.Customers.Queries.Details;
 using AutoMapper;
 using Domain.Sales.Models.Customers;
 
@@ -31,5 +32,12 @@ internal class CustomerData : IMapFrom<Customer>
             .CreateMapWithBaseRules<
                 CustomerData,
                 CustomerResponseModel>();
+
+        mapper
+            .CreateMapWithBaseRules<
+                CustomerData,
+                CustomerDetailsResponseModel>()
+            .ForMember(m => m.AddressPhoneNumber, cfg => cfg
+                .MapFrom(m => m.Address!.PhoneNumber.Number));
     }
 }
