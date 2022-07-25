@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore;
 
 using static Domain.Common.Models.ModelConstants.Common;
 
-internal class DbInitializer : IDbInitializer
+internal class BookStoreDbInitializer : IDbInitializer
 {
     private readonly BookStoreDbContext db;
     private readonly UserManager<User> userManager;
     private readonly RoleManager<IdentityRole> roleManager;
     private readonly IEnumerable<IInitialData> initialDataProviders;
 
-    public DbInitializer(
+    public BookStoreDbInitializer(
         BookStoreDbContext db,
         UserManager<User> userManager,
         RoleManager<IdentityRole> roleManager,

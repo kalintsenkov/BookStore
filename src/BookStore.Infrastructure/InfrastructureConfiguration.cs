@@ -49,7 +49,7 @@ public static class InfrastructureConfiguration
                 .GetService<BookStoreDbContext>()!)
             .AddScoped<ISalesDbContext>(provider => provider
                 .GetService<BookStoreDbContext>()!)
-            .AddTransient<IDbInitializer, DbInitializer>();
+            .AddTransient<IDbInitializer, BookStoreDbInitializer>();
 
     internal static IServiceCollection AddRepositories(
         this IServiceCollection services)
