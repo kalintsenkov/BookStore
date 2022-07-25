@@ -7,7 +7,7 @@ using Models.ShoppingCarts;
 
 public interface IShoppingCartDomainRepository : IDomainRepository<ShoppingCart>
 {
-    Task<ShoppingCart> FindByCustomer(
+    Task<ShoppingCart?> FindByCustomer(
         int customerId,
         CancellationToken cancellationToken = default);
 }

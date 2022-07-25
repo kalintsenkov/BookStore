@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Infrastructure.Sales.Repositories;
 
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Sales.ShoppingCarts;
@@ -9,6 +10,7 @@ using Common.Repositories;
 using Data;
 using Domain.Sales.Models.ShoppingCarts;
 using Domain.Sales.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 internal class ShoppingCartRepository : DataRepository<ISalesDbContext, ShoppingCart, ShoppingCartData>,
     IShoppingCartDomainRepository,
@@ -22,10 +24,12 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
     {
     }
 
-    public Task<ShoppingCart> FindByCustomer(
+    public async Task<ShoppingCart?> FindByCustomer(
         int customerId,
         CancellationToken cancellationToken = default)
-    {
-        throw new System.NotImplementedException();
-    }
+        => await this.Mapper
+            .ProjectTo<ShoppingCart>(this
+                .AllAsNoTracking()
+                .Where(c => c.CustomerId == customerId))
+            .FirstOrDefaultAsync(cancellationToken);
 }
