@@ -4,19 +4,26 @@ using System.Threading.Tasks;
 using Common.Contracts;
 using Domain.Identity.Events;
 using Domain.Sales.Factories.Customers;
+using Domain.Sales.Factories.ShoppingCarts;
 using Domain.Sales.Repositories;
 
 public class UserRegisteredEventHandler : IEventHandler<UserRegisteredEvent>
 {
     private readonly ICustomerFactory customerFactory;
+    private readonly IShoppingCartFactory shoppingCartFactory;
     private readonly ICustomerDomainRepository customerRepository;
+    private readonly IShoppingCartDomainRepository shoppingCartRepository;
 
     public UserRegisteredEventHandler(
         ICustomerFactory customerFactory,
-        ICustomerDomainRepository customerRepository)
+        IShoppingCartFactory shoppingCartFactory,
+        ICustomerDomainRepository customerRepository,
+        IShoppingCartDomainRepository shoppingCartRepository)
     {
         this.customerFactory = customerFactory;
         this.customerRepository = customerRepository;
+        this.shoppingCartFactory = shoppingCartFactory;
+        this.shoppingCartRepository = shoppingCartRepository;
     }
 
     public async Task Handle(UserRegisteredEvent domainEvent)
@@ -27,5 +34,11 @@ public class UserRegisteredEventHandler : IEventHandler<UserRegisteredEvent>
             .Build();
 
         await this.customerRepository.Save(customer);
+
+        var shoppingCart = this.shoppingCartFactory
+            .ForCustomer(customer)
+            .Build();
+
+        await this.shoppingCartRepository.Save(shoppingCart);
     }
 }

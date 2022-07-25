@@ -16,4 +16,8 @@ internal interface ISalesDbContext : IDbContext
     DbSet<OrderData> Orders { get; }
 
     DbSet<OrderedBookData> OrderedBooks { get; }
+
+    DbSet<ShoppingCartData> ShoppingCarts { get; }
+
+    DbSet<ShoppingCartBookData> ShoppingCartBooks { get; }
 }

@@ -30,6 +30,10 @@ internal class BookStoreDbContext : IdentityDbContext<User>,
 
     public DbSet<OrderedBookData> OrderedBooks { get; set; } = default!;
 
+    public DbSet<ShoppingCartData> ShoppingCarts { get; set; } = default!;
+
+    public DbSet<ShoppingCartBookData> ShoppingCartBooks { get; set; } = default!;
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
