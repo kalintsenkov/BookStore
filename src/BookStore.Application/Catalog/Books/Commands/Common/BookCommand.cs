@@ -9,6 +9,8 @@ public abstract class BookCommand<TCommand> : EntityCommand<int>
 
     public decimal Price { get; init; }
 
+    public int Quantity { get; init; }
+
     public string Description { get; init; } = default!;
 
     public string Genre { get; init; } = default!;

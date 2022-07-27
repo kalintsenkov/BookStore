@@ -25,6 +25,10 @@ internal class BookConfiguration : IEntityTypeConfiguration<BookData>
             .IsRequired();
 
         builder
+            .Property(b => b.Quantity)
+            .IsRequired();
+
+        builder
             .Property(b => b.Description)
             .HasMaxLength(MaxDescriptionLength)
             .IsRequired();

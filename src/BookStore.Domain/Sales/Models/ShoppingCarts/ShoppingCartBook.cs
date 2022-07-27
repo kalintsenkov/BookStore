@@ -43,6 +43,11 @@ public class ShoppingCartBook : Entity<int>
             throw new InvalidShoppingCartException("Book is out of stock.");
         }
 
+        if (book.Quantity < quantity)
+        {
+            throw new InvalidShoppingCartException("There is not enough stock from this book.");
+        }
+
         Guard.AgainstOutOfRange<InvalidShoppingCartException>(
             quantity,
             MinQuantityValue,

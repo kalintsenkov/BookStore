@@ -14,15 +14,21 @@ public class Book : Entity<int>, IAggregateRoot
     internal Book(
         string title,
         decimal price,
+        int quantity,
         string description,
         Genre genre,
         Author author,
         bool isAvailable)
     {
-        this.Validate(title, price, description);
+        this.Validate(
+            title,
+            price,
+            quantity,
+            description);
 
         this.Title = title;
         this.Price = price;
+        this.Quantity = quantity;
         this.Description = description;
         this.Genre = genre;
         this.Author = author;
@@ -32,11 +38,13 @@ public class Book : Entity<int>, IAggregateRoot
     private Book(
         string title,
         decimal price,
+        int quantity,
         string description,
         bool isAvailable)
     {
         this.Title = title;
         this.Price = price;
+        this.Quantity = quantity;
         this.Description = description;
         this.IsAvailable = isAvailable;
 
@@ -47,6 +55,8 @@ public class Book : Entity<int>, IAggregateRoot
     public string Title { get; private set; }
 
     public decimal Price { get; private set; }
+
+    public int Quantity { get; private set; }
 
     public string Description { get; private set; }
 
@@ -70,6 +80,15 @@ public class Book : Entity<int>, IAggregateRoot
         this.ValidatePrice(price);
 
         this.Price = price;
+
+        return this;
+    }
+
+    public Book UpdateQuantity(int quantity)
+    {
+        this.ValidateQuantity(quantity);
+
+        this.Quantity = quantity;
 
         return this;
     }
@@ -107,10 +126,12 @@ public class Book : Entity<int>, IAggregateRoot
     private void Validate(
         string title,
         decimal price,
+        int quantity,
         string description)
     {
         this.ValidateTitle(title);
         this.ValidatePrice(price);
+        this.ValidateQuantity(quantity);
         this.ValidateDescription(description);
     }
 
@@ -127,6 +148,13 @@ public class Book : Entity<int>, IAggregateRoot
             MinPriceValue,
             MaxPriceValue,
             nameof(this.Price));
+
+    private void ValidateQuantity(int quantity)
+        => Guard.AgainstOutOfRange<InvalidBookException>(
+            quantity,
+            MinQuantityValue,
+            MaxQuantityValue,
+            nameof(this.Quantity));
 
     private void ValidateDescription(string description)
         => Guard.ForStringLength<InvalidBookException>(

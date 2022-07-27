@@ -34,6 +34,7 @@ public class BookCreateCommandValidatorSpecs
     public void ShouldHaveValidationErrorIfNameAndDescriptionHaveInvalidLength(
         string title,
         decimal price,
+        int quantity,
         string description,
         string author)
     {
@@ -41,6 +42,7 @@ public class BookCreateCommandValidatorSpecs
         {
             Title = title,
             Price = price,
+            Quantity = quantity,
             Description = description,
             Author = author
         });
@@ -48,6 +50,7 @@ public class BookCreateCommandValidatorSpecs
         testResult.IsValid.Should().BeFalse();
         testResult.ShouldHaveValidationErrorFor(b => b.Title);
         testResult.ShouldHaveValidationErrorFor(b => b.Price);
+        testResult.ShouldHaveValidationErrorFor(b => b.Quantity);
         testResult.ShouldHaveValidationErrorFor(b => b.Description);
         testResult.ShouldHaveValidationErrorFor(b => b.Author);
     }
@@ -57,6 +60,7 @@ public class BookCreateCommandValidatorSpecs
     public void ShouldNotHaveValidationErrorIfNameAndDescriptionHaveValidLength(
         string title,
         decimal price,
+        int quantity,
         string description,
         string author)
     {
@@ -64,6 +68,7 @@ public class BookCreateCommandValidatorSpecs
         {
             Title = title,
             Price = price,
+            Quantity = quantity,
             Description = description,
             Author = author
         });
@@ -71,19 +76,20 @@ public class BookCreateCommandValidatorSpecs
         testResult.IsValid.Should().BeTrue();
         testResult.ShouldNotHaveValidationErrorFor(b => b.Title);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Price);
+        testResult.ShouldNotHaveValidationErrorFor(b => b.Quantity);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Description);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Author);
     }
 
     private static IEnumerable<object[]> InvalidData()
     {
-        yield return new object[] { InvalidMinTitleLength, MinPriceValue - 1, InvalidMinDescriptionLength, InvalidMinAuthorLength };
-        yield return new object[] { InvalidMaxTitleLength, MaxPriceValue, InvalidMaxDescriptionLength, InvalidMaxAuthorLength };
+        yield return new object[] { InvalidMinTitleLength, MinPriceValue - 1, MinQuantityValue - 1, InvalidMinDescriptionLength, InvalidMinAuthorLength };
+        yield return new object[] { InvalidMaxTitleLength, MaxPriceValue, MaxQuantityValue, InvalidMaxDescriptionLength, InvalidMaxAuthorLength };
     }
 
     private static IEnumerable<object[]> ValidData()
     {
-        yield return new object[] { ValidMinTitleLength, MinPriceValue, ValidMinDescriptionLength, ValidMinAuthorLength };
-        yield return new object[] { ValidMaxTitleLength, MaxPriceValue - 1, ValidMaxDescriptionLength, ValidMaxAuthorLength };
+        yield return new object[] { ValidMinTitleLength, MinPriceValue, MinQuantityValue, ValidMinDescriptionLength, ValidMinAuthorLength };
+        yield return new object[] { ValidMaxTitleLength, MaxPriceValue - 1, MaxQuantityValue - 1, ValidMaxDescriptionLength, ValidMaxAuthorLength };
     }
 }

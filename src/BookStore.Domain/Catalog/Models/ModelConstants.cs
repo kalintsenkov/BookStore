@@ -12,5 +12,7 @@ public class ModelConstants
     {
         public const decimal MinPriceValue = decimal.One;
         public const decimal MaxPriceValue = decimal.MaxValue;
+        public const int MinQuantityValue = 1;
+        public const int MaxQuantityValue = int.MaxValue;
     }
 }

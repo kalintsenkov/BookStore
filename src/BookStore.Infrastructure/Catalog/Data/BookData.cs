@@ -15,6 +15,8 @@ internal class BookData :
 
     public decimal Price { get; private set; }
 
+    public int Quantity { get; private set; }
+
     public string Description { get; private set; } = default!;
 
     public Genre Genre { get; private set; } = default!;

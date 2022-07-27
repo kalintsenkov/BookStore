@@ -33,6 +33,11 @@ public class OrderedBook : Entity<int>
             throw new InvalidOrderException("Book is out of stock.");
         }
 
+        if (book.Quantity < quantity)
+        {
+            throw new InvalidOrderException("There is not enough stock from this book.");
+        }
+
         Guard.AgainstOutOfRange<InvalidOrderException>(
             quantity,
             MinQuantityValue,

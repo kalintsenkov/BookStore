@@ -54,6 +54,7 @@ public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int
             book
                 .UpdateTitle(request.Title)
                 .UpdatePrice(request.Price)
+                .UpdateQuantity(request.Quantity)
                 .UpdateDescription(request.Description)
                 .UpdateGenre(Enumeration.FromName<Genre>(
                     request.Genre))

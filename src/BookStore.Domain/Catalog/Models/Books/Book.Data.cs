@@ -15,6 +15,7 @@ internal class BookData : IInitialData
             new(
                 title: "It",
                 price: 19.99M,
+                quantity: 100,
                 description: "A promise made twenty-eight years ago calls seven adults to reunite in Derry, Maine, where as teenagers they battled an evil creature that preyed on the city's children. Unsure that their Losers Club had vanquished the creature all those years ago, the seven had vowed to return to Derry if IT should ever reappear. Now, children are being murdered again and their repressed memories of that summer return as they prepare to do battle with the monster lurking in Derry's sewers once more.",
                 genre: Genre.Horror,
                 author: new Author(

@@ -22,6 +22,11 @@ public class BookCommandValidator<TCommand> : AbstractValidator<BookCommand<TCom
             .LessThan(MaxPriceValue)
             .NotEmpty();
 
+        this.RuleFor(b => b.Quantity)
+            .GreaterThanOrEqualTo(MinQuantityValue)
+            .LessThan(MaxQuantityValue)
+            .NotEmpty();
+
         this.RuleFor(b => b.Description)
             .MinimumLength(MinDescriptionLength)
             .MaximumLength(MaxDescriptionLength)
