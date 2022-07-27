@@ -86,7 +86,6 @@ internal class BookFactory : IBookFactory
             this.bookQuantity,
             this.bookDescription,
             this.bookGenre,
-            this.bookAuthor,
-            isAvailable: true);
+            this.bookAuthor);
     }
 }

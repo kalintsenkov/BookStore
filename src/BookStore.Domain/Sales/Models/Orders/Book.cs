@@ -7,13 +7,11 @@ public class Book : Entity<int>
     internal Book(
         string title,
         decimal price,
-        int quantity,
-        bool isAvailable)
+        int quantity)
     {
         this.Title = title;
         this.Price = price;
         this.Quantity = quantity;
-        this.IsAvailable = isAvailable;
     }
 
     public string Title { get; }
@@ -22,5 +20,5 @@ public class Book : Entity<int>
 
     public int Quantity { get; }
 
-    public bool IsAvailable { get; }
+    public bool IsAvailable => this.Quantity is not 0;
 }

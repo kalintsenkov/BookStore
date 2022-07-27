@@ -1,7 +1,6 @@
 ﻿namespace BookStore.Web.Features;
 
 using System.Threading.Tasks;
-using Application.Catalog.Books.Commands.ChangeAvailability;
 using Application.Catalog.Books.Commands.Create;
 using Application.Catalog.Books.Commands.Delete;
 using Application.Catalog.Books.Commands.Edit;
@@ -39,12 +38,6 @@ public class BooksController : ApiController
     public async Task<ActionResult<int>> Edit(
         int id, BookEditCommand command)
         => await this.Send(command.SetId(id));
-
-    [HttpPut]
-    [Route(Id + PathSeparator + nameof(ChangeAvailability))]
-    public async Task<ActionResult> ChangeAvailability(
-        [FromRoute] BookChangeAvailabilityCommand command)
-        => await this.Send(command);
 
     [HttpDelete]
     [Route(Id)]

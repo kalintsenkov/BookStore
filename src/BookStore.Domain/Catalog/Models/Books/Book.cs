@@ -17,8 +17,7 @@ public class Book : Entity<int>, IAggregateRoot
         int quantity,
         string description,
         Genre genre,
-        Author author,
-        bool isAvailable)
+        Author author)
     {
         this.Validate(
             title,
@@ -32,21 +31,18 @@ public class Book : Entity<int>, IAggregateRoot
         this.Description = description;
         this.Genre = genre;
         this.Author = author;
-        this.IsAvailable = isAvailable;
     }
 
     private Book(
         string title,
         decimal price,
         int quantity,
-        string description,
-        bool isAvailable)
+        string description)
     {
         this.Title = title;
         this.Price = price;
         this.Quantity = quantity;
         this.Description = description;
-        this.IsAvailable = isAvailable;
 
         this.Genre = default!;
         this.Author = default!;
@@ -63,8 +59,6 @@ public class Book : Entity<int>, IAggregateRoot
     public Genre Genre { get; private set; }
 
     public Author Author { get; private set; }
-
-    public bool IsAvailable { get; private set; }
 
     public Book UpdateTitle(string title)
     {
@@ -112,13 +106,6 @@ public class Book : Entity<int>, IAggregateRoot
     public Book UpdateAuthor(Author author)
     {
         this.Author = author;
-
-        return this;
-    }
-
-    public Book ChangeAvailability()
-    {
-        this.IsAvailable = !this.IsAvailable;
 
         return this;
     }

@@ -34,10 +34,6 @@ internal class BookConfiguration : IEntityTypeConfiguration<BookData>
             .IsRequired();
 
         builder
-            .Property(b => b.IsAvailable)
-            .IsRequired();
-
-        builder
             .OwnsOne(b => b.Genre, genre =>
             {
                 genre

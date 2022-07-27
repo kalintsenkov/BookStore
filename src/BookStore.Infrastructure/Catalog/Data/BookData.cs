@@ -25,8 +25,6 @@ internal class BookData :
 
     public AuthorData Author { get; private set; } = default!;
 
-    public bool IsAvailable { get; private set; }
-
     public void Mapping(Profile mapper)
     {
         mapper
