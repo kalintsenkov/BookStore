@@ -19,5 +19,6 @@ internal class ShoppingCartData : IMapFrom<ShoppingCart>
         => mapper
             .CreateMapAndReverseMapWithBaseRules<
                 ShoppingCartData,
-                ShoppingCart>();
+                ShoppingCart>()
+            .ForMember(m => m.Books, cfg => cfg.ExplicitExpansion());
 }

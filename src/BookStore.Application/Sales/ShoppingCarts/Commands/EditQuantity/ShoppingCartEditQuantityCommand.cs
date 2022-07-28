@@ -18,15 +18,18 @@ public class ShoppingCartEditQuantityCommand : IRequest<Result>
     public class ShoppingCartEditQuantityCommandHandler : IRequestHandler<ShoppingCartEditQuantityCommand, Result>
     {
         private readonly ICurrentUser currentUser;
+        private readonly IBookDomainRepository bookRepository;
         private readonly ICustomerDomainRepository customerRepository;
         private readonly IShoppingCartDomainRepository shoppingCartRepository;
 
         public ShoppingCartEditQuantityCommandHandler(
             ICurrentUser currentUser,
+            IBookDomainRepository bookRepository,
             ICustomerDomainRepository customerRepository,
             IShoppingCartDomainRepository shoppingCartRepository)
         {
             this.currentUser = currentUser;
+            this.bookRepository = bookRepository;
             this.customerRepository = customerRepository;
             this.shoppingCartRepository = shoppingCartRepository;
         }
@@ -49,18 +52,20 @@ public class ShoppingCartEditQuantityCommand : IRequest<Result>
                     $"Customer '{customerId}' does not have an existing shopping cart.");
             }
 
-            var shoppingCartBook = await this.shoppingCartRepository.FindBook(
+            var book = await this.bookRepository.Find(
                 request.BookId,
                 cancellationToken);
 
-            if (shoppingCartBook is null)
+            if (book is null)
             {
                 throw new NotFoundException(
-                    nameof(shoppingCartBook),
+                    nameof(book),
                     request.BookId);
             }
 
-            shoppingCartBook.UpdateQuantity(request.Quantity);
+            shoppingCart.EditBookQuantity(book, request.Quantity);
+
+            await this.shoppingCartRepository.Save(shoppingCart, cancellationToken);
 
             return Result.Success;
         }

@@ -11,7 +11,12 @@ public interface IShoppingCartDomainRepository : IDomainRepository<ShoppingCart>
         int customerId,
         CancellationToken cancellationToken = default);
 
-    Task<ShoppingCartBook?> FindBook(
+    Task<bool> DeleteBook(
+        int bookId,
+        CancellationToken cancellationToken = default);
+
+    Task<bool> HasCustomerBook(
+        int customerId,
         int bookId,
         CancellationToken cancellationToken = default);
 }

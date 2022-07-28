@@ -30,21 +30,47 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
         => await this.Mapper
             .ProjectTo<ShoppingCart>(this
                 .AllAsNoTracking()
-                .Where(c => c.CustomerId == customerId))
+                .Where(c => c.CustomerId == customerId),
+                membersToExpand: c => c.Books)
             .FirstOrDefaultAsync(cancellationToken);
 
-    public async Task<ShoppingCartBook?> FindBook(
+    public async Task<bool> DeleteBook(
+        int bookId,
+        CancellationToken cancellationToken = default)
+    {
+        var shoppingCartBook = await this.FindBook(
+            bookId,
+            cancellationToken);
+
+        if (shoppingCartBook is null)
+        {
+            return false;
+        }
+
+        this.Data.ShoppingCartBooks.Remove(shoppingCartBook);
+
+        await this.Data.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
+    public async Task<bool> HasCustomerBook(
+        int customerId,
         int bookId,
         CancellationToken cancellationToken = default)
         => await this
-            .GetShoppingCartBooks()
-            .Where(b => b.Book.Id == bookId)
-            .FirstOrDefaultAsync(cancellationToken);
+            .AllAsNoTracking()
+            .Where(c => c.CustomerId == customerId)
+            .AnyAsync(c => c.Books
+                .Any(sb => sb.BookId == bookId), cancellationToken);
 
-    private IQueryable<ShoppingCartBook> GetShoppingCartBooks()
-        => this.Mapper
-            .ProjectTo<ShoppingCartBook>(this
-                .Data
-                .ShoppingCartBooks
-                .AsNoTracking());
+    private async Task<ShoppingCartBookData?> FindBook(
+        int bookId,
+        CancellationToken cancellationToken = default)
+        => await this
+            .Data
+            .ShoppingCartBooks
+            .AsNoTracking()
+            .Where(sb => sb.BookId == bookId)
+            .FirstOrDefaultAsync(cancellationToken);
 }

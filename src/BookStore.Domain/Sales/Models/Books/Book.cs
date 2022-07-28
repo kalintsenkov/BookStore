@@ -1,6 +1,5 @@
 ﻿namespace BookStore.Domain.Sales.Models.Books;
 
-using Catalog.Models.Books;
 using Common;
 using Common.Models;
 using Exceptions;

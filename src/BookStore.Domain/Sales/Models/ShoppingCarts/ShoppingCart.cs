@@ -10,7 +10,7 @@ using Exceptions;
 
 public class ShoppingCart : Entity<int>, IAggregateRoot
 {
-    private readonly HashSet<ShoppingCartBook> books;
+    private HashSet<ShoppingCartBook> books;
 
     internal ShoppingCart(Customer customer)
     {
@@ -30,7 +30,11 @@ public class ShoppingCart : Entity<int>, IAggregateRoot
 
     public decimal TotalPrice => this.books.Sum(cb => cb.Quantity * cb.Book.Price);
 
-    public IReadOnlyCollection<ShoppingCartBook> Books => this.books.ToList();
+    public IReadOnlyCollection<ShoppingCartBook> Books
+    {
+        get => this.books.ToList().AsReadOnly();
+        private set => this.books = value.ToHashSet();
+    }
 
     public ShoppingCart AddBook(Book book, int quantity)
     {
@@ -50,20 +54,25 @@ public class ShoppingCart : Entity<int>, IAggregateRoot
         return this;
     }
 
-    public ShoppingCart RemoveBook(Book book)
+    public ShoppingCart EditBookQuantity(Book book, int quantity)
     {
-        var bookToRemove = this.FindBook(book.Id);
+        var existingBook = this.FindBook(book.Id);
 
-        if (bookToRemove is null)
-        {
-            throw new InvalidShoppingCartException("This book does not exist in the shopping cart.");
-        }
+        this.ValidateBook(existingBook);
 
-        this.books.Remove(bookToRemove);
+        existingBook!.UpdateQuantity(quantity);
 
         return this;
     }
 
     private ShoppingCartBook? FindBook(int bookId)
         => this.books.SingleOrDefault(b => b.Book.Id == bookId);
+
+    private void ValidateBook(ShoppingCartBook? book)
+    {
+        if (book is null)
+        {
+            throw new InvalidShoppingCartException("This book does not exist in the shopping cart.");
+        }
+    }
 }
