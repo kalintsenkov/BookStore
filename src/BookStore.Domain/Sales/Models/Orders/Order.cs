@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Books;
 using Common;
 using Common.Models;
 using Customers;
@@ -40,7 +41,7 @@ public class Order : Entity<int>, IAggregateRoot
 
     public Customer Customer { get; private set; }
 
-    public decimal TotalPrice => this.orderedBooks.Sum(o => o.Quantity * o.Book.Price);
+    public decimal TotalPrice => this.orderedBooks.Sum(ob => ob.Quantity * ob.Book.Price);
 
     public IReadOnlyCollection<OrderedBook> OrderedBooks => this.orderedBooks.ToList().AsReadOnly();
 
@@ -71,6 +72,11 @@ public class Order : Entity<int>, IAggregateRoot
     public Order OrderBook(Book book, int quantity)
     {
         this.orderedBooks.Add(new OrderedBook(book, quantity));
+
+        var bookQuantity = book.Quantity;
+        var orderQuantity = bookQuantity - quantity;
+
+        book.UpdateQuantity(orderQuantity);
 
         return this;
     }

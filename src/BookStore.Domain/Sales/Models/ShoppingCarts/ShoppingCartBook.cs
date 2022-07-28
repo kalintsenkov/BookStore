@@ -1,8 +1,8 @@
 ﻿namespace BookStore.Domain.Sales.Models.ShoppingCarts;
 
+using Books;
 using Common.Models;
 using Exceptions;
-using Orders;
 
 using static ModelConstants.OrderedBook;
 

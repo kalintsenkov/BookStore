@@ -7,7 +7,7 @@ using Domain.Catalog.Models.Books;
 
 internal class BookData :
     IMapFrom<Domain.Catalog.Models.Books.Book>,
-    IMapFrom<Domain.Sales.Models.Orders.Book>
+    IMapFrom<Domain.Sales.Models.Books.Book>
 {
     public int Id { get; private set; }
 
@@ -40,6 +40,6 @@ internal class BookData :
         mapper
             .CreateMapAndReverseMapWithBaseRules<
                 BookData,
-                Domain.Sales.Models.Orders.Book>();
+                Domain.Sales.Models.Books.Book>();
     }
 }

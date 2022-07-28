@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 internal interface IDbContext
 {
+    ChangeTracker ChangeTracker { get; }
+
     DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
     EntityEntry<TEntity> Update<TEntity>(TEntity entity) where TEntity : class;

@@ -10,4 +10,8 @@ public interface IShoppingCartDomainRepository : IDomainRepository<ShoppingCart>
     Task<ShoppingCart?> FindByCustomer(
         int customerId,
         CancellationToken cancellationToken = default);
+
+    Task<ShoppingCartBook?> FindBook(
+        int bookId,
+        CancellationToken cancellationToken = default);
 }

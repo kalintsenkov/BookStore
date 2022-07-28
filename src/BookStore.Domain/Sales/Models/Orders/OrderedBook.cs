@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Domain.Sales.Models.Orders;
 
+using Books;
 using Common.Models;
 using Exceptions;
 

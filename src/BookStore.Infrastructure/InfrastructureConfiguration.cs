@@ -57,7 +57,12 @@ public static class InfrastructureConfiguration
             .Scan(scan => scan
                 .FromCallingAssembly()
                 .AddClasses(classes => classes
-                    .AssignableTo(typeof(IDomainRepository<>))
+                    .AssignableTo(typeof(IDomainRepository<>)))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime())
+            .Scan(scan => scan
+                .FromCallingAssembly()
+                .AddClasses(classes => classes
                     .AssignableTo(typeof(IQueryRepository<>)))
                 .AsImplementedInterfaces()
                 .WithTransientLifetime());

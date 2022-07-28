@@ -48,6 +48,8 @@ internal abstract class DataRepository<TDbContext, TEntity, TEntityData> : IDoma
 
         await this.Data.SaveChangesAsync(cancellationToken);
 
+        this.Data.ChangeTracker.Clear();
+
         return this.Mapper.Map<TEntity>(entityData);
     }
 

@@ -32,4 +32,19 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
                 .AllAsNoTracking()
                 .Where(c => c.CustomerId == customerId))
             .FirstOrDefaultAsync(cancellationToken);
+
+    public async Task<ShoppingCartBook?> FindBook(
+        int bookId,
+        CancellationToken cancellationToken = default)
+        => await this
+            .GetShoppingCartBooks()
+            .Where(b => b.Book.Id == bookId)
+            .FirstOrDefaultAsync(cancellationToken);
+
+    private IQueryable<ShoppingCartBook> GetShoppingCartBooks()
+        => this.Mapper
+            .ProjectTo<ShoppingCartBook>(this
+                .Data
+                .ShoppingCartBooks
+                .AsNoTracking());
 }
