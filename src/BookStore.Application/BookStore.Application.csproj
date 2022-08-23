@@ -35,4 +35,8 @@
 		<ProjectReference Include="..\BookStore.Domain\BookStore.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Sales\Orders\Commands\Create\" />
+	</ItemGroup>
+
 </Project>

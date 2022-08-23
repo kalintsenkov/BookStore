@@ -5,5 +5,4 @@ using Domain.Sales.Models.ShoppingCarts;
 
 public interface IShoppingCartQueryRepository : IQueryRepository<ShoppingCart>
 {
-    
 }

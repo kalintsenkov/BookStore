@@ -10,6 +10,7 @@ using Catalog;
 using Common.Events;
 using Common.Extensions;
 using Common.Persistence;
+using Common.Services;
 using Domain.Common;
 using Identity;
 using Identity.Services;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Sales;
+using StackExchange.Redis;
 
 using static Domain.Common.Models.ModelConstants.Identity;
 
@@ -30,6 +32,7 @@ public static class InfrastructureConfiguration
         IConfiguration configuration)
         => services
             .AddDatabase(configuration)
+            //.AddMemoryDatabase(configuration)
             .AddRepositories()
             .AddIdentity(configuration)
             .AddAutoMapper(cfg => cfg
@@ -50,6 +53,15 @@ public static class InfrastructureConfiguration
             .AddScoped<ISalesDbContext>(provider => provider
                 .GetService<BookStoreDbContext>()!)
             .AddTransient<IDbInitializer, BookStoreDbInitializer>();
+
+    private static IServiceCollection AddMemoryDatabase(
+        this IServiceCollection services,
+        IConfiguration configuration)
+        => services
+            .AddSingleton<IConnectionMultiplexer>(
+                ConnectionMultiplexer.Connect(
+                    configuration.GetRedisConnectionString()))
+            .AddTransient<IMemoryDatabase, MemoryDatabase>();
 
     internal static IServiceCollection AddRepositories(
         this IServiceCollection services)

@@ -11,7 +11,7 @@ using Exceptions;
 
 public class Order : Entity<int>, IAggregateRoot
 {
-    private readonly HashSet<OrderedBook> orderedBooks;
+    private HashSet<OrderedBook> orderedBooks;
 
     internal Order(
         DateTime date,
@@ -43,7 +43,11 @@ public class Order : Entity<int>, IAggregateRoot
 
     public decimal TotalPrice => this.orderedBooks.Sum(ob => ob.Quantity * ob.Book.Price);
 
-    public IReadOnlyCollection<OrderedBook> OrderedBooks => this.orderedBooks.ToList().AsReadOnly();
+    public IReadOnlyCollection<OrderedBook> OrderedBooks
+    {
+        get => this.orderedBooks.ToList().AsReadOnly();
+        private set => this.orderedBooks = value.ToHashSet();
+    }
 
     public Order Cancel()
     {

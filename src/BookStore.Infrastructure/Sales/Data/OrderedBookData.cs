@@ -23,5 +23,5 @@ internal class OrderedBookData : IMapFrom<OrderedBook>
         => mapper
             .CreateMapAndReverseMapWithBaseRules<
                 OrderedBookData,
-                BookData>();
+                OrderedBook>();
 }
