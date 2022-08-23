@@ -14,6 +14,7 @@ public static class WebConfiguration
     {
         services
             .AddScoped<ICurrentUser, CurrentUserService>()
+            .AddSwaggerGen()
             .AddControllers()
             .AddFluentValidation(validation => validation
                 .RegisterValidatorsFromAssemblyContaining<Result>())
