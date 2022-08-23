@@ -8,16 +8,16 @@ using Common.Models;
 using Domain.Sales.Repositories;
 using MediatR;
 
-public class OrderCompleteCommand : EntityCommand<int>, IRequest<Result>
+public class OrderCompleteCommand : EntityCommand<int>, IRequest<Result<int>>
 {
-    public class OrderCompleteCommandHandler : IRequestHandler<OrderCompleteCommand, Result>
+    public class OrderCompleteCommandHandler : IRequestHandler<OrderCompleteCommand, Result<int>>
     {
         private readonly IOrderDomainRepository orderRepository;
 
         public OrderCompleteCommandHandler(IOrderDomainRepository orderRepository)
             => this.orderRepository = orderRepository;
 
-        public async Task<Result> Handle(
+        public async Task<Result<int>> Handle(
             OrderCompleteCommand request,
             CancellationToken cancellationToken)
         {
@@ -34,9 +34,9 @@ public class OrderCompleteCommand : EntityCommand<int>, IRequest<Result>
 
             order.MarkAsCompleted();
 
-            await this.orderRepository.Save(order, cancellationToken);
+            order = await this.orderRepository.Save(order, cancellationToken);
 
-            return Result.Success;
+            return order.Id;
         }
     }
 }

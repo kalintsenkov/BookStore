@@ -20,13 +20,13 @@ public class OrdersController : ApiController
 
     [HttpPut]
     [Route(Id + PathSeparator + nameof(Cancel))]
-    public async Task<ActionResult> Cancel(
+    public async Task<ActionResult<int>> Cancel(
         int id, OrderCancelCommand command)
         => await this.Send(command.SetId(id));
 
     [HttpPut]
     [Route(Id + PathSeparator + nameof(Complete))]
-    public async Task<ActionResult> Complete(
+    public async Task<ActionResult<int>> Complete(
         int id, OrderCompleteCommand command)
         => await this.Send(command.SetId(id));
 }
