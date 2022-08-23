@@ -9,22 +9,23 @@ using Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[AuthorizeAdministrator]
+[Authorize]
 public class OrdersController : ApiController
 {
     [HttpPost]
-    [Authorize]
     public async Task<ActionResult<int>> Create(
         [FromRoute] OrderCreateCommand command)
         => await this.Send(command);
 
     [HttpPut]
+    [AuthorizeAdministrator]
     [Route(Id + PathSeparator + nameof(Cancel))]
     public async Task<ActionResult<int>> Cancel(
         int id, OrderCancelCommand command)
         => await this.Send(command.SetId(id));
 
     [HttpPut]
+    [AuthorizeAdministrator]
     [Route(Id + PathSeparator + nameof(Complete))]
     public async Task<ActionResult<int>> Complete(
         int id, OrderCompleteCommand command)
