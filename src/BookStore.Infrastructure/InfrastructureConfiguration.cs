@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Infrastructure;
 
+using System;
 using System.Reflection;
 using System.Text;
 using Application.Common;
@@ -32,11 +33,9 @@ public static class InfrastructureConfiguration
         IConfiguration configuration)
         => services
             .AddDatabase(configuration)
-            //.AddMemoryDatabase(configuration)
             .AddRepositories()
             .AddIdentity(configuration)
-            .AddAutoMapper(cfg => cfg
-                .AddProfile(new MappingProfile(Assembly.GetExecutingAssembly())))
+            .AddAutoMapperProfile(Assembly.GetExecutingAssembly())
             .AddTransient<IEventDispatcher, EventDispatcher>();
 
     private static IServiceCollection AddDatabase(
@@ -123,4 +122,13 @@ public static class InfrastructureConfiguration
 
         return services;
     }
+
+    public static IServiceCollection AddAutoMapperProfile(
+        this IServiceCollection services,
+        Assembly assembly)
+        => services
+            .AddAutoMapper(
+                (_, config) => config
+                    .AddProfile(new MappingProfile(assembly)),
+                Array.Empty<Assembly>());
 }
