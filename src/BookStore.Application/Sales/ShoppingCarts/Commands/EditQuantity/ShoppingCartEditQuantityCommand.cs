@@ -58,9 +58,7 @@ public class ShoppingCartEditQuantityCommand : IRequest<Result>
 
             if (book is null)
             {
-                throw new NotFoundException(
-                    nameof(book),
-                    request.BookId);
+                throw new NotFoundException(nameof(book), request.BookId);
             }
 
             shoppingCart.EditBookQuantity(book, request.Quantity);

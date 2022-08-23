@@ -27,9 +27,7 @@ public class AuthorEditCommand : AuthorCommand<AuthorEditCommand>, IRequest<Resu
 
             if (author is null)
             {
-                throw new NotFoundException(
-                    nameof(author),
-                    request.Id);
+                throw new NotFoundException(nameof(author), request.Id);
             }
 
             author

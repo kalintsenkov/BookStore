@@ -35,9 +35,7 @@ public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int
 
             if (book is null)
             {
-                throw new NotFoundException(
-                    nameof(book),
-                    request.Id);
+                throw new NotFoundException(nameof(book), request.Id);
             }
 
             var author = await this.authorRepository.Find(
@@ -46,9 +44,7 @@ public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int
 
             if (author is null)
             {
-                throw new NotFoundException(
-                    nameof(request.Author),
-                    request.Author);
+                throw new NotFoundException(nameof(author), request.Author);
             }
 
             book

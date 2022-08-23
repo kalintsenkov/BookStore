@@ -39,9 +39,7 @@ public class BookCreateCommand : BookCommand<BookCreateCommand>, IRequest<Result
 
             if (author is null)
             {
-                throw new NotFoundException(
-                    nameof(request.Author),
-                    request.Author);
+                throw new NotFoundException(nameof(author), request.Author);
             }
 
             var book = this.bookFactory

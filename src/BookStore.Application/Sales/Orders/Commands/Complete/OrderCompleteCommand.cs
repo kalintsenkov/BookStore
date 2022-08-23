@@ -27,9 +27,7 @@ public class OrderCompleteCommand : EntityCommand<int>, IRequest<Result<int>>
 
             if (order is null)
             {
-                throw new NotFoundException(
-                    nameof(order),
-                    request.Id);
+                throw new NotFoundException(nameof(order), request.Id);
             }
 
             order.MarkAsCompleted();
