@@ -13,14 +13,12 @@ public class Order : Entity<int>, IAggregateRoot
 {
     private HashSet<OrderedBook> orderedBooks;
 
-    internal Order(
-        DateTime date,
-        State state,
-        Customer customer)
+    internal Order(Customer customer)
     {
-        this.Date = date;
-        this.State = state;
         this.Customer = customer;
+
+        this.Date = DateTime.UtcNow;
+        this.State = State.Pending;
 
         this.orderedBooks = new HashSet<OrderedBook>();
     }
@@ -49,7 +47,7 @@ public class Order : Entity<int>, IAggregateRoot
         private set => this.orderedBooks = value.ToHashSet();
     }
 
-    public Order Cancel()
+    public Order MarkAsCanceled()
     {
         if (this.State != State.Pending)
         {

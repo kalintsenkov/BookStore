@@ -1,6 +1,5 @@
 ﻿namespace BookStore.Domain.Sales.Factories.Orders;
 
-using System;
 using Exceptions;
 using Models.Customers;
 using Models.Orders;
@@ -26,9 +25,6 @@ internal class OrderFactory : IOrderFactory
             throw new InvalidOrderException("Customer must have a value.");
         }
 
-        return new Order(
-            date: DateTime.UtcNow,
-            state: State.Pending,
-            customer: this.orderCustomer);
+        return new Order(this.orderCustomer);
     }
 }
