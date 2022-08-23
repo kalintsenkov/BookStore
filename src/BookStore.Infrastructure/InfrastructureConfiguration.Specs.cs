@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Application;
 using Application.Common.Contracts;
+using BookStore.Infrastructure.Sales;
 using Catalog;
 using Common.Events;
 using Common.Extensions;
@@ -25,6 +26,8 @@ public class InfrastructureConfigurationSpecs
             .AddDbContext<BookStoreDbContext>(options => options
                 .UseInMemoryDatabase(Guid.NewGuid().ToString()))
             .AddScoped<ICatalogDbContext>(provider => provider
+                .GetService<BookStoreDbContext>()!)
+            .AddScoped<ISalesDbContext>(provider => provider
                 .GetService<BookStoreDbContext>()!);
 
         var assembly = Assembly.GetExecutingAssembly();
