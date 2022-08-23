@@ -81,13 +81,13 @@ public class BookCreateCommandValidatorSpecs
         testResult.ShouldNotHaveValidationErrorFor(b => b.Author);
     }
 
-    private static IEnumerable<object[]> InvalidData()
+    public static IEnumerable<object[]> InvalidData()
     {
         yield return new object[] { InvalidMinTitleLength, MinPriceValue - 1, MinQuantityValue - 1, InvalidMinDescriptionLength, InvalidMinAuthorLength };
         yield return new object[] { InvalidMaxTitleLength, MaxPriceValue, MaxQuantityValue, InvalidMaxDescriptionLength, InvalidMaxAuthorLength };
     }
 
-    private static IEnumerable<object[]> ValidData()
+    public static IEnumerable<object[]> ValidData()
     {
         yield return new object[] { ValidMinTitleLength, MinPriceValue, MinQuantityValue, ValidMinDescriptionLength, ValidMinAuthorLength };
         yield return new object[] { ValidMaxTitleLength, MaxPriceValue - 1, MaxQuantityValue - 1, ValidMaxDescriptionLength, ValidMaxAuthorLength };

@@ -58,13 +58,13 @@ public class AuthorCreateCommandValidatorSpecs
         testResult.ShouldNotHaveValidationErrorFor(a => a.Description);
     }
 
-    private static IEnumerable<object[]> InvalidData()
+    public static IEnumerable<object[]> InvalidData()
     {
         yield return new object[] { InvalidMinNameLength, InvalidMinDescriptionLength };
         yield return new object[] { InvalidMaxNameLength, InvalidMaxDescriptionLength };
     }
 
-    private static IEnumerable<object[]> ValidData()
+    public static IEnumerable<object[]> ValidData()
     {
         yield return new object[] { ValidMinNameLength, ValidMinDescriptionLength };
         yield return new object[] { ValidMaxNameLength, ValidMaxDescriptionLength };

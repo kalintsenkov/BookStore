@@ -2,7 +2,7 @@
 
 using Application.Common.Contracts;
 using Application.Common.Models;
-using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Services;
@@ -15,9 +15,8 @@ public static class WebConfiguration
         services
             .AddScoped<ICurrentUser, CurrentUserService>()
             .AddSwaggerGen()
+            .AddValidatorsFromAssemblyContaining<Result>()
             .AddControllers()
-            .AddFluentValidation(validation => validation
-                .RegisterValidatorsFromAssemblyContaining<Result>())
             .AddNewtonsoftJson();
 
         services.Configure<ApiBehaviorOptions>(options =>
