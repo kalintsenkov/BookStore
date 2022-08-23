@@ -1,4 +1,4 @@
-﻿namespace BookStore.Application.Sales.Orders.Commands.Ship;
+﻿namespace BookStore.Application.Sales.Orders.Commands.Complete;
 
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,17 +8,17 @@ using Common.Models;
 using Domain.Sales.Repositories;
 using MediatR;
 
-public class OrderShipCommand : EntityCommand<int>, IRequest<Result>
+public class OrderCompleteCommand : EntityCommand<int>, IRequest<Result>
 {
-    public class OrderShipCommandHandler : IRequestHandler<OrderShipCommand, Result>
+    public class OrderCompleteCommandHandler : IRequestHandler<OrderCompleteCommand, Result>
     {
         private readonly IOrderDomainRepository orderRepository;
 
-        public OrderShipCommandHandler(IOrderDomainRepository orderRepository)
+        public OrderCompleteCommandHandler(IOrderDomainRepository orderRepository)
             => this.orderRepository = orderRepository;
 
         public async Task<Result> Handle(
-            OrderShipCommand request,
+            OrderCompleteCommand request,
             CancellationToken cancellationToken)
         {
             var order = await this.orderRepository.Find(
@@ -32,7 +32,7 @@ public class OrderShipCommand : EntityCommand<int>, IRequest<Result>
                     request.Id);
             }
 
-            order.MarkAsShipped();
+            order.MarkAsCompleted();
 
             await this.orderRepository.Save(order, cancellationToken);
 

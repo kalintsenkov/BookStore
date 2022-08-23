@@ -16,7 +16,7 @@ internal class OrderConfiguration : IEntityTypeConfiguration<OrderData>
             .IsRequired();
 
         builder
-            .OwnsOne(o => o.State, state =>
+            .OwnsOne(o => o.Status, state =>
             {
                 state
                     .WithOwner();

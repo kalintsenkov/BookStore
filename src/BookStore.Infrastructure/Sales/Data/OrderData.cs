@@ -13,7 +13,7 @@ internal class OrderData : IMapFrom<Order>
 
     public DateTime Date { get; private set; } = default!;
 
-    public State State { get; private set; } = default!;
+    public Status Status { get; private set; } = default!;
 
     public int CustomerId { get; private set; }
 

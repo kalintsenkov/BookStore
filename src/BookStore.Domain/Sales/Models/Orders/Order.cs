@@ -18,7 +18,7 @@ public class Order : Entity<int>, IAggregateRoot
         this.Customer = customer;
 
         this.Date = DateTime.UtcNow;
-        this.State = State.Pending;
+        this.Status = Status.Pending;
 
         this.orderedBooks = new HashSet<OrderedBook>();
     }
@@ -27,7 +27,7 @@ public class Order : Entity<int>, IAggregateRoot
     {
         this.Date = date;
 
-        this.State = default!;
+        this.Status = default!;
         this.Customer = default!;
 
         this.orderedBooks = new HashSet<OrderedBook>();
@@ -35,7 +35,7 @@ public class Order : Entity<int>, IAggregateRoot
 
     public DateTime Date { get; private set; }
 
-    public State State { get; private set; }
+    public Status Status { get; private set; }
 
     public Customer Customer { get; private set; }
 
@@ -47,26 +47,26 @@ public class Order : Entity<int>, IAggregateRoot
         private set => this.orderedBooks = value.ToHashSet();
     }
 
-    public Order MarkAsCanceled()
+    public Order MarkAsCancelled()
     {
-        if (this.State != State.Pending)
+        if (this.Status != Status.Pending)
         {
             throw new InvalidOrderException("Can't cancel an order that is not pending.");
         }
 
-        this.State = State.Canceled;
+        this.Status = Status.Cancelled;
 
         return this;
     }
 
-    public Order MarkAsShipped()
+    public Order MarkAsCompleted()
     {
-        if (this.State != State.Pending)
+        if (this.Status != Status.Pending)
         {
             throw new InvalidOrderException("Can't mark as shipped an order that is not pending.");
         }
 
-        this.State = State.Shipped;
+        this.Status = Status.Completed;
 
         return this;
     }
