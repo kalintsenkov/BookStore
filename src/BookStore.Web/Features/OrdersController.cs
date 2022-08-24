@@ -1,7 +1,6 @@
 ﻿namespace BookStore.Web.Features;
 
 using System.Threading.Tasks;
-using Application.Common;
 using Application.Sales.Orders.Commands.Cancel;
 using Application.Sales.Orders.Commands.Complete;
 using Application.Sales.Orders.Commands.Create;
@@ -21,13 +20,13 @@ public class OrdersController : ApiController
     [AuthorizeAdministrator]
     [Route(Id + PathSeparator + nameof(Cancel))]
     public async Task<ActionResult<int>> Cancel(
-        int id, OrderCancelCommand command)
-        => await this.Send(command.SetId(id));
+        [FromRoute] OrderCancelCommand command)
+        => await this.Send(command);
 
     [HttpPut]
     [AuthorizeAdministrator]
     [Route(Id + PathSeparator + nameof(Complete))]
     public async Task<ActionResult<int>> Complete(
-        int id, OrderCompleteCommand command)
-        => await this.Send(command.SetId(id));
+        [FromRoute] OrderCompleteCommand command)
+        => await this.Send(command);
 }
