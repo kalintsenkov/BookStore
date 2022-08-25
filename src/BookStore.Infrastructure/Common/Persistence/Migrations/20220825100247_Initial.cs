@@ -9,6 +9,23 @@ public partial class Initial : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
+            name: "Addresses",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                City = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                State = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                PostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                PhoneNumber_Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Addresses", x => x.Id);
+            });
+
+        migrationBuilder.CreateTable(
             name: "AspNetRoles",
             columns: table => new
             {
@@ -53,26 +70,12 @@ public partial class Initial : Migration
             {
                 Id = table.Column<int>(type: "int", nullable: false)
                     .Annotation("SqlServer:Identity", "1, 1"),
-                Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                Description = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false)
+                Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                Description = table.Column<string>(type: "nvarchar(1200)", maxLength: 1200, nullable: false)
             },
             constraints: table =>
             {
                 table.PrimaryKey("PK_Authors", x => x.Id);
-            });
-
-        migrationBuilder.CreateTable(
-            name: "Genres",
-            columns: table => new
-            {
-                Id = table.Column<int>(type: "int", nullable: false)
-                    .Annotation("SqlServer:Identity", "1, 1"),
-                Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                Description = table.Column<string>(type: "nvarchar(160)", maxLength: 160, nullable: false)
-            },
-            constraints: table =>
-            {
-                table.PrimaryKey("PK_Genres", x => x.Id);
             });
 
         migrationBuilder.CreateTable(
@@ -182,15 +185,43 @@ public partial class Initial : Migration
             });
 
         migrationBuilder.CreateTable(
+            name: "Customers",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                AddressId = table.Column<int>(type: "int", nullable: true)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Customers", x => x.Id);
+                table.ForeignKey(
+                    name: "FK_Customers_Addresses_AddressId",
+                    column: x => x.AddressId,
+                    principalTable: "Addresses",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+                table.ForeignKey(
+                    name: "FK_Customers_AspNetUsers_UserId",
+                    column: x => x.UserId,
+                    principalTable: "AspNetUsers",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+            });
+
+        migrationBuilder.CreateTable(
             name: "Books",
             columns: table => new
             {
                 Id = table.Column<int>(type: "int", nullable: false)
                     .Annotation("SqlServer:Identity", "1, 1"),
-                Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                Price = table.Column<decimal>(type: "decimal(19,4)", precision: 19, scale: 4, nullable: false),
-                GenreId = table.Column<int>(type: "int", nullable: false),
-                IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                Title = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                Quantity = table.Column<int>(type: "int", nullable: false),
+                Description = table.Column<string>(type: "nvarchar(1200)", maxLength: 1200, nullable: false),
+                Genre_Value = table.Column<int>(type: "int", nullable: false),
                 AuthorId = table.Column<int>(type: "int", nullable: false)
             },
             constraints: table =>
@@ -202,10 +233,98 @@ public partial class Initial : Migration
                     principalTable: "Authors",
                     principalColumn: "Id",
                     onDelete: ReferentialAction.Restrict);
+            });
+
+        migrationBuilder.CreateTable(
+            name: "Orders",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                Status_Value = table.Column<int>(type: "int", nullable: false),
+                CustomerId = table.Column<int>(type: "int", nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_Orders", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_Books_Genres_GenreId",
-                    column: x => x.GenreId,
-                    principalTable: "Genres",
+                    name: "FK_Orders_Customers_CustomerId",
+                    column: x => x.CustomerId,
+                    principalTable: "Customers",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+            });
+
+        migrationBuilder.CreateTable(
+            name: "ShoppingCarts",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                CustomerId = table.Column<int>(type: "int", nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
+                table.ForeignKey(
+                    name: "FK_ShoppingCarts_Customers_CustomerId",
+                    column: x => x.CustomerId,
+                    principalTable: "Customers",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+            });
+
+        migrationBuilder.CreateTable(
+            name: "OrderedBooks",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                OrderId = table.Column<int>(type: "int", nullable: false),
+                BookId = table.Column<int>(type: "int", nullable: false),
+                Quantity = table.Column<int>(type: "int", nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_OrderedBooks", x => x.Id);
+                table.ForeignKey(
+                    name: "FK_OrderedBooks_Books_BookId",
+                    column: x => x.BookId,
+                    principalTable: "Books",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+                table.ForeignKey(
+                    name: "FK_OrderedBooks_Orders_OrderId",
+                    column: x => x.OrderId,
+                    principalTable: "Orders",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+            });
+
+        migrationBuilder.CreateTable(
+            name: "ShoppingCartBooks",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                ShoppingCartId = table.Column<int>(type: "int", nullable: false),
+                BookId = table.Column<int>(type: "int", nullable: false),
+                Quantity = table.Column<int>(type: "int", nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_ShoppingCartBooks", x => x.Id);
+                table.ForeignKey(
+                    name: "FK_ShoppingCartBooks_Books_BookId",
+                    column: x => x.BookId,
+                    principalTable: "Books",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+                table.ForeignKey(
+                    name: "FK_ShoppingCartBooks_ShoppingCarts_ShoppingCartId",
+                    column: x => x.ShoppingCartId,
+                    principalTable: "ShoppingCarts",
                     principalColumn: "Id",
                     onDelete: ReferentialAction.Restrict);
             });
@@ -255,9 +374,47 @@ public partial class Initial : Migration
             column: "AuthorId");
 
         migrationBuilder.CreateIndex(
-            name: "IX_Books_GenreId",
-            table: "Books",
-            column: "GenreId");
+            name: "IX_Customers_AddressId",
+            table: "Customers",
+            column: "AddressId",
+            unique: true,
+            filter: "[AddressId] IS NOT NULL");
+
+        migrationBuilder.CreateIndex(
+            name: "IX_Customers_UserId",
+            table: "Customers",
+            column: "UserId");
+
+        migrationBuilder.CreateIndex(
+            name: "IX_OrderedBooks_BookId",
+            table: "OrderedBooks",
+            column: "BookId");
+
+        migrationBuilder.CreateIndex(
+            name: "IX_OrderedBooks_OrderId",
+            table: "OrderedBooks",
+            column: "OrderId");
+
+        migrationBuilder.CreateIndex(
+            name: "IX_Orders_CustomerId",
+            table: "Orders",
+            column: "CustomerId");
+
+        migrationBuilder.CreateIndex(
+            name: "IX_ShoppingCartBooks_BookId",
+            table: "ShoppingCartBooks",
+            column: "BookId");
+
+        migrationBuilder.CreateIndex(
+            name: "IX_ShoppingCartBooks_ShoppingCartId",
+            table: "ShoppingCartBooks",
+            column: "ShoppingCartId");
+
+        migrationBuilder.CreateIndex(
+            name: "IX_ShoppingCarts_CustomerId",
+            table: "ShoppingCarts",
+            column: "CustomerId",
+            unique: true);
     }
 
     protected override void Down(MigrationBuilder migrationBuilder)
@@ -278,18 +435,33 @@ public partial class Initial : Migration
             name: "AspNetUserTokens");
 
         migrationBuilder.DropTable(
-            name: "Books");
+            name: "OrderedBooks");
+
+        migrationBuilder.DropTable(
+            name: "ShoppingCartBooks");
 
         migrationBuilder.DropTable(
             name: "AspNetRoles");
 
         migrationBuilder.DropTable(
-            name: "AspNetUsers");
+            name: "Orders");
+
+        migrationBuilder.DropTable(
+            name: "Books");
+
+        migrationBuilder.DropTable(
+            name: "ShoppingCarts");
 
         migrationBuilder.DropTable(
             name: "Authors");
 
         migrationBuilder.DropTable(
-            name: "Genres");
+            name: "Customers");
+
+        migrationBuilder.DropTable(
+            name: "Addresses");
+
+        migrationBuilder.DropTable(
+            name: "AspNetUsers");
     }
 }

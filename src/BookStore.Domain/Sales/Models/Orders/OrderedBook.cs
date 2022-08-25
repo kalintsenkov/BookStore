@@ -27,6 +27,8 @@ public class OrderedBook : Entity<int>
 
     public int Quantity { get; }
 
+    public override int GetHashCode() => (this.Id, this.Book.Id).GetHashCode();
+
     private void Validate(Book book, int quantity)
     {
         if (!book.IsAvailable)

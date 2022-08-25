@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Infrastructure.Common.Persistence.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    [Migration("20220708100156_Orders")]
-    partial class Orders
+    [Migration("20220825100247_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -63,12 +63,12 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                         .HasMaxLength(1200)
                         .HasColumnType("nvarchar(1200)");
 
-                    b.Property<bool>("IsAvailable")
-                        .HasColumnType("bit");
-
                     b.Property<decimal>("Price")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -256,6 +256,51 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderedBooks");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Sales.Data.ShoppingCartBookData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ShoppingCartId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.ToTable("ShoppingCartBooks");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Sales.Data.ShoppingCartData", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -469,7 +514,7 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsOne("BookStore.Domain.Sales.Models.Orders.State", "State", b1 =>
+                    b.OwnsOne("BookStore.Domain.Sales.Models.Orders.Status", "Status", b1 =>
                         {
                             b1.Property<int>("OrderDataId")
                                 .HasColumnType("int");
@@ -487,7 +532,7 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
                     b.Navigation("Customer");
 
-                    b.Navigation("State")
+                    b.Navigation("Status")
                         .IsRequired();
                 });
 
@@ -508,6 +553,36 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Sales.Data.ShoppingCartBookData", b =>
+                {
+                    b.HasOne("BookStore.Infrastructure.Catalog.Data.BookData", "Book")
+                        .WithMany()
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("BookStore.Infrastructure.Sales.Data.ShoppingCartData", "ShoppingCart")
+                        .WithMany("Books")
+                        .HasForeignKey("ShoppingCartId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("ShoppingCart");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Sales.Data.ShoppingCartData", b =>
+                {
+                    b.HasOne("BookStore.Infrastructure.Sales.Data.CustomerData", "Customer")
+                        .WithOne()
+                        .HasForeignKey("BookStore.Infrastructure.Sales.Data.ShoppingCartData", "CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -574,6 +649,11 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
             modelBuilder.Entity("BookStore.Infrastructure.Sales.Data.OrderData", b =>
                 {
                     b.Navigation("OrderedBooks");
+                });
+
+            modelBuilder.Entity("BookStore.Infrastructure.Sales.Data.ShoppingCartData", b =>
+                {
+                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }
