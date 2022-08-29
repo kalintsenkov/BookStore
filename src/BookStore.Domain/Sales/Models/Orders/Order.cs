@@ -6,6 +6,7 @@ using System.Linq;
 using Common;
 using Common.Models;
 using Customers;
+using Events;
 using Exceptions;
 
 public class Order : Entity<int>, IAggregateRoot
@@ -68,8 +69,7 @@ public class Order : Entity<int>, IAggregateRoot
     {
         this.orderedBooks.Add(new OrderedBook(bookId, quantity));
 
-        // TODO: Fire quantity changed event
-        // book.UpdateQuantity(quantity);
+        this.RaiseEvent(new OrderedBookEvent(bookId, quantity));
 
         return this;
     }
