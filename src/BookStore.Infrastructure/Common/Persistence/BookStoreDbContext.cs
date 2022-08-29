@@ -2,12 +2,15 @@
 
 using System.Reflection;
 using Catalog;
-using Catalog.Data;
+using Domain.Catalog.Models.Authors;
+using Domain.Catalog.Models.Books;
+using Domain.Sales.Models.Customers;
+using Domain.Sales.Models.Orders;
+using Domain.Sales.Models.ShoppingCarts;
 using Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Sales;
-using Sales.Data;
 
 internal class BookStoreDbContext : IdentityDbContext<User>,
     ICatalogDbContext,
@@ -18,21 +21,21 @@ internal class BookStoreDbContext : IdentityDbContext<User>,
     {
     }
 
-    public DbSet<BookData> Books { get; set; } = default!;
+    public DbSet<Book> Books { get; set; } = default!;
 
-    public DbSet<AuthorData> Authors { get; set; } = default!;
+    public DbSet<Author> Authors { get; set; } = default!;
 
-    public DbSet<AddressData> Addresses { get; set; } = default!;
+    public DbSet<Address> Addresses { get; set; } = default!;
 
-    public DbSet<CustomerData> Customers { get; set; } = default!;
+    public DbSet<Customer> Customers { get; set; } = default!;
 
-    public DbSet<OrderData> Orders { get; set; } = default!;
+    public DbSet<Order> Orders { get; set; } = default!;
 
-    public DbSet<OrderedBookData> OrderedBooks { get; set; } = default!;
+    public DbSet<OrderedBook> OrderedBooks { get; set; } = default!;
 
-    public DbSet<ShoppingCartData> ShoppingCarts { get; set; } = default!;
+    public DbSet<ShoppingCart> ShoppingCarts { get; set; } = default!;
 
-    public DbSet<ShoppingCartBookData> ShoppingCartBooks { get; set; } = default!;
+    public DbSet<ShoppingCartBook> ShoppingCartBooks { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

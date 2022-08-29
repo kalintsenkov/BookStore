@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Books;
 using Common;
 using Common.Models;
 using Customers;
@@ -10,7 +9,7 @@ using Exceptions;
 
 public class ShoppingCart : Entity<int>, IAggregateRoot
 {
-    private HashSet<ShoppingCartBook> books;
+    private readonly HashSet<ShoppingCartBook> books;
 
     internal ShoppingCart(Customer customer)
     {
@@ -28,17 +27,11 @@ public class ShoppingCart : Entity<int>, IAggregateRoot
 
     public Customer Customer { get; }
 
-    public decimal TotalPrice => this.books.Sum(cb => cb.Quantity * cb.Book.Price);
+    public IReadOnlyCollection<ShoppingCartBook> Books => this.books.ToList().AsReadOnly();
 
-    public IReadOnlyCollection<ShoppingCartBook> Books
+    public ShoppingCart AddBook(int bookId, int quantity)
     {
-        get => this.books.ToList().AsReadOnly();
-        private set => this.books = value.ToHashSet();
-    }
-
-    public ShoppingCart AddBook(Book book, int quantity)
-    {
-        var existingBook = this.FindBook(book.Id);
+        var existingBook = this.FindBook(bookId);
 
         if (existingBook is not null)
         {
@@ -49,14 +42,14 @@ public class ShoppingCart : Entity<int>, IAggregateRoot
             return this;
         }
 
-        this.books.Add(new ShoppingCartBook(book, quantity));
+        this.books.Add(new ShoppingCartBook(bookId, quantity));
 
         return this;
     }
 
-    public ShoppingCart EditBookQuantity(Book book, int quantity)
+    public ShoppingCart EditBookQuantity(int bookId, int quantity)
     {
-        var existingBook = this.FindBook(book.Id);
+        var existingBook = this.FindBook(bookId);
 
         this.ValidateBook(existingBook);
 
@@ -66,7 +59,7 @@ public class ShoppingCart : Entity<int>, IAggregateRoot
     }
 
     private ShoppingCartBook? FindBook(int bookId)
-        => this.books.SingleOrDefault(b => b.Book.Id == bookId);
+        => this.books.SingleOrDefault(b => b.BookId == bookId);
 
     private void ValidateBook(ShoppingCartBook? book)
     {

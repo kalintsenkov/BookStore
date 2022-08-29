@@ -8,7 +8,8 @@ public static class DomainConfiguration
     public static IServiceCollection AddDomain(
         this IServiceCollection services)
         => services
-            .AddFactories();
+            .AddFactories()
+            .AddInitialData();
 
     private static IServiceCollection AddFactories(
         this IServiceCollection services)

@@ -19,19 +19,10 @@ public static class ApplicationConfiguration
             .Configure<ApplicationSettings>(
                 configuration.GetSection(nameof(ApplicationSettings)),
                 options => options.BindNonPublicProperties = true)
-            .AddAutoMapperProfile(Assembly.GetExecutingAssembly())
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddEventHandlers()
+            .AddAutoMapperProfile(Assembly.GetExecutingAssembly())
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
-
-    public static IServiceCollection AddAutoMapperProfile(
-        this IServiceCollection services,
-        Assembly assembly)
-        => services
-            .AddAutoMapper(
-                (_, config) => config
-                    .AddProfile(new MappingProfile(assembly)),
-                Array.Empty<Assembly>());
 
     private static IServiceCollection AddEventHandlers(
         this IServiceCollection services)
@@ -42,4 +33,13 @@ public static class ApplicationConfiguration
                     .AssignableTo(typeof(IEventHandler<>)))
                 .AsImplementedInterfaces()
                 .WithTransientLifetime());
+
+    private static IServiceCollection AddAutoMapperProfile(
+        this IServiceCollection services,
+        Assembly assembly)
+        => services
+            .AddAutoMapper(
+                (_, config) => config
+                    .AddProfile(new MappingProfile(assembly)),
+                Array.Empty<Assembly>());
 }

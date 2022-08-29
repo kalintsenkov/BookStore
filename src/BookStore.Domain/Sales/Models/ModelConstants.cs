@@ -14,12 +14,6 @@ public class ModelConstants
         public const int MaxPostalCodeLength = 10;
     }
 
-    public class Book
-    {
-        public const int MinQuantityValue = 1;
-        public const int MaxQuantityValue = int.MaxValue;
-    }
-
     public class PhoneNumber
     {
         public const int MinPhoneNumberLength = 5;

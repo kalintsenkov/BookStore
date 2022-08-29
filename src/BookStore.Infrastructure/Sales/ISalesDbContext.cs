@@ -1,23 +1,22 @@
 ﻿namespace BookStore.Infrastructure.Sales;
 
-using Catalog.Data;
 using Common.Persistence;
-using Data;
+using Domain.Sales.Models.Customers;
+using Domain.Sales.Models.Orders;
+using Domain.Sales.Models.ShoppingCarts;
 using Microsoft.EntityFrameworkCore;
 
 internal interface ISalesDbContext : IDbContext
 {
-    DbSet<AddressData> Addresses { get; }
+    DbSet<Address> Addresses { get; }
 
-    DbSet<CustomerData> Customers { get; }
+    DbSet<Customer> Customers { get; }
 
-    DbSet<BookData> Books { get; }
+    DbSet<Order> Orders { get; }
 
-    DbSet<OrderData> Orders { get; }
+    DbSet<OrderedBook> OrderedBooks { get; }
 
-    DbSet<OrderedBookData> OrderedBooks { get; }
+    DbSet<ShoppingCart> ShoppingCarts { get; }
 
-    DbSet<ShoppingCartData> ShoppingCarts { get; }
-
-    DbSet<ShoppingCartBookData> ShoppingCartBooks { get; }
+    DbSet<ShoppingCartBook> ShoppingCartBooks { get; }
 }

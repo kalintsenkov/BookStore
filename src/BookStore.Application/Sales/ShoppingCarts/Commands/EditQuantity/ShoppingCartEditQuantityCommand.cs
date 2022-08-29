@@ -3,7 +3,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Common.Contracts;
-using Common.Exceptions;
 using Common.Models;
 using Domain.Sales.Exceptions;
 using Domain.Sales.Repositories;
@@ -18,18 +17,15 @@ public class ShoppingCartEditQuantityCommand : IRequest<Result>
     public class ShoppingCartEditQuantityCommandHandler : IRequestHandler<ShoppingCartEditQuantityCommand, Result>
     {
         private readonly ICurrentUser currentUser;
-        private readonly IBookDomainRepository bookRepository;
         private readonly ICustomerDomainRepository customerRepository;
         private readonly IShoppingCartDomainRepository shoppingCartRepository;
 
         public ShoppingCartEditQuantityCommandHandler(
             ICurrentUser currentUser,
-            IBookDomainRepository bookRepository,
             ICustomerDomainRepository customerRepository,
             IShoppingCartDomainRepository shoppingCartRepository)
         {
             this.currentUser = currentUser;
-            this.bookRepository = bookRepository;
             this.customerRepository = customerRepository;
             this.shoppingCartRepository = shoppingCartRepository;
         }
@@ -52,16 +48,7 @@ public class ShoppingCartEditQuantityCommand : IRequest<Result>
                     $"Customer '{customerId}' does not have an existing shopping cart.");
             }
 
-            var book = await this.bookRepository.Find(
-                request.BookId,
-                cancellationToken);
-
-            if (book is null)
-            {
-                throw new NotFoundException(nameof(book), request.BookId);
-            }
-
-            shoppingCart.EditBookQuantity(book, request.Quantity);
+            shoppingCart.EditBookQuantity(request.BookId, request.Quantity);
 
             await this.shoppingCartRepository.Save(shoppingCart, cancellationToken);
 

@@ -281,9 +281,9 @@ public partial class Initial : Migration
             {
                 Id = table.Column<int>(type: "int", nullable: false)
                     .Annotation("SqlServer:Identity", "1, 1"),
-                OrderId = table.Column<int>(type: "int", nullable: false),
                 BookId = table.Column<int>(type: "int", nullable: false),
-                Quantity = table.Column<int>(type: "int", nullable: false)
+                Quantity = table.Column<int>(type: "int", nullable: false),
+                OrderId = table.Column<int>(type: "int", nullable: false)
             },
             constraints: table =>
             {
@@ -308,9 +308,9 @@ public partial class Initial : Migration
             {
                 Id = table.Column<int>(type: "int", nullable: false)
                     .Annotation("SqlServer:Identity", "1, 1"),
-                ShoppingCartId = table.Column<int>(type: "int", nullable: false),
                 BookId = table.Column<int>(type: "int", nullable: false),
-                Quantity = table.Column<int>(type: "int", nullable: false)
+                Quantity = table.Column<int>(type: "int", nullable: false),
+                ShoppingCartId = table.Column<int>(type: "int", nullable: false)
             },
             constraints: table =>
             {

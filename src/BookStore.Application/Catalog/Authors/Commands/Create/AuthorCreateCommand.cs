@@ -32,7 +32,7 @@ public class AuthorCreateCommand : AuthorCommand<AuthorCreateCommand>, IRequest<
                 .WithDescription(request.Description)
                 .Build();
 
-            author = await this.authorRepository.Save(author, cancellationToken);
+            await this.authorRepository.Save(author, cancellationToken);
 
             return author.Id;
         }

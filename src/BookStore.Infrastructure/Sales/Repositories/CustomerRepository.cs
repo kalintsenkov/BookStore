@@ -12,14 +12,13 @@ using Application.Sales.Customers.Queries.Details;
 using AutoMapper;
 using Common.Events;
 using Common.Repositories;
-using Data;
 using Domain.Common;
 using Domain.Sales.Exceptions;
 using Domain.Sales.Models.Customers;
 using Domain.Sales.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, CustomerData>,
+internal class CustomerRepository : DataRepository<ISalesDbContext, Customer>,
     ICustomerDomainRepository,
     ICustomerQueryRepository
 {
@@ -34,12 +33,10 @@ internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, Cu
     public async Task<Customer> FindByUser(
         string userId,
         CancellationToken cancellationToken = default)
-        => this.Mapper.Map<Customer>(
-            await this.Find(
-                userId,
-                customer => customer,
-                customer => customer.Address!,
-                cancellationToken));
+        => await this.Find(
+            userId,
+            customer => customer,
+            cancellationToken);
 
     public async Task<int> GetCustomerId(
         string userId,
@@ -47,7 +44,7 @@ internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, Cu
         => await this.Find(
             userId,
             customer => customer.Id,
-            cancellationToken: cancellationToken);
+            cancellationToken);
 
     public async Task<CustomerDetailsResponseModel?> Details(
         int id,
@@ -80,20 +77,12 @@ internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, Cu
 
     private async Task<T> Find<T>(
         string userId,
-        Expression<Func<CustomerData, T>> selector,
-        Expression<Func<CustomerData, AddressData>>? includeQuery = null,
+        Expression<Func<Customer, T>> selector,
         CancellationToken cancellationToken = default)
     {
-        var query = this
-            .AllAsNoTracking()
-            .Where(u => u.UserId == userId);
-
-        if (includeQuery is not null)
-        {
-            query = query.Include(includeQuery);
-        }
-
-        var customer = await query
+        var customer = await this
+            .All()
+            .Where(u => u.UserId == userId)
             .Select(selector)
             .FirstOrDefaultAsync(cancellationToken);
 
@@ -107,8 +96,7 @@ internal class CustomerRepository : DataRepository<ISalesDbContext, Customer, Cu
 
     private IQueryable<Customer> GetCustomersQuery(
         Specification<Customer> specification)
-        => this.Mapper
-            .ProjectTo<Customer>(this
-                .AllAsNoTracking())
+        => this
+            .AllAsNoTracking()
             .Where(specification);
 }

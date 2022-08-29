@@ -33,8 +33,8 @@ public class InfrastructureConfigurationSpecs
         var assembly = Assembly.GetExecutingAssembly();
 
         var services = serviceCollection
-            .AddAutoMapperProfile(assembly)
             .AddRepositories()
+            .AddAutoMapper(assembly)
             .AddTransient<IEventDispatcher, EventDispatcher>()
             .BuildServiceProvider();
 

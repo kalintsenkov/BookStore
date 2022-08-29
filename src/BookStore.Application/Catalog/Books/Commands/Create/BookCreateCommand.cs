@@ -52,7 +52,7 @@ public class BookCreateCommand : BookCommand<BookCreateCommand>, IRequest<Result
                 .FromAuthor(author)
                 .Build();
 
-            book = await this.bookRepository.Save(book, cancellationToken);
+            await this.bookRepository.Save(book, cancellationToken);
 
             return book.Id;
         }

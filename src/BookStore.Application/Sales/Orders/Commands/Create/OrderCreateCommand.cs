@@ -58,11 +58,11 @@ public class OrderCreateCommand : IRequest<Result<int>>
             foreach (var shoppingCartBook in shoppingCart.Books)
             {
                 order.OrderBook(
-                    shoppingCartBook.Book,
+                    shoppingCartBook.BookId,
                     shoppingCartBook.Quantity);
             }
 
-            order = await this.orderRepository.Save(order, cancellationToken);
+            await this.orderRepository.Save(order, cancellationToken);
 
             return order.Id;
         }

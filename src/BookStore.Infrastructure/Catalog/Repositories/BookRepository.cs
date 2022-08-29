@@ -11,13 +11,12 @@ using AutoMapper;
 using Common.Events;
 using Common.Extensions;
 using Common.Repositories;
-using Data;
 using Domain.Catalog.Models.Books;
 using Domain.Catalog.Repositories;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
-internal class BookRepository : DataRepository<ICatalogDbContext, Book, BookData>,
+internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
     IBookDomainRepository,
     IBookQueryRepository
 {
@@ -32,10 +31,9 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book, BookData
     public async Task<Book?> Find(
         int id,
         CancellationToken cancellationToken = default)
-        => await this.Mapper
-            .ProjectTo<Book>(this
-                .AllAsNoTracking()
-                .Where(b => b.Id == id))
+        => await this
+            .All()
+            .Where(b => b.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> Delete(
@@ -88,8 +86,7 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book, BookData
 
     private IQueryable<Book> GetBooksQuery(
         Specification<Book> specification)
-        => this.Mapper
-            .ProjectTo<Book>(this
-                .AllAsNoTracking())
+        => this
+            .AllAsNoTracking()
             .Where(specification);
 }

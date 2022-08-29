@@ -10,13 +10,12 @@ using Application.Catalog.Authors.Queries.Details;
 using AutoMapper;
 using Common.Events;
 using Common.Repositories;
-using Data;
 using Domain.Catalog.Models.Authors;
 using Domain.Catalog.Repositories;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
-internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, AuthorData>,
+internal class AuthorRepository : DataRepository<ICatalogDbContext, Author>,
     IAuthorDomainRepository,
     IAuthorQueryRepository
 {
@@ -31,19 +30,17 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, Auth
     public async Task<Author?> Find(
         int id,
         CancellationToken cancellationToken = default)
-        => await this.Mapper
-            .ProjectTo<Author>(this
-                .AllAsNoTracking()
-                .Where(a => a.Id == id))
+        => await this
+            .All()
+            .Where(a => a.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<Author?> Find(
         string name,
         CancellationToken cancellationToken = default)
-        => await this.Mapper
-            .ProjectTo<Author>(this
-                .AllAsNoTracking()
-                .Where(a => a.Name == name))
+        => await this
+            .All()
+            .Where(a => a.Name == name)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> Delete(
@@ -95,8 +92,7 @@ internal class AuthorRepository : DataRepository<ICatalogDbContext, Author, Auth
 
     private IQueryable<Author> GetAuthorsQuery(
         Specification<Author> specification)
-        => this.Mapper
-            .ProjectTo<Author>(this
-                .AllAsNoTracking())
+        => this
+            .AllAsNoTracking()
             .Where(specification);
 }

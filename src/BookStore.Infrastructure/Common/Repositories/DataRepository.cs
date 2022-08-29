@@ -3,7 +3,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Mapping;
 using AutoMapper;
 using Domain.Common;
 using Domain.Common.Models;
@@ -11,10 +10,9 @@ using Events;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
-internal abstract class DataRepository<TDbContext, TEntity, TEntityData> : IDomainRepository<TEntity>
+internal abstract class DataRepository<TDbContext, TEntity> : IDomainRepository<TEntity>
     where TDbContext : IDbContext
     where TEntity : class, IEntity, IAggregateRoot
-    where TEntityData : class, IMapFrom<TEntity>
 {
     private readonly IEventDispatcher eventDispatcher;
 
@@ -32,25 +30,19 @@ internal abstract class DataRepository<TDbContext, TEntity, TEntityData> : IDoma
 
     protected IMapper Mapper { get; }
 
-    protected IQueryable<TEntityData> All() => this.Data.Set<TEntityData>();
+    protected IQueryable<TEntity> All() => this.Data.Set<TEntity>();
 
-    protected IQueryable<TEntityData> AllAsNoTracking() => this.All().AsNoTracking();
+    protected IQueryable<TEntity> AllAsNoTracking() => this.All().AsNoTracking();
 
-    public async Task<TEntity> Save(
+    public async Task Save(
         TEntity entity,
         CancellationToken cancellationToken = default)
     {
-        var entityData = this.Mapper.Map<TEntityData>(entity);
-
-        this.Data.Update(entityData);
+        this.Data.Update(entity);
 
         await this.DispatchEvents(entity);
 
         await this.Data.SaveChangesAsync(cancellationToken);
-
-        this.Data.ChangeTracker.Clear();
-
-        return this.Mapper.Map<TEntity>(entityData);
     }
 
     private async Task DispatchEvents(TEntity entity)

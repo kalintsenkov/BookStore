@@ -1,15 +1,15 @@
 ﻿namespace BookStore.Infrastructure.Catalog.Configurations;
 
-using Data;
+using Domain.Catalog.Models.Authors;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using static Domain.Catalog.Models.ModelConstants.Common;
 using static Domain.Common.Models.ModelConstants.Common;
 
-internal class AuthorConfiguration : IEntityTypeConfiguration<AuthorData>
+internal class AuthorConfiguration : IEntityTypeConfiguration<Author>
 {
-    public void Configure(EntityTypeBuilder<AuthorData> builder)
+    public void Configure(EntityTypeBuilder<Author> builder)
     {
         builder
             .HasKey(a => a.Id);

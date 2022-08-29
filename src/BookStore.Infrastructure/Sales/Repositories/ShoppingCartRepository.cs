@@ -7,12 +7,11 @@ using Application.Sales.ShoppingCarts;
 using AutoMapper;
 using Common.Events;
 using Common.Repositories;
-using Data;
 using Domain.Sales.Models.ShoppingCarts;
 using Domain.Sales.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-internal class ShoppingCartRepository : DataRepository<ISalesDbContext, ShoppingCart, ShoppingCartData>,
+internal class ShoppingCartRepository : DataRepository<ISalesDbContext, ShoppingCart>,
     IShoppingCartDomainRepository,
     IShoppingCartQueryRepository
 {
@@ -27,11 +26,9 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
     public async Task<ShoppingCart?> FindByCustomer(
         int customerId,
         CancellationToken cancellationToken = default)
-        => await this.Mapper
-            .ProjectTo<ShoppingCart>(this
-                .AllAsNoTracking()
-                .Where(c => c.CustomerId == customerId),
-                membersToExpand: c => c.Books)
+        => await this
+            .All()
+            .Where(c => c.Customer.Id == customerId)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> DeleteBook(
@@ -60,17 +57,16 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
         CancellationToken cancellationToken = default)
         => await this
             .AllAsNoTracking()
-            .Where(c => c.CustomerId == customerId)
+            .Where(c => c.Customer.Id == customerId)
             .AnyAsync(c => c.Books
                 .Any(sb => sb.BookId == bookId), cancellationToken);
 
-    private async Task<ShoppingCartBookData?> FindBook(
+    private async Task<ShoppingCartBook?> FindBook(
         int bookId,
         CancellationToken cancellationToken = default)
         => await this
             .Data
             .ShoppingCartBooks
-            .AsNoTracking()
             .Where(sb => sb.BookId == bookId)
             .FirstOrDefaultAsync(cancellationToken);
 }

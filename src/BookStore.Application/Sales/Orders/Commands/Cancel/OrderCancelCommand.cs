@@ -32,7 +32,7 @@ public class OrderCancelCommand : EntityCommand<int>, IRequest<Result<int>>
 
             order.MarkAsCancelled();
 
-            order = await this.orderRepository.Save(order, cancellationToken);
+            await this.orderRepository.Save(order, cancellationToken);
 
             return order.Id;
         }

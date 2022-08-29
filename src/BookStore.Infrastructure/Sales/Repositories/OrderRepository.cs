@@ -8,12 +8,11 @@ using Application.Sales.Orders.Queries.Details;
 using AutoMapper;
 using Common.Events;
 using Common.Repositories;
-using Data;
 using Domain.Sales.Models.Orders;
 using Domain.Sales.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-internal class OrderRepository : DataRepository<ISalesDbContext, Order, OrderData>,
+internal class OrderRepository : DataRepository<ISalesDbContext, Order>,
     IOrderDomainRepository,
     IOrderQueryRepository
 {
@@ -28,10 +27,9 @@ internal class OrderRepository : DataRepository<ISalesDbContext, Order, OrderDat
     public async Task<Order?> Find(
         int id,
         CancellationToken cancellationToken = default)
-        => await this.Mapper
-            .ProjectTo<Order>(this
-                .AllAsNoTracking()
-                .Where(o => o.Id == id))
+        => await this
+            .All()
+            .Where(o => o.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<OrderDetailsResponseModel?> Details(

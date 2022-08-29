@@ -32,7 +32,7 @@ public class OrderCompleteCommand : EntityCommand<int>, IRequest<Result<int>>
 
             order.MarkAsCompleted();
 
-            order = await this.orderRepository.Save(order, cancellationToken);
+            await this.orderRepository.Save(order, cancellationToken);
 
             return order.Id;
         }

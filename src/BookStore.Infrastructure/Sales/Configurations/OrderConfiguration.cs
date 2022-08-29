@@ -1,12 +1,12 @@
 ﻿namespace BookStore.Infrastructure.Sales.Configurations;
 
-using Data;
+using Domain.Sales.Models.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-internal class OrderConfiguration : IEntityTypeConfiguration<OrderData>
+internal class OrderConfiguration : IEntityTypeConfiguration<Order>
 {
-    public void Configure(EntityTypeBuilder<OrderData> builder)
+    public void Configure(EntityTypeBuilder<Order> builder)
     {
         builder
             .HasKey(o => o.Id);
@@ -28,12 +28,18 @@ internal class OrderConfiguration : IEntityTypeConfiguration<OrderData>
 
         builder
             .HasOne(o => o.Customer)
-            .WithMany(c => c.Orders)
-            .HasForeignKey(o => o.CustomerId)
+            .WithMany()
+            .HasForeignKey("CustomerId")
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
 
         builder
-            .Ignore(o => o.TotalPrice);
+            .HasMany(o => o.OrderedBooks)
+            .WithOne()
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict)
+            .Metadata
+            .PrincipalToDependent!
+            .SetField("orderedBooks");
     }
 }

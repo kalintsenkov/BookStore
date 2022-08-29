@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Books;
 using Common;
 using Common.Models;
 using Customers;
@@ -11,7 +10,7 @@ using Exceptions;
 
 public class Order : Entity<int>, IAggregateRoot
 {
-    private HashSet<OrderedBook> orderedBooks;
+    private readonly HashSet<OrderedBook> orderedBooks;
 
     internal Order(Customer customer)
     {
@@ -39,13 +38,7 @@ public class Order : Entity<int>, IAggregateRoot
 
     public Customer Customer { get; private set; }
 
-    public decimal TotalPrice => this.orderedBooks.Sum(ob => ob.Quantity * ob.Book.Price);
-
-    public IReadOnlyCollection<OrderedBook> OrderedBooks
-    {
-        get => this.orderedBooks.ToList().AsReadOnly();
-        private set => this.orderedBooks = value.ToHashSet();
-    }
+    public IReadOnlyCollection<OrderedBook> OrderedBooks => this.orderedBooks.ToList().AsReadOnly();
 
     public Order MarkAsCancelled()
     {
@@ -71,14 +64,12 @@ public class Order : Entity<int>, IAggregateRoot
         return this;
     }
 
-    public Order OrderBook(Book book, int quantity)
+    public Order OrderBook(int bookId, int quantity)
     {
-        this.orderedBooks.Add(new OrderedBook(book, quantity));
+        this.orderedBooks.Add(new OrderedBook(bookId, quantity));
 
-        var bookQuantity = book.Quantity;
-        var orderQuantity = bookQuantity - quantity;
-
-        book.UpdateQuantity(orderQuantity);
+        // TODO: Fire quantity changed event
+        // book.UpdateQuantity(quantity);
 
         return this;
     }

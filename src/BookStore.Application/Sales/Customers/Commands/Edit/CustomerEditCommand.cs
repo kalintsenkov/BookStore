@@ -57,7 +57,7 @@ public class CustomerEditCommand : EntityCommand<int>, IRequest<Result<int>>
                     request.Description,
                     request.PhoneNumber);
 
-            customer = await this.customerRepository.Save(customer, cancellationToken);
+            await this.customerRepository.Save(customer, cancellationToken);
 
             return customer.Id;
         }

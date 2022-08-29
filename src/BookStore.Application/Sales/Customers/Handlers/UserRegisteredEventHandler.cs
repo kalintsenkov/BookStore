@@ -33,7 +33,7 @@ public class UserRegisteredEventHandler : IEventHandler<UserRegisteredEvent>
             .FromUser(domainEvent.UserId)
             .Build();
 
-        customer = await this.customerRepository.Save(customer);
+        await this.customerRepository.Save(customer);
 
         var shoppingCart = this.shoppingCartFactory
             .ForCustomer(customer)

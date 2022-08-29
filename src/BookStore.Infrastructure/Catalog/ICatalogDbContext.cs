@@ -1,12 +1,13 @@
 ﻿namespace BookStore.Infrastructure.Catalog;
 
 using Common.Persistence;
-using Data;
+using Domain.Catalog.Models.Authors;
+using Domain.Catalog.Models.Books;
 using Microsoft.EntityFrameworkCore;
 
 internal interface ICatalogDbContext : IDbContext
 {
-    DbSet<BookData> Books { get; }
+    DbSet<Book> Books { get; }
 
-    DbSet<AuthorData> Authors { get; }
+    DbSet<Author> Authors { get; }
 }
