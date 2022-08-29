@@ -1,11 +1,10 @@
 ﻿namespace BookStore.Infrastructure;
 
-using System;
 using System.Reflection;
 using System.Text;
+using Application;
 using Application.Common;
 using Application.Common.Contracts;
-using Application.Common.Mapping;
 using Application.Identity;
 using Catalog;
 using Common.Events;
@@ -122,13 +121,4 @@ public static class InfrastructureConfiguration
 
         return services;
     }
-
-    internal static IServiceCollection AddAutoMapperProfile(
-        this IServiceCollection services,
-        Assembly assembly)
-        => services
-            .AddAutoMapper(
-                (_, config) => config
-                    .AddProfile(new MappingProfile(assembly)),
-                Array.Empty<Assembly>());
 }

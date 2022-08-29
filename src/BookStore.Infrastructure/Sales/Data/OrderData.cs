@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Application.Common.Mapping;
+using Application.Sales.Orders.Queries.Details;
 using AutoMapper;
 using Domain.Sales.Models.Orders;
 
@@ -24,8 +25,17 @@ internal class OrderData : IMapFrom<Order>
     public ICollection<OrderedBookData> OrderedBooks { get; } = new HashSet<OrderedBookData>();
 
     public void Mapping(Profile mapper)
-        => mapper
+    {
+        mapper
             .CreateMapAndReverseMapWithBaseRules<
                 OrderData,
                 Order>();
+
+        mapper
+            .CreateMapAndReverseMapWithBaseRules<
+                OrderData,
+                OrderDetailsResponseModel>()
+            .ForMember(m => m.Date, cfg => cfg
+                .MapFrom(m => m.Date.ToShortDateString()));
+    }
 }

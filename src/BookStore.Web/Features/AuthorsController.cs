@@ -23,7 +23,7 @@ public class AuthorsController : ApiController
     [HttpGet]
     [Route(Id)]
     [AllowAnonymous]
-    public async Task<ActionResult<AuthorDetailsResponseModel>> Details(
+    public async Task<ActionResult<AuthorDetailsResponseModel?>> Details(
         [FromRoute] AuthorDetailsQuery query)
         => await this.Send(query);
 

@@ -24,7 +24,7 @@ public class BooksController : ApiController
     [HttpGet]
     [Route(Id)]
     [AllowAnonymous]
-    public async Task<ActionResult<BookResponseModel>> Details(
+    public async Task<ActionResult<BookResponseModel?>> Details(
         [FromRoute] BookDetailsQuery query)
         => await this.Send(query);
 

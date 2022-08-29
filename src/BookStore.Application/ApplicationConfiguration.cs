@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Application;
 
+using System;
 using System.Reflection;
 using Common;
 using Common.Behaviors;
@@ -18,11 +19,19 @@ public static class ApplicationConfiguration
             .Configure<ApplicationSettings>(
                 configuration.GetSection(nameof(ApplicationSettings)),
                 options => options.BindNonPublicProperties = true)
-            .AddAutoMapper(cfg => cfg
-                .AddProfile(new MappingProfile(Assembly.GetExecutingAssembly())))
+            .AddAutoMapperProfile(Assembly.GetExecutingAssembly())
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddEventHandlers()
             .AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>));
+
+    public static IServiceCollection AddAutoMapperProfile(
+        this IServiceCollection services,
+        Assembly assembly)
+        => services
+            .AddAutoMapper(
+                (_, config) => config
+                    .AddProfile(new MappingProfile(assembly)),
+                Array.Empty<Assembly>());
 
     private static IServiceCollection AddEventHandlers(
         this IServiceCollection services)

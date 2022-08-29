@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Common;
 using MediatR;
 
-public class BookDetailsQuery : IRequest<BookResponseModel>
+public class BookDetailsQuery : IRequest<BookResponseModel?>
 {
     public int Id { get; init; }
 

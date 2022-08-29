@@ -1,6 +1,7 @@
 ﻿namespace BookStore.Infrastructure.Sales.Data;
 
 using Application.Common.Mapping;
+using Application.Sales.Orders.Queries.Details;
 using AutoMapper;
 using Catalog.Data;
 using Domain.Sales.Models.Orders;
@@ -20,8 +21,15 @@ internal class OrderedBookData : IMapFrom<OrderedBook>
     public int Quantity { get; private set; }
 
     public void Mapping(Profile mapper)
-        => mapper
+    {
+        mapper
             .CreateMapAndReverseMapWithBaseRules<
                 OrderedBookData,
                 OrderedBook>();
+
+        mapper
+            .CreateMapAndReverseMapWithBaseRules<
+                OrderedBookData,
+                OrderedBookResponseModel>();
+    }
 }

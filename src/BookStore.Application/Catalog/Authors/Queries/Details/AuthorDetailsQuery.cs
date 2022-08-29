@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 
-public class AuthorDetailsQuery : IRequest<AuthorDetailsResponseModel>
+public class AuthorDetailsQuery : IRequest<AuthorDetailsResponseModel?>
 {
     public int Id { get; init; }
 
