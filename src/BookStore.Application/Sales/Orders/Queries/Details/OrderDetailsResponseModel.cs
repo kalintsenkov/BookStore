@@ -5,7 +5,5 @@ using Common;
 
 public class OrderDetailsResponseModel : OrderResponseModel
 {
-    public decimal TotalPrice { get; private set; } = default!;
-
     public IEnumerable<OrderedBookResponseModel> OrderedBooks { get; private set; } = default!;
 }
