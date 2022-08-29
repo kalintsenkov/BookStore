@@ -123,7 +123,7 @@ public static class InfrastructureConfiguration
         return services;
     }
 
-    public static IServiceCollection AddAutoMapperProfile(
+    internal static IServiceCollection AddAutoMapperProfile(
         this IServiceCollection services,
         Assembly assembly)
         => services

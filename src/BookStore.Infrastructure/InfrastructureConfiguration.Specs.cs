@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using Application;
 using Application.Common.Contracts;
-using BookStore.Infrastructure.Sales;
 using Catalog;
 using Common.Events;
 using Common.Extensions;
@@ -15,6 +14,7 @@ using Domain.Common;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Sales;
 using Xunit;
 
 public class InfrastructureConfigurationSpecs
@@ -33,7 +33,7 @@ public class InfrastructureConfigurationSpecs
         var assembly = Assembly.GetExecutingAssembly();
 
         var services = serviceCollection
-            .AddAutoMapper(assembly)
+            .AddAutoMapperProfile(assembly)
             .AddRepositories()
             .AddTransient<IEventDispatcher, EventDispatcher>()
             .BuildServiceProvider();
