@@ -29,6 +29,7 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
         => await this
             .All()
             .Where(c => c.Customer.Id == customerId)
+            .Include(c => c.Books)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> DeleteBook(
