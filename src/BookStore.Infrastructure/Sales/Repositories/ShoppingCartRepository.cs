@@ -60,7 +60,7 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .AllAsNoTracking()
             .Where(c => c.Customer.Id == customerId)
             .AnyAsync(c => c.Books
-                .Any(sb => sb.BookId == bookId), cancellationToken);
+                .Any(sb => sb.Book.Id == bookId), cancellationToken);
 
     private async Task<ShoppingCartBook?> FindBook(
         int bookId,
@@ -68,6 +68,6 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
         => await this
             .Data
             .ShoppingCartBooks
-            .Where(sb => sb.BookId == bookId)
+            .Where(sb => sb.Book.Id == bookId)
             .FirstOrDefaultAsync(cancellationToken);
 }

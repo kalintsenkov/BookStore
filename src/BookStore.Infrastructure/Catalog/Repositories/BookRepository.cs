@@ -40,14 +40,14 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
         int id,
         CancellationToken cancellationToken = default)
     {
-        var book = await this.Data.Books.FindAsync(id);
+        var book = await this.Data.CatalogBooks.FindAsync(id);
 
         if (book is null)
         {
             return false;
         }
 
-        this.Data.Books.Remove(book);
+        this.Data.CatalogBooks.Remove(book);
 
         await this.Data.SaveChangesAsync(cancellationToken);
 

@@ -3,6 +3,7 @@
 using Authors;
 using Common;
 using Common.Models;
+using Events;
 using Exceptions;
 
 using static Common.Models.ModelConstants.Common;
@@ -31,6 +32,11 @@ public class Book : Entity<int>, IAggregateRoot
         this.Description = description;
         this.Genre = genre;
         this.Author = author;
+
+        this.RaiseEvent(new BookCreatedEvent(
+            this.Title,
+            this.Price,
+            this.Quantity));
     }
 
     private Book(
@@ -66,6 +72,12 @@ public class Book : Entity<int>, IAggregateRoot
 
         this.Title = title;
 
+        this.RaiseEvent(new BookUpdatedEvent(
+            this.Id,
+            this.Title,
+            this.Price,
+            this.Quantity));
+
         return this;
     }
 
@@ -75,6 +87,12 @@ public class Book : Entity<int>, IAggregateRoot
 
         this.Price = price;
 
+        this.RaiseEvent(new BookUpdatedEvent(
+            this.Id,
+            this.Title,
+            this.Price,
+            this.Quantity));
+
         return this;
     }
 
@@ -83,6 +101,12 @@ public class Book : Entity<int>, IAggregateRoot
         this.ValidateQuantity(quantity);
 
         this.Quantity = quantity;
+
+        this.RaiseEvent(new BookUpdatedEvent(
+            this.Id,
+            this.Title,
+            this.Price,
+            this.Quantity));
 
         return this;
     }

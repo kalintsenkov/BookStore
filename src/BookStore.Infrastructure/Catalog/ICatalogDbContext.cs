@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 internal interface ICatalogDbContext : IDbContext
 {
-    DbSet<Book> Books { get; }
+    DbSet<Book> CatalogBooks { get; }
 
     DbSet<Author> Authors { get; }
 }

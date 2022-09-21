@@ -1,6 +1,5 @@
 ﻿namespace BookStore.Infrastructure.Sales.Configurations;
 
-using Domain.Catalog.Models.Books;
 using Domain.Sales.Models.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,9 +16,9 @@ internal class OrderedBookConfiguration : IEntityTypeConfiguration<OrderedBook>
             .IsRequired();
 
         builder
-            .HasOne<Book>()
+            .HasOne(ob => ob.Book)
             .WithMany()
-            .HasForeignKey(o => o.BookId)
+            .HasForeignKey("BookId")
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
     }

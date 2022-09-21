@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Domain.Sales.Models.ShoppingCarts;
 
+using Books;
 using Common.Models;
 using Exceptions;
 
@@ -7,15 +8,22 @@ using static ModelConstants.OrderedBook;
 
 public class ShoppingCartBook : Entity<int>
 {
-    internal ShoppingCartBook(int bookId, int quantity)
+    internal ShoppingCartBook(Book book, int quantity)
     {
         this.Validate(quantity);
 
-        this.BookId = bookId;
+        this.Book = book;
         this.Quantity = quantity;
     }
 
-    public int BookId { get; private set; }
+    private ShoppingCartBook(int quantity)
+    {
+        this.Book = default!;
+
+        this.Quantity = quantity;
+    }
+
+    public Book Book { get; private set; }
 
     public int Quantity { get; private set; }
 

@@ -1,6 +1,5 @@
 ﻿namespace BookStore.Infrastructure.Sales.Configurations;
 
-using Domain.Catalog.Models.Books;
 using Domain.Sales.Models.ShoppingCarts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,9 +16,9 @@ internal class ShoppingCartBookConfiguration : IEntityTypeConfiguration<Shopping
             .IsRequired();
 
         builder
-            .HasOne<Book>()
+            .HasOne(cb => cb.Book)
             .WithMany()
-            .HasForeignKey(o => o.BookId)
+            .HasForeignKey("BookId")
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
     }

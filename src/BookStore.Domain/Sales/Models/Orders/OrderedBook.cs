@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Domain.Sales.Models.Orders;
 
+using Books;
 using Common.Models;
 using Exceptions;
 
@@ -7,19 +8,26 @@ using static ModelConstants.OrderedBook;
 
 public class OrderedBook : Entity<int>
 {
-    internal OrderedBook(int bookId, int quantity)
+    internal OrderedBook(Book book, int quantity)
     {
         this.Validate(quantity);
 
-        this.BookId = bookId;
+        this.Book = book;
         this.Quantity = quantity;
     }
 
-    public int BookId { get; }
+    private OrderedBook(int quantity)
+    {
+        this.Book = default!;
+
+        this.Quantity = quantity;
+    }
+
+    public Book Book { get; }
 
     public int Quantity { get; }
 
-    public override int GetHashCode() => (this.Id, this.BookId).GetHashCode();
+    public override int GetHashCode() => (this.Id, this.Book.Id).GetHashCode();
 
     private void Validate(int quantity)
         => Guard.AgainstOutOfRange<InvalidOrderException>(

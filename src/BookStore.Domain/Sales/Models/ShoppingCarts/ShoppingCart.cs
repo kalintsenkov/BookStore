@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Books;
 using Common;
 using Common.Models;
 using Customers;
@@ -29,37 +30,37 @@ public class ShoppingCart : Entity<int>, IAggregateRoot
 
     public IReadOnlyCollection<ShoppingCartBook> Books => this.books.ToList().AsReadOnly();
 
-    public ShoppingCart AddBook(int bookId, int quantity)
+    public ShoppingCart AddBook(Book book, int quantity)
     {
-        var existingBook = this.FindBook(bookId);
+        var shoppingCartBook = this.FindBook(book.Id);
 
-        if (existingBook is not null)
+        if (shoppingCartBook is not null)
         {
-            var existingBookQuantity = existingBook.Quantity;
+            var shoppingCartBookQuantity = shoppingCartBook.Quantity;
 
-            existingBook.UpdateQuantity(existingBookQuantity + quantity);
+            shoppingCartBook.UpdateQuantity(shoppingCartBookQuantity + quantity);
 
             return this;
         }
 
-        this.books.Add(new ShoppingCartBook(bookId, quantity));
+        this.books.Add(new ShoppingCartBook(book, quantity));
 
         return this;
     }
 
     public ShoppingCart EditBookQuantity(int bookId, int quantity)
     {
-        var existingBook = this.FindBook(bookId);
+        var shoppingCartBook = this.FindBook(bookId);
 
-        this.ValidateBook(existingBook);
+        this.ValidateBook(shoppingCartBook);
 
-        existingBook!.UpdateQuantity(quantity);
+        shoppingCartBook!.UpdateQuantity(quantity);
 
         return this;
     }
 
     private ShoppingCartBook? FindBook(int bookId)
-        => this.books.SingleOrDefault(b => b.BookId == bookId);
+        => this.books.SingleOrDefault(b => b.Book.Id == bookId);
 
     private void ValidateBook(ShoppingCartBook? book)
     {

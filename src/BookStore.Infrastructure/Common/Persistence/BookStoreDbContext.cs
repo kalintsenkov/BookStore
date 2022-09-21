@@ -3,7 +3,6 @@
 using System.Reflection;
 using Catalog;
 using Domain.Catalog.Models.Authors;
-using Domain.Catalog.Models.Books;
 using Domain.Sales.Models.Customers;
 using Domain.Sales.Models.Orders;
 using Domain.Sales.Models.ShoppingCarts;
@@ -21,7 +20,9 @@ internal class BookStoreDbContext : IdentityDbContext<User>,
     {
     }
 
-    public DbSet<Book> Books { get; set; } = default!;
+    public DbSet<Domain.Catalog.Models.Books.Book> CatalogBooks { get; set; } = default!;
+
+    public DbSet<Domain.Sales.Models.Books.Book> SalesBooks { get; set; } = default!;
 
     public DbSet<Author> Authors { get; set; } = default!;
 

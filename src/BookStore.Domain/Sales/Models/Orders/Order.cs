@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Books;
 using Common;
 using Common.Models;
 using Customers;
@@ -23,9 +24,9 @@ public class Order : Entity<int>, IAggregateRoot
         this.orderedBooks = new HashSet<OrderedBook>();
     }
 
-    private Order(DateTime date)
+    private Order()
     {
-        this.Date = date;
+        this.Date = DateTime.UtcNow;
 
         this.Status = default!;
         this.Customer = default!;
@@ -57,7 +58,7 @@ public class Order : Entity<int>, IAggregateRoot
     {
         if (this.Status != Status.Pending)
         {
-            throw new InvalidOrderException("Can't mark as shipped an order that is not pending.");
+            throw new InvalidOrderException("Can't mark as completed an order that is not pending.");
         }
 
         this.Status = Status.Completed;
@@ -65,11 +66,15 @@ public class Order : Entity<int>, IAggregateRoot
         return this;
     }
 
-    public Order OrderBook(int bookId, int quantity)
+    public Order OrderBook(Book book, int quantity)
     {
-        this.orderedBooks.Add(new OrderedBook(bookId, quantity));
+        this.orderedBooks.Add(new OrderedBook(book, quantity));
 
-        this.RaiseEvent(new OrderedBookEvent(bookId, quantity));
+        var updatedQuantity = book.Quantity - quantity;
+
+        book.UpdateQuantity(updatedQuantity);
+
+        this.RaiseEvent(new OrderedBookEvent(book.Id, quantity));
 
         return this;
     }

@@ -57,9 +57,7 @@ public class OrderCreateCommand : IRequest<Result<int>>
 
             foreach (var shoppingCartBook in shoppingCart.Books)
             {
-                order.OrderBook(
-                    shoppingCartBook.BookId,
-                    shoppingCartBook.Quantity);
+                order.OrderBook(shoppingCartBook.Book, shoppingCartBook.Quantity);
             }
 
             await this.orderRepository.Save(order, cancellationToken);
