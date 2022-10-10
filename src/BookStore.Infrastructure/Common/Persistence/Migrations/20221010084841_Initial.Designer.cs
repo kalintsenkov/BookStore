@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookStore.Infrastructure.Common.Persistence.Migrations
 {
     [DbContext(typeof(BookStoreDbContext))]
-    [Migration("20220829144755_Initial")]
+    [Migration("20221010084841_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,7 +79,32 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Books");
+                    b.ToTable("CatalogBooks");
+                });
+
+            modelBuilder.Entity("BookStore.Domain.Sales.Models.Books.Book", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<decimal>("Price")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SalesBooks");
                 });
 
             modelBuilder.Entity("BookStore.Domain.Sales.Models.Customers.Address", b =>
@@ -454,7 +479,7 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
                             b1.HasKey("BookId");
 
-                            b1.ToTable("Books");
+                            b1.ToTable("CatalogBooks");
 
                             b1.WithOwner()
                                 .HasForeignKey("BookId");
@@ -538,7 +563,7 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
             modelBuilder.Entity("BookStore.Domain.Sales.Models.Orders.OrderedBook", b =>
                 {
-                    b.HasOne("BookStore.Domain.Catalog.Models.Books.Book", null)
+                    b.HasOne("BookStore.Domain.Sales.Models.Books.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -549,6 +574,8 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("BookStore.Domain.Sales.Models.ShoppingCarts.ShoppingCart", b =>
@@ -564,7 +591,7 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
 
             modelBuilder.Entity("BookStore.Domain.Sales.Models.ShoppingCarts.ShoppingCartBook", b =>
                 {
-                    b.HasOne("BookStore.Domain.Catalog.Models.Books.Book", null)
+                    b.HasOne("BookStore.Domain.Sales.Models.Books.Book", "Book")
                         .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -575,6 +602,8 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations
                         .HasForeignKey("ShoppingCartId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Book");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

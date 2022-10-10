@@ -79,6 +79,21 @@ public partial class Initial : Migration
             });
 
         migrationBuilder.CreateTable(
+            name: "SalesBooks",
+            columns: table => new
+            {
+                Id = table.Column<int>(type: "int", nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                Title = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
+                Quantity = table.Column<int>(type: "int", nullable: false)
+            },
+            constraints: table =>
+            {
+                table.PrimaryKey("PK_SalesBooks", x => x.Id);
+            });
+
+        migrationBuilder.CreateTable(
             name: "AspNetRoleClaims",
             columns: table => new
             {
@@ -212,7 +227,7 @@ public partial class Initial : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "Books",
+            name: "CatalogBooks",
             columns: table => new
             {
                 Id = table.Column<int>(type: "int", nullable: false)
@@ -226,9 +241,9 @@ public partial class Initial : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("PK_Books", x => x.Id);
+                table.PrimaryKey("PK_CatalogBooks", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_Books_Authors_AuthorId",
+                    name: "FK_CatalogBooks_Authors_AuthorId",
                     column: x => x.AuthorId,
                     principalTable: "Authors",
                     principalColumn: "Id",
@@ -289,15 +304,15 @@ public partial class Initial : Migration
             {
                 table.PrimaryKey("PK_OrderedBooks", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_OrderedBooks_Books_BookId",
-                    column: x => x.BookId,
-                    principalTable: "Books",
-                    principalColumn: "Id",
-                    onDelete: ReferentialAction.Restrict);
-                table.ForeignKey(
                     name: "FK_OrderedBooks_Orders_OrderId",
                     column: x => x.OrderId,
                     principalTable: "Orders",
+                    principalColumn: "Id",
+                    onDelete: ReferentialAction.Restrict);
+                table.ForeignKey(
+                    name: "FK_OrderedBooks_SalesBooks_BookId",
+                    column: x => x.BookId,
+                    principalTable: "SalesBooks",
                     principalColumn: "Id",
                     onDelete: ReferentialAction.Restrict);
             });
@@ -316,9 +331,9 @@ public partial class Initial : Migration
             {
                 table.PrimaryKey("PK_ShoppingCartBooks", x => x.Id);
                 table.ForeignKey(
-                    name: "FK_ShoppingCartBooks_Books_BookId",
+                    name: "FK_ShoppingCartBooks_SalesBooks_BookId",
                     column: x => x.BookId,
-                    principalTable: "Books",
+                    principalTable: "SalesBooks",
                     principalColumn: "Id",
                     onDelete: ReferentialAction.Restrict);
                 table.ForeignKey(
@@ -369,8 +384,8 @@ public partial class Initial : Migration
             filter: "[NormalizedUserName] IS NOT NULL");
 
         migrationBuilder.CreateIndex(
-            name: "IX_Books_AuthorId",
-            table: "Books",
+            name: "IX_CatalogBooks_AuthorId",
+            table: "CatalogBooks",
             column: "AuthorId");
 
         migrationBuilder.CreateIndex(
@@ -435,6 +450,9 @@ public partial class Initial : Migration
             name: "AspNetUserTokens");
 
         migrationBuilder.DropTable(
+            name: "CatalogBooks");
+
+        migrationBuilder.DropTable(
             name: "OrderedBooks");
 
         migrationBuilder.DropTable(
@@ -444,16 +462,16 @@ public partial class Initial : Migration
             name: "AspNetRoles");
 
         migrationBuilder.DropTable(
+            name: "Authors");
+
+        migrationBuilder.DropTable(
             name: "Orders");
 
         migrationBuilder.DropTable(
-            name: "Books");
+            name: "SalesBooks");
 
         migrationBuilder.DropTable(
             name: "ShoppingCarts");
-
-        migrationBuilder.DropTable(
-            name: "Authors");
 
         migrationBuilder.DropTable(
             name: "Customers");
