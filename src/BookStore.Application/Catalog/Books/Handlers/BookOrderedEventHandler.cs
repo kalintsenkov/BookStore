@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Common.Contracts;
 using Common.Exceptions;
 using Domain.Catalog.Repositories;
-using Domain.Sales.Events;
+using Domain.Common.Events.Sales;
 
 public class BookOrderedEventHandler : IEventHandler<BookOrderedEvent>
 {

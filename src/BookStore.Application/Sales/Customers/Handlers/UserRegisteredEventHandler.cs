@@ -2,7 +2,7 @@
 
 using System.Threading.Tasks;
 using Common.Contracts;
-using Domain.Identity.Events;
+using Domain.Common.Events.Identity;
 using Domain.Sales.Factories.Customers;
 using Domain.Sales.Factories.ShoppingCarts;
 using Domain.Sales.Repositories;

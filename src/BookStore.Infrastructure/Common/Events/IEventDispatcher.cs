@@ -1,7 +1,7 @@
 ﻿namespace BookStore.Infrastructure.Common.Events;
 
 using System.Threading.Tasks;
-using Domain.Common;
+using BookStore.Domain.Common.Events;
 
 internal interface IEventDispatcher
 {

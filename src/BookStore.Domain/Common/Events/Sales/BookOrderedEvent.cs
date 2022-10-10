@@ -1,13 +1,11 @@
-﻿namespace BookStore.Domain.Sales.Events;
-
-using Common;
+﻿namespace BookStore.Domain.Common.Events.Sales;
 
 public class BookOrderedEvent : IDomainEvent
 {
     public BookOrderedEvent(int bookId, int quantity)
     {
-        this.BookId = bookId;
-        this.Quantity = quantity;
+        BookId = bookId;
+        Quantity = quantity;
     }
 
     public int BookId { get; }

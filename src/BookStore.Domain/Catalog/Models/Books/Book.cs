@@ -2,8 +2,8 @@
 
 using Authors;
 using Common;
+using Common.Events.Catalog;
 using Common.Models;
-using Events;
 using Exceptions;
 
 using static Common.Models.ModelConstants.Common;

@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Threading.Tasks;
 using Application.Common.Contracts;
-using Domain.Common;
+using BookStore.Domain.Common.Events;
 using Microsoft.Extensions.DependencyInjection;
 
 internal class EventDispatcher : IEventDispatcher

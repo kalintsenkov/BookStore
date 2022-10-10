@@ -6,7 +6,7 @@ using Application.Common.Models;
 using Application.Identity;
 using Application.Identity.Commands.Common;
 using Common.Events;
-using Domain.Identity.Events;
+using Domain.Common.Events.Identity;
 using Microsoft.AspNetCore.Identity;
 
 internal class IdentityService : IIdentity

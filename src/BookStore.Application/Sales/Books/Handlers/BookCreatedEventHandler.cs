@@ -2,7 +2,7 @@
 
 using System.Threading.Tasks;
 using Common.Contracts;
-using Domain.Catalog.Events;
+using Domain.Common.Events.Catalog;
 using Domain.Sales.Factories.Books;
 using Domain.Sales.Repositories;
 

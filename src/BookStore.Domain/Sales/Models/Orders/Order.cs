@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Books;
 using Common;
+using Common.Events.Sales;
 using Common.Models;
 using Customers;
-using Events;
 using Exceptions;
 
 public class Order : Entity<int>, IAggregateRoot

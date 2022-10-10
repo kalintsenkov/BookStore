@@ -1,6 +1,4 @@
-﻿namespace BookStore.Domain.Catalog.Events;
-
-using Common;
+﻿namespace BookStore.Domain.Common.Events.Catalog;
 
 public class BookUpdatedEvent : IDomainEvent
 {
@@ -10,10 +8,10 @@ public class BookUpdatedEvent : IDomainEvent
         decimal price,
         int quantity)
     {
-        this.Id = id;
-        this.Title = title;
-        this.Price = price;
-        this.Quantity = quantity;
+        Id = id;
+        Title = title;
+        Price = price;
+        Quantity = quantity;
     }
 
     public int Id { get; }
