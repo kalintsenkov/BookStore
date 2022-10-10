@@ -6,14 +6,14 @@ using Common.Exceptions;
 using Domain.Catalog.Repositories;
 using Domain.Sales.Events;
 
-public class OrderedBookEventHandler : IEventHandler<OrderedBookEvent>
+public class BookOrderedEventHandler : IEventHandler<BookOrderedEvent>
 {
     private readonly IBookDomainRepository bookRepository;
 
-    public OrderedBookEventHandler(IBookDomainRepository bookRepository)
+    public BookOrderedEventHandler(IBookDomainRepository bookRepository)
         => this.bookRepository = bookRepository;
 
-    public async Task Handle(OrderedBookEvent domainEvent)
+    public async Task Handle(BookOrderedEvent domainEvent)
     {
         var book = await this.bookRepository.Find(domainEvent.BookId);
 

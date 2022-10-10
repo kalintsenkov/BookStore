@@ -2,9 +2,9 @@
 
 using Common;
 
-public class OrderedBookEvent : IDomainEvent
+public class BookOrderedEvent : IDomainEvent
 {
-    public OrderedBookEvent(int bookId, int quantity)
+    public BookOrderedEvent(int bookId, int quantity)
     {
         this.BookId = bookId;
         this.Quantity = quantity;

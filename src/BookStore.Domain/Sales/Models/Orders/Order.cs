@@ -74,7 +74,7 @@ public class Order : Entity<int>, IAggregateRoot
 
         book.UpdateQuantity(updatedQuantity);
 
-        this.RaiseEvent(new OrderedBookEvent(book.Id, quantity));
+        this.RaiseEvent(new BookOrderedEvent(book.Id, quantity));
 
         return this;
     }
