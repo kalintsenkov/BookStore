@@ -62,6 +62,10 @@ public class OrderCreateCommand : IRequest<Result<int>>
 
             await this.orderRepository.Save(order, cancellationToken);
 
+            await this.shoppingCartRepository.Clear(
+                shoppingCart.Id,
+                cancellationToken);
+
             return order.Id;
         }
     }

@@ -57,9 +57,9 @@ internal class BookStoreDbInitializer : IDbInitializer
         => Task
             .Run(async () =>
             {
-                var existingRole = await this.roleManager.FindByNameAsync(AdministratorRoleName);
+                var adminRoleExists = await this.roleManager.RoleExistsAsync(AdministratorRoleName);
 
-                if (existingRole != null)
+                if (adminRoleExists)
                 {
                     return;
                 }

@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Infrastructure.Sales.Repositories;
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +31,7 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .All()
             .Where(c => c.Customer.Id == customerId)
             .Include(c => c.Books)
+            .ThenInclude(sb => sb.Book)
             .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<bool> DeleteBook(
@@ -62,6 +64,21 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .AnyAsync(c => c.Books
                 .Any(sb => sb.Book.Id == bookId), cancellationToken);
 
+    public async Task<bool> Clear(
+        int id,
+        CancellationToken cancellationToken = default)
+    {
+        var shoppingCartBooks = await this.FindBooks(
+            id,
+            cancellationToken);
+
+        this.Data.ShoppingCartBooks.RemoveRange(shoppingCartBooks);
+
+        await this.Data.SaveChangesAsync(cancellationToken);
+
+        return true;
+    }
+
     private async Task<ShoppingCartBook?> FindBook(
         int bookId,
         CancellationToken cancellationToken = default)
@@ -70,4 +87,14 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .ShoppingCartBooks
             .Where(sb => sb.Book.Id == bookId)
             .FirstOrDefaultAsync(cancellationToken);
+
+    private async Task<IEnumerable<ShoppingCartBook>> FindBooks(
+        int shoppingCartId,
+        CancellationToken cancellationToken = default)
+        => await this
+            .Data
+            .ShoppingCarts
+            .Where(sc => sc.Id == shoppingCartId)
+            .SelectMany(sc => sc.Books)
+            .ToListAsync(cancellationToken);
 }
