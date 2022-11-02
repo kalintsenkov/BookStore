@@ -8,10 +8,10 @@ public class BookUpdatedEvent : IDomainEvent
         decimal price,
         int quantity)
     {
-        Id = id;
-        Title = title;
-        Price = price;
-        Quantity = quantity;
+        this.Id = id;
+        this.Title = title;
+        this.Price = price;
+        this.Quantity = quantity;
     }
 
     public int Id { get; }

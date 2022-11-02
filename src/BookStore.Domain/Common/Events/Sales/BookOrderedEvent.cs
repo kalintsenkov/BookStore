@@ -4,8 +4,8 @@ public class BookOrderedEvent : IDomainEvent
 {
     public BookOrderedEvent(int bookId, int quantity)
     {
-        BookId = bookId;
-        Quantity = quantity;
+        this.BookId = bookId;
+        this.Quantity = quantity;
     }
 
     public int BookId { get; }

@@ -7,9 +7,9 @@ public class BookCreatedEvent : IDomainEvent
         decimal price,
         int quantity)
     {
-        Title = title;
-        Price = price;
-        Quantity = quantity;
+        this.Title = title;
+        this.Price = price;
+        this.Quantity = quantity;
     }
 
     public string Title { get; }

@@ -4,8 +4,8 @@ public class UserRegisteredEvent : IDomainEvent
 {
     public UserRegisteredEvent(string userId, string fullName)
     {
-        UserId = userId;
-        FullName = fullName;
+        this.UserId = userId;
+        this.FullName = fullName;
     }
 
     public string UserId { get; }
