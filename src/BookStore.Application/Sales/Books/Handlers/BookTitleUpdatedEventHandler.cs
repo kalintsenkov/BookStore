@@ -6,14 +6,14 @@ using Common.Exceptions;
 using Domain.Common.Events.Catalog;
 using Domain.Sales.Repositories;
 
-public class BookUpdatedEventHandler : IEventHandler<BookUpdatedEvent>
+public class BookTitleUpdatedEventHandler : IEventHandler<BookTitleUpdatedEvent>
 {
     private readonly IBookDomainRepository bookRepository;
 
-    public BookUpdatedEventHandler(IBookDomainRepository bookRepository)
+    public BookTitleUpdatedEventHandler(IBookDomainRepository bookRepository)
         => this.bookRepository = bookRepository;
 
-    public async Task Handle(BookUpdatedEvent domainEvent)
+    public async Task Handle(BookTitleUpdatedEvent domainEvent)
     {
         var book = await this.bookRepository.Find(domainEvent.Id);
 
@@ -22,10 +22,7 @@ public class BookUpdatedEventHandler : IEventHandler<BookUpdatedEvent>
             throw new NotFoundException(nameof(book), domainEvent.Id);
         }
 
-        book
-            .UpdateTitle(domainEvent.Title)
-            .UpdatePrice(domainEvent.Price)
-            .UpdateQuantity(domainEvent.Quantity);
+        book.UpdateTitle(domainEvent.Title);
 
         await this.bookRepository.Save(book);
     }

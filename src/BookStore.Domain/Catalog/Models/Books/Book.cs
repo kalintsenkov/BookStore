@@ -68,45 +68,48 @@ public class Book : Entity<int>, IAggregateRoot
 
     public Book UpdateTitle(string title)
     {
-        this.ValidateTitle(title);
+        if (this.Title != title)
+        {
+            this.ValidateTitle(title);
 
-        this.Title = title;
+            this.Title = title;
 
-        this.RaiseEvent(new BookUpdatedEvent(
-            this.Id,
-            this.Title,
-            this.Price,
-            this.Quantity));
+            this.RaiseEvent(new BookTitleUpdatedEvent(
+                this.Id,
+                this.Title));
+        }
 
         return this;
     }
 
     public Book UpdatePrice(decimal price)
     {
-        this.ValidatePrice(price);
+        if (this.Price != price)
+        {
+            this.ValidatePrice(price);
 
-        this.Price = price;
+            this.Price = price;
 
-        this.RaiseEvent(new BookUpdatedEvent(
-            this.Id,
-            this.Title,
-            this.Price,
-            this.Quantity));
+            this.RaiseEvent(new BookPriceUpdatedEvent(
+                this.Id,
+                this.Price));
+        }
 
         return this;
     }
 
     public Book UpdateQuantity(int quantity)
     {
-        this.ValidateQuantity(quantity);
+        if (this.Quantity != quantity)
+        {
+            this.ValidateQuantity(quantity);
 
-        this.Quantity = quantity;
+            this.Quantity = quantity;
 
-        this.RaiseEvent(new BookUpdatedEvent(
-            this.Id,
-            this.Title,
-            this.Price,
-            this.Quantity));
+            this.RaiseEvent(new BookQuantityUpdatedEvent(
+                this.Id,
+                this.Quantity));
+        }
 
         return this;
     }
