@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Sales.ShoppingCarts;
+using Application.Sales.ShoppingCarts.Queries.GetBooks;
 using AutoMapper;
 using Common.Events;
 using Common.Repositories;
@@ -32,7 +33,7 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .Where(c => c.Customer.Id == customerId)
             .Include(c => c.Books)
             .ThenInclude(sb => sb.Book)
-            .FirstOrDefaultAsync(cancellationToken);
+            .SingleOrDefaultAsync(cancellationToken);
 
     public async Task<bool> DeleteBook(
         int bookId,
@@ -79,6 +80,21 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
         return true;
     }
 
+    public async Task<int> TotalBooks(
+        int customerId,
+        CancellationToken cancellationToken = default)
+        => await this
+            .GetBooksQuery(customerId)
+            .CountAsync(cancellationToken);
+
+    public async Task<IEnumerable<GetShoppingCartBookResponseModel>> GetBooksListing(
+        int customerId,
+        CancellationToken cancellationToken = default)
+        => await this.Mapper
+            .ProjectTo<GetShoppingCartBookResponseModel>(this
+                .GetBooksQuery(customerId))
+            .ToListAsync(cancellationToken);
+
     private async Task<ShoppingCartBook?> FindBook(
         int bookId,
         CancellationToken cancellationToken = default)
@@ -97,4 +113,11 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .Where(sc => sc.Id == shoppingCartId)
             .SelectMany(sc => sc.Books)
             .ToListAsync(cancellationToken);
+
+    private IQueryable<ShoppingCartBook> GetBooksQuery(
+        int customerId)
+        => this
+            .AllAsNoTracking()
+            .Where(sc => sc.Customer.Id == customerId)
+            .SelectMany(sc => sc.Books);
 }
