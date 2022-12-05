@@ -1,5 +1,7 @@
 ﻿namespace BookStore.Domain.Common.Models;
 
+using System;
+
 public static class Guard
 {
     public static void AgainstEmptyString<TException>(string value, string name = "Value")
@@ -46,6 +48,18 @@ public static class Guard
         }
 
         ThrowException<TException>($"{name} must be between {min} and {max}.");
+    }
+    
+    public static void ForValidUrl<TException>(string url, string name = "Value")
+        where TException : BaseDomainException, new()
+    {
+        if (url.Length <= ModelConstants.Common.MaxUrlLength &&
+            Uri.IsWellFormedUriString(url, UriKind.Absolute))
+        {
+            return;
+        }
+
+        ThrowException<TException>($"{name} must be a valid URL.");
     }
 
     private static void ThrowException<TException>(string message)

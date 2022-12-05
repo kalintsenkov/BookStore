@@ -1,6 +1,7 @@
 ﻿namespace BookStore.Application.Catalog.Books.Commands.Create;
 
 using System.Collections.Generic;
+using Domain.Catalog.Models.Books;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Xunit;
@@ -12,6 +13,11 @@ using static Domain.Common.Models.ModelConstants.Common;
 public class BookCreateCommandValidatorSpecs
 {
     private readonly BookCreateCommandValidator validator = new();
+
+    private const string InvalidImageUrl = "test";
+    private const string ValidImageUrl = "https://test.com";
+
+    private const int InvalidGenre = 0;
 
     private static readonly string InvalidMinTitleLength = new('t', MinNameLength - 1);
     private static readonly string InvalidMinDescriptionLength = new('t', MinDescriptionLength - 1);
@@ -35,7 +41,9 @@ public class BookCreateCommandValidatorSpecs
         string title,
         decimal price,
         int quantity,
+        string imageUrl,
         string description,
+        int genre,
         string author)
     {
         var testResult = this.validator.TestValidate(new BookCreateCommand
@@ -43,7 +51,9 @@ public class BookCreateCommandValidatorSpecs
             Title = title,
             Price = price,
             Quantity = quantity,
+            ImageUrl = imageUrl,
             Description = description,
+            Genre = genre,
             Author = author
         });
 
@@ -51,7 +61,9 @@ public class BookCreateCommandValidatorSpecs
         testResult.ShouldHaveValidationErrorFor(b => b.Title);
         testResult.ShouldHaveValidationErrorFor(b => b.Price);
         testResult.ShouldHaveValidationErrorFor(b => b.Quantity);
+        testResult.ShouldHaveValidationErrorFor(b => b.ImageUrl);
         testResult.ShouldHaveValidationErrorFor(b => b.Description);
+        testResult.ShouldHaveValidationErrorFor(b => b.Genre);
         testResult.ShouldHaveValidationErrorFor(b => b.Author);
     }
 
@@ -61,7 +73,9 @@ public class BookCreateCommandValidatorSpecs
         string title,
         decimal price,
         int quantity,
+        string imageUrl,
         string description,
+        int genre,
         string author)
     {
         var testResult = this.validator.TestValidate(new BookCreateCommand
@@ -69,7 +83,9 @@ public class BookCreateCommandValidatorSpecs
             Title = title,
             Price = price,
             Quantity = quantity,
+            ImageUrl = imageUrl,
             Description = description,
+            Genre = genre,
             Author = author
         });
 
@@ -77,19 +93,59 @@ public class BookCreateCommandValidatorSpecs
         testResult.ShouldNotHaveValidationErrorFor(b => b.Title);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Price);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Quantity);
+        testResult.ShouldNotHaveValidationErrorFor(b => b.ImageUrl);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Description);
+        testResult.ShouldNotHaveValidationErrorFor(b => b.Genre);
         testResult.ShouldNotHaveValidationErrorFor(b => b.Author);
     }
 
     public static IEnumerable<object[]> InvalidData()
     {
-        yield return new object[] { InvalidMinTitleLength, MinPriceValue - 1, MinQuantityValue - 1, InvalidMinDescriptionLength, InvalidMinAuthorLength };
-        yield return new object[] { InvalidMaxTitleLength, MaxPriceValue, MaxQuantityValue, InvalidMaxDescriptionLength, InvalidMaxAuthorLength };
+        yield return new object[]
+        {
+            InvalidMinTitleLength,
+            MinPriceValue - 1,
+            MinQuantityValue - 1,
+            InvalidImageUrl,
+            InvalidMinDescriptionLength,
+            InvalidGenre,
+            InvalidMinAuthorLength
+        };
+
+        yield return new object[]
+        {
+            InvalidMaxTitleLength,
+            MaxPriceValue,
+            MaxQuantityValue,
+            InvalidImageUrl,
+            InvalidMaxDescriptionLength,
+            InvalidGenre,
+            InvalidMaxAuthorLength
+        };
     }
 
     public static IEnumerable<object[]> ValidData()
     {
-        yield return new object[] { ValidMinTitleLength, MinPriceValue, MinQuantityValue, ValidMinDescriptionLength, ValidMinAuthorLength };
-        yield return new object[] { ValidMaxTitleLength, MaxPriceValue - 1, MaxQuantityValue - 1, ValidMaxDescriptionLength, ValidMaxAuthorLength };
+        yield return new object[]
+        {
+            ValidMinTitleLength,
+            MinPriceValue,
+            MinQuantityValue,
+            ValidImageUrl,
+            ValidMinDescriptionLength,
+            Genre.Horror.Value,
+            ValidMinAuthorLength
+        };
+
+        yield return new object[]
+        {
+            ValidMaxTitleLength,
+            MaxPriceValue - 1,
+            MaxQuantityValue - 1,
+            ValidImageUrl,
+            ValidMaxDescriptionLength,
+            Genre.Horror.Value,
+            ValidMaxAuthorLength
+        };
     }
 }

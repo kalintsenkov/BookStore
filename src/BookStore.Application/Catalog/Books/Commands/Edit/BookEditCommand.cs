@@ -51,9 +51,9 @@ public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int
                 .UpdateTitle(request.Title)
                 .UpdatePrice(request.Price)
                 .UpdateQuantity(request.Quantity)
+                .UpdateImageUrl(request.ImageUrl)
                 .UpdateDescription(request.Description)
-                .UpdateGenre(Enumeration.FromName<Genre>(
-                    request.Genre))
+                .UpdateGenre(Enumeration.FromValue<Genre>(request.Genre))
                 .UpdateAuthor(author);
 
             await this.bookRepository.Save(book, cancellationToken);

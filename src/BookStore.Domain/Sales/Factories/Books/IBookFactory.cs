@@ -10,4 +10,6 @@ public interface IBookFactory : IFactory<Book>
     IBookFactory WithPrice(decimal price);
 
     IBookFactory WithQuantity(int quantity);
+
+    IBookFactory WithImageUrl(string imageUrl);
 }

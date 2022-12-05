@@ -1,6 +1,9 @@
 ﻿namespace BookStore.Application.Catalog.Books.Commands.Common;
 
+using System;
 using Application.Common;
+using Domain.Catalog.Models.Books;
+using Domain.Common.Models;
 using FluentValidation;
 
 using static Domain.Catalog.Models.ModelConstants.Common;
@@ -27,10 +30,20 @@ public class BookCommandValidator<TCommand> : AbstractValidator<BookCommand<TCom
             .LessThan(MaxQuantityValue)
             .NotEmpty();
 
+        this.RuleFor(b => b.ImageUrl)
+            .MaximumLength(MaxUrlLength)
+            .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
+            .WithMessage("'{PropertyName}' must be a valid url.")
+            .NotEmpty();
+
         this.RuleFor(b => b.Description)
             .MinimumLength(MinDescriptionLength)
             .MaximumLength(MaxDescriptionLength)
             .NotEmpty();
+        
+        this.RuleFor(c => c.Genre)
+            .Must(Enumeration.HasValue<Genre>)
+            .WithMessage("'{PropertyName}' is not valid.");
 
         this.RuleFor(b => b.Author)
             .MinimumLength(MinNameLength)

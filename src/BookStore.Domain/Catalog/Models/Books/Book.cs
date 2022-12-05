@@ -16,6 +16,7 @@ public class Book : Entity<int>, IAggregateRoot
         string title,
         decimal price,
         int quantity,
+        string imageUrl,
         string description,
         Genre genre,
         Author author)
@@ -24,11 +25,13 @@ public class Book : Entity<int>, IAggregateRoot
             title,
             price,
             quantity,
+            imageUrl,
             description);
 
         this.Title = title;
         this.Price = price;
         this.Quantity = quantity;
+        this.ImageUrl = imageUrl;
         this.Description = description;
         this.Genre = genre;
         this.Author = author;
@@ -36,18 +39,21 @@ public class Book : Entity<int>, IAggregateRoot
         this.RaiseEvent(new BookCreatedEvent(
             this.Title,
             this.Price,
-            this.Quantity));
+            this.Quantity,
+            this.ImageUrl));
     }
 
     private Book(
         string title,
         decimal price,
         int quantity,
+        string imageUrl,
         string description)
     {
         this.Title = title;
         this.Price = price;
         this.Quantity = quantity;
+        this.ImageUrl = imageUrl;
         this.Description = description;
 
         this.Genre = default!;
@@ -59,6 +65,8 @@ public class Book : Entity<int>, IAggregateRoot
     public decimal Price { get; private set; }
 
     public int Quantity { get; private set; }
+
+    public string ImageUrl { get; private set; }
 
     public string Description { get; private set; }
 
@@ -114,6 +122,22 @@ public class Book : Entity<int>, IAggregateRoot
         return this;
     }
 
+    public Book UpdateImageUrl(string imageUrl)
+    {
+        if (this.ImageUrl != imageUrl)
+        {
+            this.ValidateImageUrl(imageUrl);
+
+            this.ImageUrl = imageUrl;
+
+            this.RaiseEvent(new BookImageUrlUpdatedEvent(
+                this.Id,
+                this.ImageUrl));
+        }
+
+        return this;
+    }
+
     public Book UpdateDescription(string description)
     {
         this.ValidateDescription(description);
@@ -141,11 +165,13 @@ public class Book : Entity<int>, IAggregateRoot
         string title,
         decimal price,
         int quantity,
+        string imageUrl,
         string description)
     {
         this.ValidateTitle(title);
         this.ValidatePrice(price);
         this.ValidateQuantity(quantity);
+        this.ValidateImageUrl(imageUrl);
         this.ValidateDescription(description);
     }
 
@@ -169,6 +195,11 @@ public class Book : Entity<int>, IAggregateRoot
             MinQuantityValue,
             MaxQuantityValue,
             nameof(this.Quantity));
+
+    private void ValidateImageUrl(string imageUrl)
+        => Guard.ForValidUrl<InvalidBookException>(
+            imageUrl,
+            nameof(this.ImageUrl));
 
     private void ValidateDescription(string description)
         => Guard.ForStringLength<InvalidBookException>(

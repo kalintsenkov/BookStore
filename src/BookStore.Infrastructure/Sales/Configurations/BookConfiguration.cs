@@ -26,5 +26,10 @@ internal class BookConfiguration : IEntityTypeConfiguration<Book>
         builder
             .Property(b => b.Quantity)
             .IsRequired();
+
+        builder
+            .Property(b => b.ImageUrl)
+            .HasMaxLength(MaxUrlLength)
+            .IsRequired();
     }
 }

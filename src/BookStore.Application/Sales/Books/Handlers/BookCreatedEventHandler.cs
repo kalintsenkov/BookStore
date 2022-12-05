@@ -25,6 +25,7 @@ public class BookCreatedEventHandler : IEventHandler<BookCreatedEvent>
             .WithTitle(domainEvent.Title)
             .WithPrice(domainEvent.Price)
             .WithQuantity(domainEvent.Quantity)
+            .WithImageUrl(domainEvent.ImageUrl)
             .Build();
 
         await this.bookRepository.Save(book);

@@ -12,6 +12,8 @@ public interface IBookFactory : IFactory<Book>
 
     IBookFactory WithQuantity(int quantity);
 
+    IBookFactory WithImageUrl(string imageUrl);
+
     IBookFactory WithDescription(string description);
 
     IBookFactory WithGenre(Genre genre);

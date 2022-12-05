@@ -8,10 +8,12 @@ internal class BookFactory : IBookFactory
     private string bookTitle = default!;
     private decimal bookPrice = default!;
     private int bookQuantity = default!;
+    private string bookImageUrl = default!;
 
     private bool isTitleSet = false;
     private bool isPriceSet = false;
     private bool isQuantitySet = false;
+    private bool isImageUrlSet = false;
 
     public IBookFactory WithTitle(string title)
     {
@@ -37,18 +39,28 @@ internal class BookFactory : IBookFactory
         return this;
     }
 
+    public IBookFactory WithImageUrl(string imageUrl)
+    {
+        this.bookImageUrl = imageUrl;
+        this.isImageUrlSet = true;
+
+        return this;
+    }
+
     public Book Build()
     {
         if (!this.isTitleSet ||
             !this.isPriceSet ||
-            !this.isQuantitySet)
+            !this.isQuantitySet ||
+            !this.isImageUrlSet)
         {
-            throw new InvalidBookException("Title, price and quantity must have a value.");
+            throw new InvalidBookException("Title, price, quantity and image must have a value.");
         }
 
         return new Book(
             this.bookTitle,
             this.bookPrice,
-            this.bookQuantity);
+            this.bookQuantity,
+            this.bookImageUrl);
     }
 }

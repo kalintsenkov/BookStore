@@ -11,6 +11,10 @@ internal class BookData : IInitialData
     public IEnumerable<object> GetData()
         => new List<Book>
         {
-            new(title: "It", price: 19.99M, quantity: 100)
+            new(
+                title: "It", 
+                price: 19.99M, 
+                quantity: 100, 
+                imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1334416842l/830502.jpg")
         };
 }

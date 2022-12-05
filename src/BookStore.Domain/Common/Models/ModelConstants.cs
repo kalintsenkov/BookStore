@@ -6,6 +6,7 @@ public class ModelConstants
     {
         public const int MinNameLength = 2;
         public const int MaxNameLength = 120;
+        public const int MaxUrlLength = 2048;
         public const string AdministratorRoleName = "Administrator";
     }
 

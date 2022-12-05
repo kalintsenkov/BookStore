@@ -5,11 +5,13 @@ public class BookCreatedEvent : IDomainEvent
     public BookCreatedEvent(
         string title,
         decimal price,
-        int quantity)
+        int quantity,
+        string imageUrl)
     {
         this.Title = title;
         this.Price = price;
         this.Quantity = quantity;
+        this.ImageUrl = imageUrl;
     }
 
     public string Title { get; }
@@ -17,4 +19,6 @@ public class BookCreatedEvent : IDomainEvent
     public decimal Price { get; }
 
     public int Quantity { get; }
+
+    public string ImageUrl { get; }
 }

@@ -5,15 +5,17 @@ using Application.Common;
 public abstract class BookCommand<TCommand> : EntityCommand<int>
     where TCommand : EntityCommand<int>
 {
-    public string Title { get; init; } = default!;
+    public required string Title { get; init; }
 
-    public decimal Price { get; init; }
+    public required decimal Price { get; init; }
 
-    public int Quantity { get; init; }
+    public required int Quantity { get; init; }
 
-    public string Description { get; init; } = default!;
+    public required string ImageUrl { get; init; } 
 
-    public string Genre { get; init; } = default!;
+    public required string Description { get; init; }
 
-    public string Author { get; init; } = default!;
+    public required int Genre { get; init; }
+
+    public required string Author { get; init; }
 }
