@@ -93,7 +93,7 @@ public static class InfrastructureConfiguration
 
         var secret = configuration
             .GetSection(nameof(ApplicationSettings))
-            .GetValue<string>(nameof(ApplicationSettings.Secret));
+            .GetValue<string>(nameof(ApplicationSettings.Secret))!;
 
         var key = Encoding.ASCII.GetBytes(secret);
 

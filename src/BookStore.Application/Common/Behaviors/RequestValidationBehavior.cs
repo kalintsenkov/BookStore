@@ -19,8 +19,8 @@ public class RequestValidationBehavior<TRequest, TResponse>
 
     public Task<TResponse> Handle(
         TRequest request,
-        CancellationToken cancellationToken,
-        RequestHandlerDelegate<TResponse> next)
+        RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         var context = new ValidationContext<TRequest>(request);
 

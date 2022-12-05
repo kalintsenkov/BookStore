@@ -11,12 +11,12 @@ public class CurrentUserService : ICurrentUser
     {
         var user = httpContextAccessor.HttpContext?.User;
 
-        if (user == null)
+        if (user is null)
         {
             throw new InvalidOperationException("This request does not have an authenticated user.");
         }
 
-        this.UserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+        this.UserId = user.FindFirstValue(ClaimTypes.NameIdentifier)!;
     }
 
     public string UserId { get; }
