@@ -65,20 +65,15 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .AnyAsync(c => c.Books
                 .Any(sb => sb.Book.Id == bookId), cancellationToken);
 
-    public async Task<bool> Clear(
+    public async Task Clear(
         int id,
         CancellationToken cancellationToken = default)
-    {
-        var shoppingCartBooks = await this.FindBooks(
-            id,
-            cancellationToken);
-
-        this.Data.ShoppingCartBooks.RemoveRange(shoppingCartBooks);
-
-        await this.Data.SaveChangesAsync(cancellationToken);
-
-        return true;
-    }
+        => await this
+            .Data
+            .ShoppingCarts
+            .Where(sc => sc.Id == id)
+            .SelectMany(sc => sc.Books)
+            .ExecuteDeleteAsync(cancellationToken);
 
     public async Task<int> TotalBooks(
         int customerId,
@@ -103,16 +98,6 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
             .ShoppingCartBooks
             .Where(sb => sb.Book.Id == bookId)
             .FirstOrDefaultAsync(cancellationToken);
-
-    private async Task<IEnumerable<ShoppingCartBook>> FindBooks(
-        int shoppingCartId,
-        CancellationToken cancellationToken = default)
-        => await this
-            .Data
-            .ShoppingCarts
-            .Where(sc => sc.Id == shoppingCartId)
-            .SelectMany(sc => sc.Books)
-            .ToListAsync(cancellationToken);
 
     private IQueryable<ShoppingCartBook> GetBooksQuery(
         int customerId)

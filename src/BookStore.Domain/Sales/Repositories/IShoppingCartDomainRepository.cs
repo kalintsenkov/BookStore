@@ -20,7 +20,7 @@ public interface IShoppingCartDomainRepository : IDomainRepository<ShoppingCart>
         int bookId,
         CancellationToken cancellationToken = default);
 
-    Task<bool> Clear(
+    Task Clear(
         int id,
         CancellationToken cancellationToken = default);
 }
