@@ -6,7 +6,7 @@ using Application.Common.Models;
 using Common;
 using MediatR;
 
-public class UserRegisterCommand : UserRequestModel, IRequest<Result<UserResponseModel>>
+public class UserRegisterCommand : UserRegisterRequestModel, IRequest<Result<UserResponseModel>>
 {
     public UserRegisterCommand(
         string fullName,
@@ -28,15 +28,6 @@ public class UserRegisterCommand : UserRequestModel, IRequest<Result<UserRespons
         public async Task<Result<UserResponseModel>> Handle(
             UserRegisterCommand request,
             CancellationToken cancellationToken)
-        {
-            var userResult = await this.identity.Register(request);
-
-            if (!userResult.Succeeded)
-            {
-                return userResult.Errors;
-            }
-
-            return await this.identity.Login(request);
-        }
+            => await this.identity.Register(request);
     }
 }

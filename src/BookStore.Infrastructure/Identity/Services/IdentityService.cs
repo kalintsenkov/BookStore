@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Common.Models;
 using Application.Identity;
 using Application.Identity.Commands.Common;
+using Application.Identity.Commands.Register;
 using Common.Events;
 using Domain.Common.Events.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +28,7 @@ internal class IdentityService : IIdentity
         this.eventDispatcher = eventDispatcher;
     }
 
-    public async Task<Result<IUser>> Register(UserRequestModel userRequest)
+    public async Task<Result<UserResponseModel>> Register(UserRegisterRequestModel userRequest)
     {
         var user = new User(userRequest.Email);
 
@@ -39,7 +40,7 @@ internal class IdentityService : IIdentity
         {
             var errors = identityResult.Errors.Select(e => e.Description);
 
-            return Result<IUser>.Failure(errors);
+            return Result<UserResponseModel>.Failure(errors);
         }
 
         var userRegisteredEvent = new UserRegisteredEvent(
@@ -48,7 +49,9 @@ internal class IdentityService : IIdentity
 
         await this.eventDispatcher.Dispatch(userRegisteredEvent);
 
-        return Result<IUser>.SuccessWith(user);
+        var token = await this.jwtGenerator.GenerateToken(user);
+
+        return new UserResponseModel(token);
     }
 
     public async Task<Result<UserResponseModel>> Login(UserRequestModel userRequest)
