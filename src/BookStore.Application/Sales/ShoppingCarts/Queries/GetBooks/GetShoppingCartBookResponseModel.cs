@@ -9,5 +9,7 @@ public class GetShoppingCartBookResponseModel : IMapFrom<ShoppingCartBook>
 
     public decimal BookPrice { get; private set; }
 
+    public string BookImageUrl { get; private set; } = default!;
+
     public int Quantity { get; private set; }
 }

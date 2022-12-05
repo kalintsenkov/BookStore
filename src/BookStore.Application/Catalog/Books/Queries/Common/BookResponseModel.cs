@@ -12,6 +12,8 @@ public class BookResponseModel : IMapFrom<Book>
 
     public decimal Price { get; private set; }
 
+    public string ImageUrl { get; private set; } = default!;
+
     public string Genre { get; private set; } = default!;
 
     public string AuthorName { get; private set; } = default!;
