@@ -4,8 +4,10 @@ namespace BookStore.Infrastructure.Common.Persistence.Migrations;
 using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
+/// <inheritdoc />
 public partial class Initial : Migration
 {
+    /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
@@ -18,7 +20,7 @@ public partial class Initial : Migration
                 State = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                 PostalCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                 Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
-                PhoneNumber_Number = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                PhoneNumberNumber = table.Column<string>(name: "PhoneNumber_Number", type: "nvarchar(20)", maxLength: 20, nullable: false)
             },
             constraints: table =>
             {
@@ -86,7 +88,8 @@ public partial class Initial : Migration
                     .Annotation("SqlServer:Identity", "1, 1"),
                 Title = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
                 Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                Quantity = table.Column<int>(type: "int", nullable: false)
+                Quantity = table.Column<int>(type: "int", nullable: false),
+                ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false)
             },
             constraints: table =>
             {
@@ -235,8 +238,9 @@ public partial class Initial : Migration
                 Title = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
                 Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
                 Quantity = table.Column<int>(type: "int", nullable: false),
+                ImageUrl = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
                 Description = table.Column<string>(type: "nvarchar(1200)", maxLength: 1200, nullable: false),
-                Genre_Value = table.Column<int>(type: "int", nullable: false),
+                GenreValue = table.Column<int>(name: "Genre_Value", type: "int", nullable: false),
                 AuthorId = table.Column<int>(type: "int", nullable: false)
             },
             constraints: table =>
@@ -257,7 +261,7 @@ public partial class Initial : Migration
                 Id = table.Column<int>(type: "int", nullable: false)
                     .Annotation("SqlServer:Identity", "1, 1"),
                 Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                Status_Value = table.Column<int>(type: "int", nullable: false),
+                StatusValue = table.Column<int>(name: "Status_Value", type: "int", nullable: false),
                 CustomerId = table.Column<int>(type: "int", nullable: false)
             },
             constraints: table =>
@@ -432,6 +436,7 @@ public partial class Initial : Migration
             unique: true);
     }
 
+    /// <inheritdoc />
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(

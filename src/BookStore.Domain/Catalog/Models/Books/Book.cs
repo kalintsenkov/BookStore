@@ -6,9 +6,8 @@ using Common.Events.Catalog;
 using Common.Models;
 using Exceptions;
 
+using static Common.Models.ModelConstants.Book;
 using static Common.Models.ModelConstants.Common;
-using static ModelConstants.Common;
-using static ModelConstants.Book;
 
 public class Book : Entity<int>, IAggregateRoot
 {

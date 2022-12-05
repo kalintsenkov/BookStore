@@ -4,7 +4,6 @@ using Domain.Catalog.Models.Books;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using static Domain.Catalog.Models.ModelConstants.Common;
 using static Domain.Common.Models.ModelConstants.Common;
 
 internal class BookConfiguration : IEntityTypeConfiguration<Book>

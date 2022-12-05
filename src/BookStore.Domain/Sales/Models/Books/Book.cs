@@ -4,8 +4,8 @@ using Common;
 using Common.Models;
 using Exceptions;
 
+using static Common.Models.ModelConstants.Book;
 using static Common.Models.ModelConstants.Common;
-using static Catalog.Models.ModelConstants.Book;
 
 public class Book : Entity<int>, IAggregateRoot
 {
