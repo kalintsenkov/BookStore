@@ -1,6 +1,7 @@
 ﻿namespace BookStore.Application.Catalog.Books.Queries.Common;
 
 using Application.Common.Mapping;
+using AutoMapper;
 using Domain.Catalog.Models.Books;
 
 public class BookResponseModel : IMapFrom<Book>
@@ -16,4 +17,10 @@ public class BookResponseModel : IMapFrom<Book>
     public string AuthorName { get; private set; } = default!;
 
     public bool IsAvailable { get; private set; }
+
+    public void Mapping(Profile mapper)
+        => mapper
+            .CreateMap<Book, BookResponseModel>()
+            .ForMember(m => m.IsAvailable, cfg => cfg
+                .MapFrom(m => m.Quantity != 0));
 }
