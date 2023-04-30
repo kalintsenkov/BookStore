@@ -1,8 +1,12 @@
 ﻿namespace BookStore.Application.Catalog.Books.Queries.Search;
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Contracts;
+using Common;
 using Domain.Catalog.Models.Books;
 using Domain.Catalog.Specifications.Books;
 using Domain.Common;
@@ -30,10 +34,16 @@ public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
 
     public class BooksSearchQueryHandler : IRequestHandler<BooksSearchQuery, BooksSearchResponseModel>
     {
+        private readonly IMemoryDatabase memoryDatabase;
         private readonly IBookQueryRepository bookRepository;
 
-        public BooksSearchQueryHandler(IBookQueryRepository bookRepository)
-            => this.bookRepository = bookRepository;
+        public BooksSearchQueryHandler(
+            IMemoryDatabase memoryDatabase,
+            IBookQueryRepository bookRepository)
+        {
+            this.memoryDatabase = memoryDatabase;
+            this.bookRepository = bookRepository;
+        }
 
         public async Task<BooksSearchResponseModel> Handle(
             BooksSearchQuery request,
@@ -45,6 +55,34 @@ public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
                 request.SortBy,
                 request.Order);
 
+            var totalBooks = await this.bookRepository.Total(
+                specification,
+                cancellationToken);
+
+            var totalPages = (int)Math.Ceiling((double)totalBooks / BooksPerPage);
+
+            var isDefaultQuery = request is
+            {
+                Page: 1,
+                Title: null,
+                MinPrice: null,
+                MaxPrice: null,
+                Genre: null,
+                Author: null,
+                SortBy: null,
+                Order: null
+            };
+
+            if (isDefaultQuery)
+            {
+                var cachedBooks = await this.memoryDatabase.Get<List<BookResponseModel>>("books:search");
+
+                if (cachedBooks is not null && cachedBooks.Any())
+                {
+                    return new BooksSearchResponseModel(cachedBooks, request.Page, totalPages);
+                }
+            }
+
             var skip = (request.Page - 1) * BooksPerPage;
 
             var booksListing = await this.bookRepository.GetBooksListing(
@@ -54,11 +92,10 @@ public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
                 take: BooksPerPage,
                 cancellationToken);
 
-            var totalBooks = await this.bookRepository.Total(
-                specification,
-                cancellationToken);
-
-            var totalPages = (int)Math.Ceiling((double)totalBooks / BooksPerPage);
+            if (isDefaultQuery)
+            {
+                await this.memoryDatabase.AddOrUpdate("books:search", booksListing);
+            }
 
             return new BooksSearchResponseModel(booksListing, request.Page, totalPages);
         }

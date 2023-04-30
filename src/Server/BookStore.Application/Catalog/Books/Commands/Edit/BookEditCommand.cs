@@ -2,6 +2,7 @@
 
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Contracts;
 using Application.Common.Exceptions;
 using Application.Common.Models;
 using Common;
@@ -14,13 +15,16 @@ public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int
 {
     public class BookEditCommandHandler : IRequestHandler<BookEditCommand, Result<int>>
     {
+        private readonly IMemoryDatabase memoryDatabase;
         private readonly IBookDomainRepository bookRepository;
         private readonly IAuthorDomainRepository authorRepository;
 
         public BookEditCommandHandler(
+            IMemoryDatabase memoryDatabase,
             IBookDomainRepository bookRepository,
             IAuthorDomainRepository authorRepository)
         {
+            this.memoryDatabase = memoryDatabase;
             this.bookRepository = bookRepository;
             this.authorRepository = authorRepository;
         }
@@ -57,6 +61,10 @@ public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int
                 .UpdateAuthor(author);
 
             await this.bookRepository.Save(book, cancellationToken);
+
+            await this.memoryDatabase.Remove("books:search");
+
+            await this.memoryDatabase.AddOrUpdate("books:" + book.Id, book);
 
             return book.Id;
         }

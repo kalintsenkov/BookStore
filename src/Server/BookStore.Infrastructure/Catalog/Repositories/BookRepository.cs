@@ -8,6 +8,7 @@ using Application.Catalog.Books;
 using Application.Catalog.Books.Queries.Common;
 using Application.Catalog.Books.Queries.Search;
 using AutoMapper;
+using BookStore.Application.Catalog.Books.Queries.Details;
 using Common.Events;
 using Common.Extensions;
 using Common.Repositories;
@@ -20,6 +21,9 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
     IBookDomainRepository,
     IBookQueryRepository
 {
+    //private const string BookDetailsKey = "books:";
+    //private const string BooksListingKey = "books:search";
+
     public BookRepository(
         ICatalogDbContext db,
         IMapper mapper,
@@ -54,11 +58,11 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
         return true;
     }
 
-    public async Task<BookResponseModel?> Details(
+    public async Task<BookDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default)
         => await this.Mapper
-            .ProjectTo<BookResponseModel>(this
+            .ProjectTo<BookDetailsResponseModel>(this
                 .AllAsNoTracking()
                 .Where(b => b.Id == id))
             .FirstOrDefaultAsync(cancellationToken);

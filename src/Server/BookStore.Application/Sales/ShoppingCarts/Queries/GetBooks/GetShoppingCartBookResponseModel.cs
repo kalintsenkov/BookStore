@@ -5,6 +5,8 @@ using Domain.Sales.Models.ShoppingCarts;
 
 public class GetShoppingCartBookResponseModel : IMapFrom<ShoppingCartBook>
 {
+    public int BookId { get; private set; }
+
     public string BookTitle { get; private set; } = default!;
 
     public decimal BookPrice { get; private set; }

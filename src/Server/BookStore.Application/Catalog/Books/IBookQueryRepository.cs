@@ -7,11 +7,12 @@ using Common.Contracts;
 using Domain.Catalog.Models.Books;
 using Domain.Common;
 using Queries.Common;
+using Queries.Details;
 using Queries.Search;
 
 public interface IBookQueryRepository : IQueryRepository<Book>
 {
-    Task<BookResponseModel?> Details(
+    Task<BookDetailsResponseModel?> Details(
         int id,
         CancellationToken cancellationToken = default);
 

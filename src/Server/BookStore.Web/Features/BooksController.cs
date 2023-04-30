@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Application.Catalog.Books.Commands.Create;
 using Application.Catalog.Books.Commands.Delete;
 using Application.Catalog.Books.Commands.Edit;
-using Application.Catalog.Books.Queries.Common;
 using Application.Catalog.Books.Queries.Details;
 using Application.Catalog.Books.Queries.Search;
 using Application.Common;
@@ -24,7 +23,7 @@ public class BooksController : ApiController
     [HttpGet]
     [Route(Id)]
     [AllowAnonymous]
-    public async Task<ActionResult<BookResponseModel?>> Details(
+    public async Task<ActionResult<BookDetailsResponseModel?>> Details(
         [FromRoute] BookDetailsQuery query)
         => await this.Send(query);
 

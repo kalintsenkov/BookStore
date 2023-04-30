@@ -6,21 +6,21 @@ using Domain.Catalog.Models.Books;
 
 public class BookResponseModel : IMapFrom<Book>
 {
-    public int Id { get; private set; }
+    public int Id { get; init; }
 
-    public string Title { get; private set; } = default!;
+    public string Title { get; init; } = default!;
 
-    public decimal Price { get; private set; }
+    public decimal Price { get; init; }
 
-    public string ImageUrl { get; private set; } = default!;
+    public string ImageUrl { get; init; } = default!;
 
-    public string Genre { get; private set; } = default!;
+    public string Genre { get; init; } = default!;
 
-    public string AuthorName { get; private set; } = default!;
+    public string AuthorName { get; init; } = default!;
 
-    public bool IsAvailable { get; private set; }
+    public bool IsAvailable { get; init; }
 
-    public void Mapping(Profile mapper)
+    public virtual void Mapping(Profile mapper)
         => mapper
             .CreateMap<Book, BookResponseModel>()
             .ForMember(m => m.IsAvailable, cfg => cfg

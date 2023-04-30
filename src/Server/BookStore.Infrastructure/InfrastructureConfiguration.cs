@@ -30,6 +30,7 @@ public static class InfrastructureConfiguration
         IConfiguration configuration)
         => services
             .AddDatabase(configuration)
+            .AddMemoryDatabase(configuration)
             .AddRepositories()
             .AddIdentity(configuration)
             .AddTransient<IEventDispatcher, EventDispatcher>();
