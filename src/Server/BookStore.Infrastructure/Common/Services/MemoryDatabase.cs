@@ -1,5 +1,8 @@
 ﻿namespace BookStore.Infrastructure.Common.Services;
 
+using System.Collections.Generic;
+using System;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Application.Common.Contracts;
 using StackExchange.Redis;
@@ -11,35 +14,77 @@ internal class MemoryDatabase : IMemoryDatabase
     public MemoryDatabase(IConnectionMultiplexer connection)
         => this.connection = connection;
 
-    public async Task Increment(string key)
+    public async Task AddOrUpdate<TValue>(string key, TValue value)
     {
         var database = this.connection.GetDatabase();
 
-        await database.StringIncrementAsync(key);
+        var json = JsonSerializer.Serialize(value);
+
+        await database.StringSetAsync(key, json, TimeSpan.FromMinutes(30));
     }
 
-    public async Task<TValue> Get<TValue>(string key)
+    public async Task<TValue?> Get<TValue>(string key)
     {
         var database = this.connection.GetDatabase();
 
-        var value = await database.StringGetAsync(key);
+        if (!database.KeyExists(key))
+        {
+            return default;
+        }
 
-        return (TValue)value.Box()!;
+        var json = await database.StringGetAsync(key);
+
+        var value = JsonSerializer.Deserialize<TValue>(json!);
+
+        return value;
     }
 
-    public async Task HashIncrement(string key, string hashField)
+    public async Task Remove(string key)
     {
         var database = this.connection.GetDatabase();
 
-        await database.HashIncrementAsync(key, hashField);
+        await database.KeyDeleteAsync(key);
     }
 
-    public async Task<TValue> HashGet<TValue>(string key, string hashField)
+    public async Task<List<TValue>> GetList<TValue>(string key)
     {
         var database = this.connection.GetDatabase();
 
-        var value = await database.HashGetAsync(key, hashField);
+        if (!database.KeyExists(key))
+        {
+            return new List<TValue>();
+        }
 
-        return (TValue)value.Box()!;
+        var json = await database.StringGetAsync(key);
+
+        var value = JsonSerializer.Deserialize<List<TValue>>(json!);
+
+        return value!;
+    }
+
+    public async Task AddToList<TValue>(string key, TValue value)
+    {
+        var database = this.connection.GetDatabase();
+
+        var list = await this.GetList<TValue>(key);
+
+        list.Add(value);
+
+        var json = JsonSerializer.Serialize(list);
+
+        await database.StringSetAsync(key, json);
+    }
+
+    public async Task RemoveFromList<TValue>(string key, TValue value)
+    {
+        var database = this.connection.GetDatabase();
+
+        var list = await this.GetList<TValue>(key);
+
+        list.Remove(value);
+
+        var json = JsonSerializer.Serialize(list);
+
+        await database.StringSetAsync(key, json);
     }
 }

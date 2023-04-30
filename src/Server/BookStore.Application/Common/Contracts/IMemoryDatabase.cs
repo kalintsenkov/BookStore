@@ -1,14 +1,19 @@
 ﻿namespace BookStore.Application.Common.Contracts;
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public interface IMemoryDatabase
 {
-    Task Increment(string key);
+    Task AddOrUpdate<TValue>(string key, TValue value);
 
-    Task<TValue> Get<TValue>(string key);
+    Task<TValue?> Get<TValue>(string key);
 
-    Task HashIncrement(string key, string hashField);
+    Task Remove(string key);
 
-    Task<TValue> HashGet<TValue>(string key, string hashField);
+    Task<List<TValue>> GetList<TValue>(string key);
+
+    Task AddToList<TValue>(string key, TValue value);
+
+    Task RemoveFromList<TValue>(string key, TValue value);
 }
