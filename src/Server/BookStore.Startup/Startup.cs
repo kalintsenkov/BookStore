@@ -39,6 +39,7 @@ public class Startup
             .UseAuthentication()
             .UseAuthorization()
             .UseEndpoints(endpoints => endpoints
+                .MapHealthChecks()
                 .MapControllers())
             .Initialize();
 }

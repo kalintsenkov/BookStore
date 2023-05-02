@@ -27,13 +27,19 @@ public static class InfrastructureConfiguration
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        bool databaseHealthChecks = true,
+        bool memoryCacheHealthChecks = true)
         => services
             .AddDatabase(configuration)
             .AddMemoryDatabase(configuration)
             .AddRepositories()
             .AddIdentity(configuration)
-            .AddTransient<IEventDispatcher, EventDispatcher>();
+            .AddTransient<IEventDispatcher, EventDispatcher>()
+            .AddHealth(
+                configuration,
+                databaseHealthChecks,
+                memoryCacheHealthChecks);
 
     private static IServiceCollection AddDatabase(
         this IServiceCollection services,
@@ -116,6 +122,29 @@ public static class InfrastructureConfiguration
                     ValidateAudience = false
                 };
             });
+
+        return services;
+    }
+
+    private static IServiceCollection AddHealth(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        bool databaseHealthChecks = true,
+        bool memoryCacheHealthChecks = true)
+    {
+        var healthChecks = services.AddHealthChecks();
+
+        if (databaseHealthChecks)
+        {
+            healthChecks
+                .AddSqlServer(configuration.GetDefaultConnectionString());
+        }
+
+        if (memoryCacheHealthChecks)
+        {
+            healthChecks
+                .AddRedis(configuration.GetRedisConnectionString());
+        }
 
         return services;
     }
