@@ -21,9 +21,6 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
     IBookDomainRepository,
     IBookQueryRepository
 {
-    //private const string BookDetailsKey = "books:";
-    //private const string BooksListingKey = "books:search";
-
     public BookRepository(
         ICatalogDbContext db,
         IMapper mapper,

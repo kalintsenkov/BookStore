@@ -7,6 +7,7 @@ using Application.Common.Contracts;
 using Application.Common.Models;
 using Domain.Catalog.Repositories;
 using MediatR;
+using static BooksCacheConstants;
 
 public class BookDeleteCommand : EntityCommand<int>, IRequest<Result>
 {
@@ -31,9 +32,9 @@ public class BookDeleteCommand : EntityCommand<int>, IRequest<Result>
                 request.Id,
                 cancellationToken);
 
-            await this.memoryDatabase.Remove("books:search");
+            await this.memoryDatabase.Remove(BooksListingKey);
 
-            await this.memoryDatabase.Remove("books:" + request.Id);
+            await this.memoryDatabase.Remove(BookDetailsKey + request.Id);
 
             return deleted;
         }

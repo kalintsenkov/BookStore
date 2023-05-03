@@ -11,6 +11,7 @@ using Domain.Catalog.Models.Books;
 using Domain.Catalog.Specifications.Books;
 using Domain.Common;
 using MediatR;
+using static BooksCacheConstants;
 
 public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
 {
@@ -75,7 +76,7 @@ public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
 
             if (isDefaultQuery)
             {
-                var cachedBooks = await this.memoryDatabase.Get<List<BookResponseModel>>("books:search");
+                var cachedBooks = await this.memoryDatabase.Get<List<BookResponseModel>>(BooksListingKey);
 
                 if (cachedBooks is not null && cachedBooks.Any())
                 {
@@ -94,7 +95,7 @@ public class BooksSearchQuery : IRequest<BooksSearchResponseModel>
 
             if (isDefaultQuery)
             {
-                await this.memoryDatabase.AddOrUpdate("books:search", booksListing);
+                await this.memoryDatabase.AddOrUpdate(BooksListingKey, booksListing);
             }
 
             return new BooksSearchResponseModel(booksListing, request.Page, totalPages);

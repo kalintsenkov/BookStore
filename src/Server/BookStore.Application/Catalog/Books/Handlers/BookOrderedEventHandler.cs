@@ -5,13 +5,20 @@ using Common.Contracts;
 using Common.Exceptions;
 using Domain.Catalog.Repositories;
 using Domain.Common.Events.Sales;
+using static BooksCacheConstants;
 
 public class BookOrderedEventHandler : IEventHandler<BookOrderedEvent>
 {
+    private readonly IMemoryDatabase memoryDatabase;
     private readonly IBookDomainRepository bookRepository;
 
-    public BookOrderedEventHandler(IBookDomainRepository bookRepository)
-        => this.bookRepository = bookRepository;
+    public BookOrderedEventHandler(
+        IMemoryDatabase memoryDatabase,
+        IBookDomainRepository bookRepository)
+    {
+        this.memoryDatabase = memoryDatabase;
+        this.bookRepository = bookRepository;
+    }
 
     public async Task Handle(BookOrderedEvent domainEvent)
     {
@@ -27,5 +34,9 @@ public class BookOrderedEventHandler : IEventHandler<BookOrderedEvent>
         book.UpdateQuantity(quantity);
 
         await this.bookRepository.Save(book);
+
+        await this.memoryDatabase.Remove(BooksListingKey);
+
+        await this.memoryDatabase.Remove(BookDetailsKey + domainEvent.BookId);
     }
 }

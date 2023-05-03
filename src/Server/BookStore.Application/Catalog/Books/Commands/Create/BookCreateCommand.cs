@@ -11,6 +11,7 @@ using Domain.Catalog.Models.Books;
 using Domain.Catalog.Repositories;
 using Domain.Common.Models;
 using MediatR;
+using static BooksCacheConstants;
 
 public class BookCreateCommand : BookCommand<BookCreateCommand>, IRequest<Result<int>>
 {
@@ -58,9 +59,9 @@ public class BookCreateCommand : BookCommand<BookCreateCommand>, IRequest<Result
 
             await this.bookRepository.Save(book, cancellationToken);
 
-            await this.memoryDatabase.Remove("books:search");
+            await this.memoryDatabase.Remove(BooksListingKey);
 
-            await this.memoryDatabase.AddOrUpdate("books:" + book.Id, book);
+            await this.memoryDatabase.AddOrUpdate(BookDetailsKey + book.Id, book);
 
             return book.Id;
         }
