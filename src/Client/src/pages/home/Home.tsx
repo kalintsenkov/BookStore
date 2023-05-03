@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
-import { useThemeHook } from '../providers/ThemeProvider';
+import { useThemeHook } from '../../providers/ThemeProvider';
 import { BiSearch } from 'react-icons/bi';
 import SearchFilter from 'react-filter-search';
-import BookCard from '../components/BookCard';
-import apiService from '../services/apiService';
-import errorsService from '../services/errorsService';
+import BookCard from '../../components/BookCard';
+import apiService from '../../services/apiService';
+import errorsService from '../../services/errorsService';
 
 const Home = () => {
   const [theme] = useThemeHook();

@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { useThemeHook } from './providers/ThemeProvider';
 import Header from './components/Header';
-import Home from './pages/Home';
-import MyAccount from './pages/MyAccount';
-import SignIn from './pages/SignIn';
-import Register from './pages/Register';
-import BookDetails from './pages/BookDetails';
-import Cart from './pages/Cart';
+import Home from './pages/home/Home';
+import MyAccount from './pages/my-account/MyAccount';
+import SignIn from './pages/authentication/SignIn';
+import Register from './pages/authentication/Register';
+import BookDetails from './pages/books/details/BookDetails';
+import Cart from './pages/cart/Cart';
 import NotFound from './components/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthenticationContext } from './providers/AuthenticationContext';
