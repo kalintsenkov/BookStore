@@ -4,9 +4,10 @@ Book store application created as part of my Information Technology in Industry 
 
 ## :construction_worker: Built with
 
-- [.NET Core 6](https://github.com/dotnet/core) 
-- [ASP.NET Core 6](https://github.com/dotnet/aspnetcore)
-- [Entity Framework Core 6](https://github.com/dotnet/efcore)
+- [.NET Core 7](https://github.com/dotnet/core) 
+- [ASP.NET Core 7](https://github.com/dotnet/aspnetcore)
+- [Entity Framework Core 7](https://github.com/dotnet/efcore)
+- [StackExchange.Redis](https://github.com/StackExchange/StackExchange.Redis)
 - [MediatR](https://github.com/jbogard/MediatR)
 - [FluentValidation](https://github.com/FluentValidation/FluentValidation)
 - [AutoMapper](https://github.com/AutoMapper/AutoMapper)
@@ -15,6 +16,7 @@ Book store application created as part of my Information Technology in Industry 
 - [xUnit](https://github.com/xunit/xunit)
 - [FakeItEasy](https://github.com/FakeItEasy/FakeItEasy)
 - [FluentAssertions](https://github.com/fluentassertions/fluentassertions)
+- [React](https://github.com/facebook/react)
 
 ## 👨‍💻 Template Author
 
