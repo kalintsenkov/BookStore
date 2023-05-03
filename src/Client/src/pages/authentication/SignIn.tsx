@@ -1,16 +1,15 @@
 import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Col, Container, Form, InputGroup, Row, Spinner } from 'react-bootstrap';
-import { useThemeHook } from '../../providers/ThemeProvider';
 
-//icons
 import { AiOutlineUser } from 'react-icons/ai';
 import { VscKey } from 'react-icons/vsc';
 
+import { useThemeHook } from '../../providers/ThemeProvider';
+import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import usersService from '../../services/usersService';
 import errorsService from '../../services/errorsService';
-import { Link, useNavigate } from 'react-router-dom';
 import jwtService from '../../services/jwtService';
-import { AuthenticationContext } from '../../providers/AuthenticationContext';
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);

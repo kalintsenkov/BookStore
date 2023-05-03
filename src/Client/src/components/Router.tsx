@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { useThemeHook } from '../providers/ThemeProvider';
+import { AuthenticationContext } from '../providers/AuthenticationContext';
 import Header from './Header';
 import Home from '../pages/home/Home';
 import MyAccount from '../pages/my-account/MyAccount';
@@ -11,7 +12,6 @@ import BookDetails from '../pages/books/details/BookDetails';
 import Cart from '../pages/cart/Cart';
 import NotFound from './NotFound';
 import ProtectedRoute from './ProtectedRoute';
-import { AuthenticationContext } from '../providers/AuthenticationContext';
 
 const AppRouter = (): JSX.Element => {
   const [theme] = useThemeHook();

@@ -1,9 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import { ThemeContext } from '../providers/ThemeProvider';
-import { BiCart, BiMoon, BiSun } from 'react-icons/bi';
-import { VscAccount } from 'react-icons/vsc';
 import { Link } from 'react-router-dom';
+
+import { Container, Nav, Navbar } from 'react-bootstrap';
+
+import { VscAccount } from 'react-icons/vsc';
+import { BiCart, BiMoon, BiSun } from 'react-icons/bi';
+
+import { ThemeContext } from '../providers/ThemeProvider';
 import { AuthenticationContext } from '../providers/AuthenticationContext';
 
 const Header = () => {

@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Container, Row } from 'react-bootstrap';
-import { useThemeHook } from '../../../providers/ThemeProvider';
-import Lightbox from 'react-lightbox-component';
-import 'react-lightbox-component/build/css/index.css';
-import './book-details.css';
-import { BsCartPlus } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
+
+import 'react-lightbox-component/build/css/index.css';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import Lightbox from 'react-lightbox-component';
+import { BsCartPlus } from 'react-icons/bs';
+
+import './book-details.css';
+import { useThemeHook } from '../../../providers/ThemeProvider';
 import apiService from '../../../services/apiService';
 import errorsService from '../../../services/errorsService';
 

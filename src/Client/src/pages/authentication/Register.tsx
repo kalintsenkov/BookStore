@@ -1,11 +1,13 @@
 import { useContext, useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { useThemeHook } from '../../providers/ThemeProvider';
-import 'react-phone-input-2/lib/high-res.css';
 import { useNavigate } from 'react-router-dom';
+
+import 'react-phone-input-2/lib/high-res.css';
+import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
+
+import { useThemeHook } from '../../providers/ThemeProvider';
+import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import usersService from '../../services/usersService';
 import errorsService from '../../services/errorsService';
-import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import jwtService from '../../services/jwtService';
 
 const Register = () => {

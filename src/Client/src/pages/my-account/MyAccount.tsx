@@ -1,15 +1,17 @@
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { Col, Container, Image, Nav, Row, Tab } from 'react-bootstrap';
-import { useThemeHook } from '../../providers/ThemeProvider';
-import Heading from '../../components/Heading';
-import profilePix from '../../images/profile-picture.png';
 import { FaClipboardList, FaUser } from 'react-icons/fa';
 import { IoLocationSharp, IoLogOut } from 'react-icons/io5';
+
 import './my-account.css';
-import OrderCard from '../../components/OrderCard';
-import { useNavigate } from 'react-router-dom';
-import usersService from '../../services/usersService';
-import { useContext } from 'react';
+import profilePix from '../../images/profile-picture.png';
+import { useThemeHook } from '../../providers/ThemeProvider';
 import { AuthenticationContext } from '../../providers/AuthenticationContext';
+import Heading from '../../components/Heading';
+import OrderCard from '../../components/OrderCard';
+import usersService from '../../services/usersService';
 
 const MyAccount = () => {
   const [theme] = useThemeHook();
