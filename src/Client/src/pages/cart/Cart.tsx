@@ -4,8 +4,10 @@ import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 import { useThemeHook } from '../../providers/ThemeProvider';
 import apiService from '../../services/apiService';
 import errorsService from '../../services/errorsService';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
+  const navigate = useNavigate();
   const [theme] = useThemeHook();
   const [booksData, setBooksData] = useState([]);
 
@@ -43,6 +45,15 @@ const Cart = () => {
       })
       .subscribe({
         next: () => getResponse(),
+        error: errorsService.handle
+      });
+  };
+
+  const createOrder = async () => {
+    apiService
+      .post('https://localhost:5001/orders')
+      .subscribe({
+        next: () => navigate('/my-account'),
         error: errorsService.handle
       });
   };
@@ -89,9 +100,13 @@ const Cart = () => {
                 <td>Quantity ({item.quantity})</td>
                 <td>
                   <Button onClick={() => editQuantity(item.bookId, item.quantity - 1)}
-                          className='ms-2'>-</Button>
+                          className='ms-2'>
+                    -
+                  </Button>
                   <Button onClick={() => editQuantity(item.bookId, item.quantity + 1)}
-                          className='ms-2'>+</Button>
+                          className='ms-2'>
+                    +
+                  </Button>
                   <Button variant='danger' onClick={() => removeBook(item.bookId)} className='ms-2'>
                     Remove Item
                   </Button>
@@ -104,10 +119,15 @@ const Cart = () => {
         {booksData.length !== 0 &&
           <Row
             style={{ position: 'fixed', bottom: 0 }}
-            className={`${theme ? 'bg-light-black text-light' : 'bg-light text-balck'} justify-content-center w-100`}
+            className={`${theme ? 'bg-light-black text-light' : 'bg-light text-black'} justify-content-center w-100`}
           >
             <Col className='py-2'>
               <h4>Total Price: ${totalPrice().toFixed(2)}</h4>
+            </Col>
+            <Col className='py-2'>
+              <Button className='ms-2 float-end' onClick={() => createOrder()}>
+                Order
+              </Button>
             </Col>
           </Row>}
       </Row>

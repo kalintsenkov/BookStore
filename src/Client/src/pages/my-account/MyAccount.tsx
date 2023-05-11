@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Col, Container, Image, Nav, Row, Tab } from 'react-bootstrap';
@@ -10,19 +10,34 @@ import profilePix from '../../images/profile-picture.png';
 import { useThemeHook } from '../../providers/ThemeProvider';
 import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import Heading from '../../components/Heading';
-import OrderCard from '../../components/OrderCard';
 import usersService from '../../services/usersService';
+import apiService from '../../services/apiService';
+import errorsService from '../../services/errorsService';
+import MyOrders from './MyOrders';
+import MyAddress from './MyAddress';
+import MyWallet from './MyWallet';
+import MyDetails from './MyDetails';
 
 const MyAccount = () => {
   const [theme] = useThemeHook();
   const navigate = useNavigate();
   const { setIsAuthenticated } = useContext(AuthenticationContext);
+  const [ordersData, setOrdersData] = useState([]);
 
   const logout = () => {
     usersService.logout();
     setIsAuthenticated(false);
     navigate('/', { replace: true });
   };
+
+  useEffect(() => {
+    apiService
+      .get('https://localhost:5001/orders/mine')
+      .subscribe({
+        next: response => setOrdersData(response.data.models),
+        error: errorsService.handle
+      });
+  }, []);
 
   return (
     <Container className='py-5 mt-5'>
@@ -70,30 +85,16 @@ const MyAccount = () => {
           <Col sm={8} className={`${theme ? 'text-light bg-dark' : 'text-black bg-light'} p-2 rounded`}>
             <Tab.Content>
               <Tab.Pane eventKey='my-orders'>
-                <Heading heading='My Orders' size='h3' />
-                <OrderCard
-                  orderDate='24 Jun, 2022'
-                  orderId='1234'
-                  title='Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops'
-                  img='https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg'
-                  deliveredDate='05 July, 2022'
-                />
-                <OrderCard
-                  orderDate='24 Jun, 2022'
-                  orderId='1334'
-                  title='Mens Casual Premium Slim Fit T-Shirts'
-                  img='https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg'
-                  deliveredDate='05 July, 2022'
-                />
+                <MyOrders orders={ordersData} />
               </Tab.Pane>
               <Tab.Pane eventKey='account-details'>
-                <Heading heading='Account details' size='h3' />
+                <MyDetails />
               </Tab.Pane>
               <Tab.Pane eventKey='address'>
-                <Heading heading='Address' size='h3' />
+                <MyAddress />
               </Tab.Pane>
               <Tab.Pane eventKey='wallet'>
-                <Heading heading='Wallet' size='h3' />
+                <MyWallet />
               </Tab.Pane>
             </Tab.Content>
           </Col>
