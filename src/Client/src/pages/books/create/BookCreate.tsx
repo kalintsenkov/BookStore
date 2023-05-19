@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import 'react-lightbox-component/build/css/index.css';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
@@ -10,37 +10,17 @@ import errorsService from '../../../services/errorsService';
 import routes from '../../../common/routes';
 import { Genre } from '../../../models/Genre';
 
-const BookEdit = (): JSX.Element => {
-  const { id } = useParams();
-
+const BookCreate = (): JSX.Element => {
   const navigate = useNavigate();
   const [theme] = useThemeHook();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState<string>('');
-  const [price, setPrice] = useState<number>(0);
-  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(1);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [genre, setGenre] = useState<number>(Genre.Horror.value);
   const [author, setAuthor] = useState<string>('');
-
-  useEffect(() => {
-    apiService
-      .get(`https://localhost:5001/books/${id}`)
-      .subscribe({
-        next: value => {
-          const book = value.data;
-          setTitle(book.title);
-          setPrice(book.price);
-          setQuantity(book.quantity);
-          setImageUrl(book.imageUrl);
-          setDescription(book.description);
-          setGenre(Genre.fromName(book.genre)!.value);
-          setAuthor(book.authorName);
-        },
-        error: errorsService.handle
-      });
-  }, [id]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -49,7 +29,7 @@ const BookEdit = (): JSX.Element => {
       setLoading(true);
 
       apiService
-        .put(`https://localhost:5001/books/${id}`, {
+        .post(`https://localhost:5001/books`, {
           title,
           price,
           quantity,
@@ -59,9 +39,10 @@ const BookEdit = (): JSX.Element => {
           author
         })
         .subscribe({
-          next: () => {
+          next: res => {
+            const id = Number(res.data);
             setLoading(false);
-            navigate(routes.bookDetails.getRoute(Number(id)));
+            navigate(routes.bookDetails.getRoute(id));
           },
           error: err => {
             setLoading(false);
@@ -77,7 +58,7 @@ const BookEdit = (): JSX.Element => {
         <Col xs={11} sm={10} md={8} lg={4}
              className={`p-4 rounded ${theme ? 'text-light bg-dark' : 'text-black bg-light'}`}>
           <h1 className={`text-center border-bottom pb-3 ${theme ? 'text-dark-primary' : 'text-light-primary'}`}>
-            Edit Book
+            Create Book
           </h1>
           <Form onSubmit={(e) => handleSubmit(e)}>
             <Form.Group className='mb-3'>
@@ -165,7 +146,7 @@ const BookEdit = (): JSX.Element => {
                     aria-hidden='true'
                   />
                   &nbsp;Loading...
-                </> : 'Edit'
+                </> : 'Create'
               }
             </Button>
           </Form>
@@ -175,4 +156,4 @@ const BookEdit = (): JSX.Element => {
   );
 };
 
-export default BookEdit;
+export default BookCreate;

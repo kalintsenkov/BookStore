@@ -19,6 +19,10 @@ const routes = {
     path: '/book/edit/:id',
     getRoute: (id: number) => `/book/edit/${id}`
   },
+  bookCreate: {
+    path: '/book/create',
+    getRoute: () => '/book/create'
+  },
   cart: {
     path: '/cart',
     getRoute: () => '/cart'

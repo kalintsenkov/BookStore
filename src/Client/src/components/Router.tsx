@@ -11,6 +11,7 @@ import Login from '../pages/authentication/Login';
 import Register from '../pages/authentication/Register';
 import BookDetails from '../pages/books/details/BookDetails';
 import BookEdit from '../pages/books/edit/BookEdit';
+import BookCreate from '../pages/books/create/BookCreate';
 import Cart from '../pages/cart/Cart';
 import NotFound from './NotFound';
 import ProtectedRoute from './ProtectedRoute';
@@ -34,6 +35,14 @@ const AppRouter = (): JSX.Element => {
             element={
               <ProtectedRoute isAllowed={usersService.isAdministrator()}>
                 <BookEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.bookCreate.path}
+            element={
+              <ProtectedRoute isAllowed={usersService.isAdministrator()}>
+                <BookCreate />
               </ProtectedRoute>
             }
           />
