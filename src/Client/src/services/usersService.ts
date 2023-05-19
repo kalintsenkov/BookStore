@@ -23,11 +23,20 @@ const usersService = {
   logout: () => {
     jwtService.removeToken();
   },
-  getRole: (): string => {
+  isAdministrator(): boolean {
+    const role = this.getRole();
+
+    if (!role) {
+      return false;
+    }
+
+    return role == 'Administrator';
+  },
+  getRole: (): string | null => {
     const decoded = jwtService.decode();
 
     if (!decoded) {
-      return '';
+      return null;
     }
 
     return decoded.role;

@@ -10,8 +10,9 @@ import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import usersService from '../../services/usersService';
 import errorsService from '../../services/errorsService';
 import jwtService from '../../services/jwtService';
+import routes from '../../common/routes';
 
-const SignIn = () => {
+const Login = () => {
   const [loading, setLoading] = useState(false);
   const [theme] = useThemeHook();
   const navigate = useNavigate();
@@ -19,11 +20,11 @@ const SignIn = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/', { replace: true });
+      navigate(routes.home.getRoute(), { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     const form = event.currentTarget;
 
     event.preventDefault();
@@ -37,7 +38,7 @@ const SignIn = () => {
         .subscribe({
           next: res => {
             jwtService.saveToken(res.data.token);
-            navigate('/', { replace: true });
+            navigate(routes.home.getRoute(), { replace: true });
             setIsAuthenticated(true);
           },
           error: errorsService.handle
@@ -52,7 +53,7 @@ const SignIn = () => {
         <Col xs={11} sm={10} md={8} lg={4}
              className={`p-4 rounded ${theme ? 'text-light bg-dark' : 'text-black bg-light'}`}>
           <h1 className={`text-center border-bottom pb-3 ${theme ? 'text-dark-primary' : 'text-light-primary'}`}>
-            Sign in
+            Login
           </h1>
           <Form onSubmit={handleSubmit}>
             <InputGroup className='mb-4 mt-5'>
@@ -92,7 +93,7 @@ const SignIn = () => {
                 New to BookStore?
               </Form.Text>
               <Row className='py-2 border-bottom mb-3' />
-              <Link to='/register' className='btn btn-info rounded-0'>
+              <Link to={routes.register.getRoute()} className='btn btn-info rounded-0'>
                 Create your BookStore account
               </Link>
             </Form.Group>
@@ -103,4 +104,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Login;

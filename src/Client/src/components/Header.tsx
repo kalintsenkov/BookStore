@@ -8,6 +8,7 @@ import { BiCart, BiMoon, BiSun } from 'react-icons/bi';
 
 import { ThemeContext } from '../providers/ThemeProvider';
 import { AuthenticationContext } from '../providers/AuthenticationContext';
+import routes from '../common/routes';
 
 const Header = () => {
   const [theme, setTheme] = useContext(ThemeContext);
@@ -25,7 +26,7 @@ const Header = () => {
             style={{ width: '100%', position: 'fixed', zIndex: 100 }}
     >
       <Container>
-        <Link to='/'>
+        <Link to={routes.home.getRoute()}>
           <Navbar.Brand className={darkMode ? 'text-dark-primary' : 'text-light-primary'}>
             <b>BookStore</b>
           </Navbar.Brand>
@@ -34,7 +35,7 @@ const Header = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ms-auto'>
             {!isAuthenticated ? (
-              <Link to='sign-in'
+              <Link to={routes.login.getRoute()}
                     className={`nav-link ${darkMode ? 'text-dark-primary' : 'text-light-primary'}`}>
                 Sign in
               </Link>
@@ -49,7 +50,7 @@ const Header = () => {
             </Nav.Link>
             {isAuthenticated ? (
               <Link
-                to='/cart'
+                to={routes.cart.getRoute()}
                 className={`${darkMode ? 'text-dark-primary' : 'text-light-primary'} d-flex align-items-center`}
               >
                 <BiCart size='2rem' />
@@ -62,7 +63,7 @@ const Header = () => {
               <></>
             )}
             {isAuthenticated ? (
-              <Link to='my-account'
+              <Link to={routes.myAccount.getRoute()}
                     className={`nav-link ${darkMode ? 'text-dark-primary' : 'text-light-primary'}`}>
                 <VscAccount size='1.8rem' />
                 &nbsp;My Account

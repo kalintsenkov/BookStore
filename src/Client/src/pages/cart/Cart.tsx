@@ -5,11 +5,12 @@ import { useThemeHook } from '../../providers/ThemeProvider';
 import apiService from '../../services/apiService';
 import errorsService from '../../services/errorsService';
 import { useNavigate } from 'react-router-dom';
+import routes from '../../common/routes';
 
 const Cart = () => {
   const navigate = useNavigate();
   const [theme] = useThemeHook();
-  const [booksData, setBooksData] = useState([]);
+  const [booksData, setBooksData] = useState<any[]>([]);
 
   const getResponse = () => {
     apiService
@@ -24,7 +25,7 @@ const Cart = () => {
     getResponse();
   }, []);
 
-  const editQuantity = async (bookId, quantity) => {
+  const editQuantity = async (bookId: number, quantity: number) => {
     apiService
       .put('https://localhost:5001/shoppingCarts/editQuantity', {
         bookId,
@@ -36,7 +37,7 @@ const Cart = () => {
       });
   };
 
-  const removeBook = async (bookId) => {
+  const removeBook = async (bookId: number) => {
     apiService
       .delete('https://localhost:5001/shoppingCarts/removeBook', {
         data: {
@@ -53,7 +54,7 @@ const Cart = () => {
     apiService
       .post('https://localhost:5001/orders')
       .subscribe({
-        next: () => navigate('/my-account'),
+        next: () => navigate(routes.myAccount.getRoute()),
         error: errorsService.handle
       });
   };

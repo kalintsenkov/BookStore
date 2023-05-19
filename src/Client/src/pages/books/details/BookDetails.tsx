@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import 'react-lightbox-component/build/css/index.css';
 import { Button, Col, Container, Row } from 'react-bootstrap';
+// @ts-ignore
 import Lightbox from 'react-lightbox-component';
 import { BsCartPlus } from 'react-icons/bs';
 
@@ -10,6 +11,8 @@ import './book-details.css';
 import { useThemeHook } from '../../../providers/ThemeProvider';
 import apiService from '../../../services/apiService';
 import errorsService from '../../../services/errorsService';
+import usersService from '../../../services/usersService';
+import routes from '../../../common/routes';
 
 const BookDetails = (): JSX.Element => {
   const { id } = useParams();
@@ -34,7 +37,16 @@ const BookDetails = (): JSX.Element => {
         quantity: 1
       })
       .subscribe({
-        next: () => navigate('/cart'),
+        next: () => navigate(routes.cart.getRoute()),
+        error: errorsService.handle
+      });
+  };
+
+  const deleteBook = () => {
+    apiService
+      .delete(`https://localhost:5001/books/${id}`)
+      .subscribe({
+        next: () => navigate(routes.home.getRoute()),
         error: errorsService.handle
       });
   };
@@ -76,6 +88,25 @@ const BookDetails = (): JSX.Element => {
           <p className='mt-3 h5' style={{ opacity: '0.8', fontWeight: '400' }}>
             {bookData.description}
           </p>
+          {usersService.isAdministrator() ? (
+            <>
+              <Button
+                className={theme ? 'bg-dark-primary text-black' : 'bg-light-primary'}
+                style={{ borderRadius: '0', border: 0, marginRight: 15 }}
+              >
+                Edit
+              </Button>
+              <Button
+                onClick={() => deleteBook()}
+                className={theme ? 'bg-dark-primary text-black' : 'bg-light-primary'}
+                style={{ borderRadius: '0', border: 0 }}
+              >
+                Delete
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
         </Col>
       </Row>
     </Container>

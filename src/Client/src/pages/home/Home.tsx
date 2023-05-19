@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 
 import { BiSearch } from 'react-icons/bi';
+// @ts-ignore
 import SearchFilter from 'react-filter-search';
 
 import { useThemeHook } from '../../providers/ThemeProvider';
@@ -11,8 +12,8 @@ import errorsService from '../../services/errorsService';
 
 const Home = () => {
   const [theme] = useThemeHook();
-  const [searchInput, setSearchInput] = useState('');
-  const [booksData, setBooksData] = useState([]);
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [booksData, setBooksData] = useState<any[]>([]);
 
   useEffect(() => {
     apiService
@@ -44,9 +45,9 @@ const Home = () => {
         <SearchFilter
           value={searchInput}
           data={booksData}
-          renderResults={results => (
+          renderResults={(results: any) => (
             <Row className='justify-content-center'>
-              {results.map((item, i) => (
+              {results.map((item: any, i: number) => (
                 <BookCard data={item} key={i} />
               ))}
             </Row>

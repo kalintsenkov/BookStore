@@ -2,7 +2,13 @@ import { Badge, Card, Col, Row } from 'react-bootstrap';
 
 import { useThemeHook } from '../providers/ThemeProvider';
 
-const OrderCard = (props) => {
+interface IOrderCardProps {
+  id: number;
+  date: string;
+  status: string;
+}
+
+const OrderCard = (props: IOrderCardProps) => {
   const [theme] = useThemeHook();
 
   return (

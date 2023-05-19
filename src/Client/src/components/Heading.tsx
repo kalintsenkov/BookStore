@@ -1,6 +1,11 @@
 import { useThemeHook } from '../providers/ThemeProvider';
 
-const Heading = (props) => {
+interface IHeadingProps {
+  size?: string;
+  heading: string;
+}
+
+const Heading = (props: IHeadingProps) => {
   const [theme] = useThemeHook();
 
   return (

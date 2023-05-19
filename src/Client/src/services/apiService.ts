@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { from } from 'rxjs';
 
 import jwtService from './jwtService';
+import routes from '../common/routes';
 
 const axiosInstance = axios.create();
 
@@ -27,7 +28,7 @@ axiosInstance.interceptors.response.use(
   error => {
     const originalRequest = error.config;
     if (error.response.status === 401) {
-      window.location.href = '/sign-in';
+      window.location.href = routes.login.getRoute();
     }
     if (error.response.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;

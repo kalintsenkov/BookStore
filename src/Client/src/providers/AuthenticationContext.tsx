@@ -1,7 +1,10 @@
 import React, { createContext, useState } from 'react';
 
-import IAuthenticationContextProps from './IAuthenticationContextProps';
 import usersService from '../services/usersService';
+
+interface IAuthenticationContextProps {
+  children?: React.ReactNode;
+}
 
 export const AuthenticationContext = createContext({
   isAuthenticated: usersService.isAuthenticated(),

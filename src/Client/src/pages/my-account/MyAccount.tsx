@@ -17,6 +17,7 @@ import MyOrders from './MyOrders';
 import MyAddress from './MyAddress';
 import MyWallet from './MyWallet';
 import MyDetails from './MyDetails';
+import routes from '../../common/routes';
 
 const MyAccount = () => {
   const [theme] = useThemeHook();
@@ -27,7 +28,7 @@ const MyAccount = () => {
   const logout = () => {
     usersService.logout();
     setIsAuthenticated(false);
-    navigate('/', { replace: true });
+    navigate(routes.home.getRoute(), { replace: true });
   };
 
   useEffect(() => {

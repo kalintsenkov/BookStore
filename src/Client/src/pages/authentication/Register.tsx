@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import 'react-phone-input-2/lib/high-res.css';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
@@ -9,6 +9,7 @@ import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import usersService from '../../services/usersService';
 import errorsService from '../../services/errorsService';
 import jwtService from '../../services/jwtService';
+import routes from '../../common/routes';
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
@@ -19,11 +20,11 @@ const Register = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/', { replace: true });
+      navigate(routes.home.getRoute(), { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any) => {
     const form = event.currentTarget;
 
     event.preventDefault();
@@ -46,7 +47,7 @@ const Register = () => {
         .subscribe({
           next: res => {
             jwtService.saveToken(res.data.token);
-            navigate('/', { replace: true });
+            navigate(routes.home.getRoute(), { replace: true });
             setIsAuthenticated(true);
           },
           error: errorsService.handle
@@ -116,6 +117,15 @@ const Register = () => {
                 </> : 'Continue'
               }
             </Button>
+            <Form.Group className='mt-3 text-center'>
+              <Form.Text className='text-muted fw-bold'>
+                Already have an account?
+              </Form.Text>
+              <Row className='py-2 border-bottom mb-3' />
+              <Link to={routes.login.getRoute()} className='btn btn-info rounded-0'>
+                Login
+              </Link>
+            </Form.Group>
           </Form>
         </Col>
       </Row>
