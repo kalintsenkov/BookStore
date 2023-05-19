@@ -10,9 +10,11 @@ import MyAccount from '../pages/my-account/MyAccount';
 import Login from '../pages/authentication/Login';
 import Register from '../pages/authentication/Register';
 import BookDetails from '../pages/books/details/BookDetails';
+import BookEdit from '../pages/books/edit/BookEdit';
 import Cart from '../pages/cart/Cart';
 import NotFound from './NotFound';
 import ProtectedRoute from './ProtectedRoute';
+import usersService from '../services/usersService';
 
 const AppRouter = (): JSX.Element => {
   const [theme] = useThemeHook();
@@ -27,6 +29,14 @@ const AppRouter = (): JSX.Element => {
           <Route path={routes.login.path} element={<Login />} />
           <Route path={routes.register.path} element={<Register />} />
           <Route path={routes.bookDetails.path} element={<BookDetails />} />
+          <Route
+            path={routes.bookEdit.path}
+            element={
+              <ProtectedRoute isAllowed={usersService.isAdministrator()}>
+                <BookEdit />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path={routes.cart.path}
             element={

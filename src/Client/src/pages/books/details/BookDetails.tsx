@@ -91,6 +91,7 @@ const BookDetails = (): JSX.Element => {
           {usersService.isAdministrator() ? (
             <>
               <Button
+                onClick={() => navigate(routes.bookEdit.getRoute(Number(id)))}
                 className={theme ? 'bg-dark-primary text-black' : 'bg-light-primary'}
                 style={{ borderRadius: '0', border: 0, marginRight: 15 }}
               >

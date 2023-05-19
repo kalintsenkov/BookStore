@@ -6,6 +6,8 @@ using Domain.Catalog.Models.Books;
 
 public class BookDetailsResponseModel : BookResponseModel
 {
+    public int Quantity { get; private set; }
+
     public string Description { get; private set; } = default!;
 
     public override void Mapping(Profile mapper)
