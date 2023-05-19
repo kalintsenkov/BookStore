@@ -29,7 +29,7 @@ const BookCard = (props: any) => {
   return (
     <Card
       style={{ width: '18rem', height: 'auto' }}
-      className={`${theme ? 'bg-light-black text-light' : 'bg-lihgt text-black'} text-center p-0 overflow-hidden shadow mx-auto mb-4`}
+      className={`${theme ? 'bg-light-black text-light' : 'bg-light text-black'} text-center p-0 overflow-hidden shadow mx-auto mb-4`}
     >
       <Link to={routes.bookDetails.getRoute(id)}>
         <div style={{
@@ -39,7 +39,6 @@ const BookCard = (props: any) => {
           <div style={{ width: '9rem' }}>
             <Card.Img variant='top' src={imageUrl} className='img-fluid' />
           </div>
-
         </div>
       </Link>
       <Card.Body>
@@ -53,7 +52,7 @@ const BookCard = (props: any) => {
           {genre}
         </Card.Title>
         <Card.Title>
-          $<span className='h3'>{price}</span>
+          <span className='h3'>${price}</span>
         </Card.Title>
         <Button
           onClick={() => addToCart()}

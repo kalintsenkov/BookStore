@@ -91,16 +91,15 @@ const BookDetails = (): JSX.Element => {
           {usersService.isAdministrator() ? (
             <>
               <Button
+                variant='warning'
                 onClick={() => navigate(routes.bookEdit.getRoute(Number(id)))}
-                className={theme ? 'bg-dark-primary text-black' : 'bg-light-primary'}
-                style={{ borderRadius: '0', border: 0, marginRight: 15 }}
+                style={{ marginRight: 15 }}
               >
                 Edit
               </Button>
               <Button
+                variant='danger'
                 onClick={() => deleteBook()}
-                className={theme ? 'bg-dark-primary text-black' : 'bg-light-primary'}
-                style={{ borderRadius: '0', border: 0 }}
               >
                 Delete
               </Button>
