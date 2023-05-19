@@ -30,7 +30,7 @@ const usersService = {
       return false;
     }
 
-    return role == 'Administrator';
+    return role === 'Administrator';
   },
   getRole: (): string | null => {
     const decoded = jwtService.decode();

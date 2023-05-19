@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
 import { useThemeHook } from '../../providers/ThemeProvider';
 import apiService from '../../services/apiService';
 import errorsService from '../../services/errorsService';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import routes from '../../common/routes';
 
-const Cart = () => {
+const Cart = (): JSX.Element => {
   const navigate = useNavigate();
   const [theme] = useThemeHook();
   const [booksData, setBooksData] = useState<any[]>([]);
@@ -79,14 +79,16 @@ const Cart = () => {
             return (
               <tr key={index}>
                 <td>
-                  <div style={{
-                    background: 'white', height: '8rem', overflow: 'hidden', display: 'flex',
-                    justifyContent: 'center', alignItems: 'center'
-                  }}>
-                    <div style={{ padding: '.5rem' }}>
-                      <img src={item.bookImageUrl} style={{ width: '4rem' }} alt={item.bookTitle} />
+                  <Link to={routes.bookDetails.getRoute(item.bookId)}>
+                    <div style={{
+                      background: 'white', height: '8rem', overflow: 'hidden', display: 'flex',
+                      justifyContent: 'center', alignItems: 'center'
+                    }}>
+                      <div style={{ padding: '.5rem' }}>
+                        <img src={item.bookImageUrl} style={{ width: '4rem' }} alt={item.bookTitle} />
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </td>
                 <td>
                   <h6 style={{

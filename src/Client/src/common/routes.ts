@@ -1,4 +1,4 @@
-export default {
+const routes = {
   home: {
     path: '/',
     getRoute: () => '/'
@@ -28,3 +28,5 @@ export default {
     getRoute: () => '/my-account'
   }
 };
+
+export default routes;
