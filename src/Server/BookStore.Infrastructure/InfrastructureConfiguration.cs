@@ -35,6 +35,7 @@ public static class InfrastructureConfiguration
             .AddMemoryDatabase(configuration)
             .AddRepositories()
             .AddIdentity(configuration)
+            .AddTransient<IDateTime, DateTimeService>()
             .AddTransient<IEventDispatcher, EventDispatcher>()
             .AddHealth(
                 configuration,

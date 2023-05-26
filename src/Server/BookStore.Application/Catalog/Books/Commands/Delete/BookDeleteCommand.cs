@@ -1,6 +1,5 @@
 ﻿namespace BookStore.Application.Catalog.Books.Commands.Delete;
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common;
@@ -15,13 +14,16 @@ public class BookDeleteCommand : EntityCommand<int>, IRequest<Result>
 {
     public class BookDeleteCommandHandler : IRequestHandler<BookDeleteCommand, Result>
     {
+        private readonly IDateTime dateTime;
         private readonly IMemoryDatabase memoryDatabase;
         private readonly IBookDomainRepository bookRepository;
 
         public BookDeleteCommandHandler(
+            IDateTime dateTime,
             IMemoryDatabase memoryDatabase,
             IBookDomainRepository bookRepository)
         {
+            this.dateTime = dateTime;
             this.memoryDatabase = memoryDatabase;
             this.bookRepository = bookRepository;
         }
@@ -39,7 +41,7 @@ public class BookDeleteCommand : EntityCommand<int>, IRequest<Result>
                 throw new NotFoundException(nameof(book), request.Id);
             }
 
-            book.Delete(DateTime.UtcNow);
+            book.Delete(this.dateTime.Now);
 
             await this.bookRepository.Save(book, cancellationToken);
 

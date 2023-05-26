@@ -14,19 +14,19 @@ public class Order : Entity<int>, IAggregateRoot
 {
     private readonly HashSet<OrderedBook> orderedBooks;
 
-    internal Order(Customer customer)
+    internal Order(DateTime date, Customer customer)
     {
+        this.Date = date;
         this.Customer = customer;
 
-        this.Date = DateTime.UtcNow;
         this.Status = Status.Pending;
 
         this.orderedBooks = new HashSet<OrderedBook>();
     }
 
-    private Order()
+    private Order(DateTime date)
     {
-        this.Date = DateTime.UtcNow;
+        this.Date = date;
 
         this.Status = default!;
         this.Customer = default!;

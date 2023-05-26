@@ -1,11 +1,11 @@
 ﻿namespace BookStore.Infrastructure.Identity.Services;
 
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Common;
+using Application.Common.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -14,13 +14,16 @@ using static Domain.Common.Models.ModelConstants.Common;
 
 internal class JwtGeneratorService : IJwtGenerator
 {
+    private readonly IDateTime dateTime;
     private readonly UserManager<User> userManager;
     private readonly ApplicationSettings applicationSettings;
 
     public JwtGeneratorService(
+        IDateTime dateTime,
         UserManager<User> userManager,
         IOptions<ApplicationSettings> applicationSettings)
     {
+        this.dateTime = dateTime;
         this.userManager = userManager;
         this.applicationSettings = applicationSettings.Value;
     }
@@ -37,7 +40,7 @@ internal class JwtGeneratorService : IJwtGenerator
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.Email!)
             }),
-            Expires = DateTime.UtcNow.AddDays(7),
+            Expires = this.dateTime.Now.AddDays(7),
             SigningCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)

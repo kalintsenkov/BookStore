@@ -1,6 +1,5 @@
 ﻿namespace BookStore.Application.Sales.Books.Handlers;
 
-using System;
 using System.Threading.Tasks;
 using Common.Contracts;
 using Common.Exceptions;
@@ -9,10 +8,16 @@ using Domain.Sales.Repositories;
 
 public class BookDeletedEventHandler : IEventHandler<BookDeletedEvent>
 {
+    private readonly IDateTime dateTime;
     private readonly IBookDomainRepository bookRepository;
 
-    public BookDeletedEventHandler(IBookDomainRepository bookRepository)
-        => this.bookRepository = bookRepository;
+    public BookDeletedEventHandler(
+        IDateTime dateTime,
+        IBookDomainRepository bookRepository)
+    {
+        this.dateTime = dateTime;
+        this.bookRepository = bookRepository;
+    }
 
     public async Task Handle(BookDeletedEvent domainEvent)
     {
@@ -25,7 +30,7 @@ public class BookDeletedEventHandler : IEventHandler<BookDeletedEvent>
             throw new NotFoundException(nameof(book), id);
         }
 
-        book.Delete(DateTime.UtcNow);
+        book.Delete(this.dateTime.Now);
 
         await this.bookRepository.Save(book);
     }

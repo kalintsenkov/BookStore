@@ -13,6 +13,7 @@ public class OrderCreateCommand : IRequest<Result<int>>
 {
     public class OrderCreateCommandHandler : IRequestHandler<OrderCreateCommand, Result<int>>
     {
+        private readonly IDateTime dateTime;
         private readonly ICurrentUser currentUser;
         private readonly ICustomerDomainRepository customerRepository;
         private readonly IShoppingCartDomainRepository shoppingCartRepository;
@@ -20,12 +21,14 @@ public class OrderCreateCommand : IRequest<Result<int>>
         private readonly IOrderDomainRepository orderRepository;
 
         public OrderCreateCommandHandler(
+            IDateTime dateTime,
             ICurrentUser currentUser,
             ICustomerDomainRepository customerRepository,
             IShoppingCartDomainRepository shoppingCartRepository,
             IOrderFactory orderFactory,
             IOrderDomainRepository orderRepository)
         {
+            this.dateTime = dateTime;
             this.currentUser = currentUser;
             this.customerRepository = customerRepository;
             this.shoppingCartRepository = shoppingCartRepository;
@@ -52,6 +55,7 @@ public class OrderCreateCommand : IRequest<Result<int>>
             }
 
             var order = this.orderFactory
+                .WithDate(this.dateTime.Now)
                 .ForCustomer(customer)
                 .Build();
 
