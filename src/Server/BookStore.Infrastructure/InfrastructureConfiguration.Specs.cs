@@ -9,6 +9,7 @@ using Catalog;
 using Common.Events;
 using Common.Extensions;
 using Common.Persistence;
+using Common.Services;
 using Domain;
 using Domain.Common;
 using FluentAssertions;
@@ -35,6 +36,7 @@ public class InfrastructureConfigurationSpecs
         var services = serviceCollection
             .AddRepositories()
             .AddAutoMapper(assembly)
+            .AddTransient<IDateTime, DateTimeService>()
             .AddTransient<IEventDispatcher, EventDispatcher>()
             .BuildServiceProvider();
 
