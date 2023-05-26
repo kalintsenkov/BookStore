@@ -12,9 +12,14 @@ internal class BookData : IInitialData
         => new List<Book>
         {
             new(
-                title: "It", 
-                price: 19.99M, 
-                quantity: 100, 
-                imageUrl: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1334416842l/830502.jpg")
+                title: "It",
+                price: 16.99M,
+                quantity: 100,
+                imageUrl: "https://m.media-amazon.com/images/I/71oWFPril4L._AC_UF1000,1000_QL80_.jpg"),
+            new(
+                title: "The Hitchhiker's Guide to the Galaxy",
+                price: 7.99M,
+                quantity: 100,
+                imageUrl: "https://m.media-amazon.com/images/I/91TpAAdiBLL.jpg")
         };
 }

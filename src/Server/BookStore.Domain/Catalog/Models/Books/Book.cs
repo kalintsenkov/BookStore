@@ -1,5 +1,6 @@
 ﻿namespace BookStore.Domain.Catalog.Models.Books;
 
+using System;
 using Authors;
 using Common;
 using Common.Events.Catalog;
@@ -158,6 +159,13 @@ public class Book : Entity<int>, IAggregateRoot
         this.Author = author;
 
         return this;
+    }
+
+    public override void Delete(DateTime now)
+    {
+        this.RaiseEvent(new BookDeletedEvent(this.Id));
+
+        base.Delete(now);
     }
 
     private void Validate(

@@ -10,8 +10,4 @@ public interface IBookDomainRepository : IDomainRepository<Book>
     Task<Book?> Find(
         int id,
         CancellationToken cancellationToken = default);
-
-    Task<bool> Delete(
-        int id,
-        CancellationToken cancellationToken = default);
 }

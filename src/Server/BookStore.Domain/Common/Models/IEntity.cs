@@ -7,5 +7,7 @@ public interface IEntity
 {
     IReadOnlyCollection<IDomainEvent> Events { get; }
 
+    bool IsDeleted { get; }
+
     void ClearEvents();
 }

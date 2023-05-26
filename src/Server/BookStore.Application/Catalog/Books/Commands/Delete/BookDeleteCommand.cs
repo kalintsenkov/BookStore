@@ -1,9 +1,11 @@
 ﻿namespace BookStore.Application.Catalog.Books.Commands.Delete;
 
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Common;
 using Application.Common.Contracts;
+using Application.Common.Exceptions;
 using Application.Common.Models;
 using Domain.Catalog.Repositories;
 using MediatR;
@@ -28,15 +30,24 @@ public class BookDeleteCommand : EntityCommand<int>, IRequest<Result>
             BookDeleteCommand request,
             CancellationToken cancellationToken)
         {
-            var deleted = await this.bookRepository.Delete(
+            var book = await this.bookRepository.Find(
                 request.Id,
                 cancellationToken);
+
+            if (book is null)
+            {
+                throw new NotFoundException(nameof(book), request.Id);
+            }
+
+            book.Delete(DateTime.UtcNow);
+
+            await this.bookRepository.Save(book, cancellationToken);
 
             await this.memoryDatabase.Remove(BooksListingKey);
 
             await this.memoryDatabase.Remove(BookDetailsKey + request.Id);
 
-            return deleted;
+            return Result.Success;
         }
     }
 }

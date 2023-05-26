@@ -6,6 +6,7 @@ using Domain.Catalog.Models.Authors;
 using Domain.Sales.Models.Customers;
 using Domain.Sales.Models.Orders;
 using Domain.Sales.Models.ShoppingCarts;
+using Extensions;
 using Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +41,9 @@ internal class BookStoreDbContext : IdentityDbContext<User>,
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        builder
+            .ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly())
+            .ApplyIndexesConfigurations();
 
         base.OnModelCreating(builder);
     }

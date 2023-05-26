@@ -6,9 +6,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Catalog.Books;
 using Application.Catalog.Books.Queries.Common;
+using Application.Catalog.Books.Queries.Details;
 using Application.Catalog.Books.Queries.Search;
 using AutoMapper;
-using BookStore.Application.Catalog.Books.Queries.Details;
 using Common.Events;
 using Common.Extensions;
 using Common.Repositories;
@@ -36,24 +36,6 @@ internal class BookRepository : DataRepository<ICatalogDbContext, Book>,
             .All()
             .Where(b => b.Id == id)
             .FirstOrDefaultAsync(cancellationToken);
-
-    public async Task<bool> Delete(
-        int id,
-        CancellationToken cancellationToken = default)
-    {
-        var book = await this.Data.CatalogBooks.FindAsync(id);
-
-        if (book is null)
-        {
-            return false;
-        }
-
-        this.Data.CatalogBooks.Remove(book);
-
-        await this.Data.SaveChangesAsync(cancellationToken);
-
-        return true;
-    }
 
     public async Task<BookDetailsResponseModel?> Details(
         int id,
