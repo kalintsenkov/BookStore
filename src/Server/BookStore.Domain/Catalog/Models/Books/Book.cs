@@ -74,66 +74,63 @@ public class Book : Entity<int>, IAggregateRoot
 
     public Author Author { get; private set; }
 
+    public void Update(
+        string title,
+        decimal price,
+        int quantity,
+        string imageUrl,
+        string description,
+        Genre genre,
+        Author author)
+    {
+        this.UpdateTitle(title)
+            .UpdatePrice(price)
+            .UpdateQuantity(quantity)
+            .UpdateImageUrl(imageUrl)
+            .UpdateDescription(description)
+            .UpdateGenre(genre)
+            .UpdateAuthor(author);
+
+        this.RaiseEvent(new BookUpdatedEvent(
+            this.Id,
+            this.Title,
+            this.Price,
+            this.Quantity,
+            this.ImageUrl));
+    }
+
     public Book UpdateTitle(string title)
     {
-        if (this.Title != title)
-        {
-            this.ValidateTitle(title);
+        this.ValidateTitle(title);
 
-            this.Title = title;
-
-            this.RaiseEvent(new BookTitleUpdatedEvent(
-                this.Id,
-                this.Title));
-        }
+        this.Title = title;
 
         return this;
     }
 
     public Book UpdatePrice(decimal price)
     {
-        if (this.Price != price)
-        {
-            this.ValidatePrice(price);
+        this.ValidatePrice(price);
 
-            this.Price = price;
-
-            this.RaiseEvent(new BookPriceUpdatedEvent(
-                this.Id,
-                this.Price));
-        }
+        this.Price = price;
 
         return this;
     }
 
     public Book UpdateQuantity(int quantity)
     {
-        if (this.Quantity != quantity)
-        {
-            this.ValidateQuantity(quantity);
+        this.ValidateQuantity(quantity);
 
-            this.Quantity = quantity;
-
-            this.RaiseEvent(new BookQuantityUpdatedEvent(
-                this.Id,
-                this.Quantity));
-        }
+        this.Quantity = quantity;
 
         return this;
     }
 
     public Book UpdateImageUrl(string imageUrl)
     {
-        if (this.ImageUrl != imageUrl)
-        {
-            this.ValidateImageUrl(imageUrl);
+        this.ValidateImageUrl(imageUrl);
 
-            this.ImageUrl = imageUrl;
-
-            this.RaiseEvent(new BookImageUrlUpdatedEvent(
-                this.Id,
-                this.ImageUrl));
-        }
+        this.ImageUrl = imageUrl;
 
         return this;
     }

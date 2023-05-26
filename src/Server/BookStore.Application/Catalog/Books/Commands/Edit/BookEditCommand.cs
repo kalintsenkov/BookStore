@@ -52,14 +52,16 @@ public class BookEditCommand : BookCommand<BookEditCommand>, IRequest<Result<int
                 throw new NotFoundException(nameof(author), request.Author);
             }
 
-            book
-                .UpdateTitle(request.Title)
-                .UpdatePrice(request.Price)
-                .UpdateQuantity(request.Quantity)
-                .UpdateImageUrl(request.ImageUrl)
-                .UpdateDescription(request.Description)
-                .UpdateGenre(Enumeration.FromValue<Genre>(request.Genre))
-                .UpdateAuthor(author);
+            var genre = Enumeration.FromValue<Genre>(request.Genre);
+
+            book.Update(
+                request.Title,
+                request.Price,
+                request.Quantity,
+                request.ImageUrl,
+                request.Description,
+                genre,
+                author);
 
             await this.bookRepository.Save(book, cancellationToken);
 
