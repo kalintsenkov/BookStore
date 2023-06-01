@@ -9,6 +9,7 @@ import Home from '../pages/home/Home';
 import MyAccount from '../pages/my-account/MyAccount';
 import Login from '../pages/authentication/Login';
 import Register from '../pages/authentication/Register';
+import AuthorDetails from '../pages/authors/details/AuthorDetails';
 import BookDetails from '../pages/books/details/BookDetails';
 import BookEdit from '../pages/books/edit/BookEdit';
 import BookCreate from '../pages/books/create/BookCreate';
@@ -29,6 +30,7 @@ const AppRouter = (): JSX.Element => {
           <Route path={routes.home.path} element={<Home />} />
           <Route path={routes.login.path} element={<Login />} />
           <Route path={routes.register.path} element={<Register />} />
+          <Route path={routes.authorDetails.path} element={<AuthorDetails />} />
           <Route path={routes.bookDetails.path} element={<BookDetails />} />
           <Route
             path={routes.bookEdit.path}

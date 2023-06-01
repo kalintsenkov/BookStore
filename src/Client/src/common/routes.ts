@@ -11,6 +11,10 @@ const routes = {
     path: '/register',
     getRoute: () => '/register'
   },
+  authorDetails: {
+    path: '/author/details/:id',
+    getRoute: (id: number) => `/author/details/${id}`
+  },
   bookDetails: {
     path: '/book/details/:id',
     getRoute: (id: number) => `/book/details/${id}`

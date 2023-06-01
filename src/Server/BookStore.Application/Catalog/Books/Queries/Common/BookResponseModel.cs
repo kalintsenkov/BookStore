@@ -16,6 +16,8 @@ public class BookResponseModel : IMapFrom<Book>
 
     public string Genre { get; init; } = default!;
 
+    public int AuthorId { get; init; }
+
     public string AuthorName { get; init; } = default!;
 
     public bool IsAvailable { get; init; }

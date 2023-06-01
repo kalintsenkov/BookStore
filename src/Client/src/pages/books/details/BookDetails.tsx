@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import 'react-lightbox-component/build/css/index.css';
 import { Button, Col, Container, Row } from 'react-bootstrap';
@@ -80,8 +80,10 @@ const BookDetails = (): JSX.Element => {
           <b className={`${theme ? 'text-dark-primary' : 'text-light-primary'} h4 mt-3 d-block`}>
             ${bookData.price}
           </b>
-          <br />
-          <b className='h5'>4.1 ⭐</b>
+          <Link to={routes.authorDetails.getRoute(bookData.authorId)}>
+            <p className='h5'>{bookData.authorName}</p>
+          </Link>
+          <p className='h5'>4.1 ⭐</p>
           <p className='mt-3 h5' style={{ opacity: '0.8', fontWeight: '400' }}>
             {bookData.genre}
           </p>
