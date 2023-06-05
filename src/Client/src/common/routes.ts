@@ -27,6 +27,10 @@ const routes = {
     path: '/book/create',
     getRoute: () => '/book/create'
   },
+  ordersSearch: {
+    path: '/orders/:page?',
+    getRoute: (page?: number) => `/orders/${page}`
+  },
   orderDetails: {
     path: '/order/details/:id',
     getRoute: (id: number) => `/order/details/${id}`

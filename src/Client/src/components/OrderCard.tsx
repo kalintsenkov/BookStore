@@ -15,7 +15,7 @@ const OrderCard = (props: IOrderCardProps) => {
   const [theme] = useThemeHook();
 
   return (
-    <Link to={routes.orderDetails.getRoute(props.id)}>
+    <Link to={routes.orderDetails.getRoute(props.id)} className='nav-link'>
       <Card className={`${theme ? 'bg-light-black text-light' : 'bg-light text-black'} mb-3`}
             border={theme ? 'warning' : 'primary'}>
         <Card.Header>

@@ -14,6 +14,7 @@ import BookDetails from '../pages/books/details/BookDetails';
 import BookEdit from '../pages/books/edit/BookEdit';
 import BookCreate from '../pages/books/create/BookCreate';
 import OrderDetails from '../pages/orders/details/OrderDetails';
+import OrdersSearch from '../pages/orders/search/OrdersSearch';
 import Cart from '../pages/cart/Cart';
 import NotFound from './NotFound';
 import ProtectedRoute from './ProtectedRoute';
@@ -46,6 +47,14 @@ const AppRouter = (): JSX.Element => {
             element={
               <ProtectedRoute isAllowed={usersService.isAdministrator()}>
                 <BookCreate />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.ordersSearch.path}
+            element={
+              <ProtectedRoute isAllowed={usersService.isAdministrator()}>
+                <OrdersSearch />
               </ProtectedRoute>
             }
           />
