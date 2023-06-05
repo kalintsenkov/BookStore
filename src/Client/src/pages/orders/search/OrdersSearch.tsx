@@ -20,12 +20,12 @@ const OrdersSearch = (): JSX.Element => {
 
   useEffect(() => {
     apiService
-      .get(`https://localhost:5001/orders?customer=${searchInput}`)
+      .get(`https://localhost:5001/orders?page=${page || 1}&customer=${searchInput}`)
       .subscribe({
         next: value => setOrdersSearchData(value.data),
         error: errorsService.handle
       });
-  }, [searchInput]);
+  }, [page, searchInput]);
 
   const changePage = (page: number) => {
     navigate(routes.ordersSearch.getRoute(page));
