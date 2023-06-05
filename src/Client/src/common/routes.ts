@@ -29,7 +29,7 @@ const routes = {
   },
   ordersSearch: {
     path: '/orders/:page?',
-    getRoute: (page?: number) => `/orders/${page}`
+    getRoute: (page?: number) => `/orders/${page ?? ''}`
   },
   orderDetails: {
     path: '/order/details/:id',

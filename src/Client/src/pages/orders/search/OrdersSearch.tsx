@@ -20,7 +20,7 @@ const OrdersSearch = (): JSX.Element => {
 
   useEffect(() => {
     apiService
-      .get(`https://localhost:5001/orders?page=${page || 1}&customer=${searchInput}`)
+      .get(`https://localhost:5001/orders?page=${page}&customer=${searchInput}`)
       .subscribe({
         next: value => setOrdersSearchData(value.data),
         error: errorsService.handle
