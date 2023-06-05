@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 
 import { BiSearch } from 'react-icons/bi';
-// @ts-ignore
-import SearchFilter from 'react-filter-search';
 
 import { useThemeHook } from '../../providers/ThemeProvider';
 import BookCard from '../../components/BookCard';
@@ -42,17 +40,11 @@ const Home = () => {
             />
           </InputGroup>
         </Col>
-        <SearchFilter
-          value={searchInput}
-          data={booksData}
-          renderResults={(results: any) => (
-            <Row className='justify-content-center'>
-              {results.map((item: any, i: number) => (
-                <BookCard data={item} key={i} />
-              ))}
-            </Row>
-          )}
-        />
+        <Row className='justify-content-center'>
+          {booksData.map((item: any, i: number) => (
+            <BookCard data={item} key={i} />
+          ))}
+        </Row>
       </Row>
     </Container>
   );

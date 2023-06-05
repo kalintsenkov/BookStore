@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+
+  data:
+    container_name: sqlserver
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrongPassword12!@
+    volumes:
+      - sqldata:/var/opt/mssql
+    networks:
+      - book-store-network
+
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - book-store-network
+
+  server:
+    container_name: server
+    image: kalintsenkov/book-store-server:1.0
+    build:
+      context: ./Server
+      dockerfile: ./BookStore.Startup/Dockerfile
+    ports:
+      - "5001:80"
+    env_file:
+      - Server/BookStore.Startup/.env
+    restart: on-failure
+    volumes:
+      - server:/root/.aspnet/DataProtection-Keys
+    networks:
+      - book-store-network
+    depends_on:
+      - data
+      - redis
+
+  client:
+    container_name: client
+    image: kalintsenkov/book-store-client:1.0
+    build:
+      context: ./Client
+      dockerfile: ./Dockerfile
+    ports:
+      - "80:80"
+    restart: on-failure
+    depends_on:
+      - server
+
+networks:
+  book-store-network:
+
+
+volumes:
+  sqldata:
+  server:

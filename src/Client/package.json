@@ -12,7 +12,6 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.2.0",
-    "react-filter-search": "^1.1.11",
     "react-icons": "^4.4.0",
     "react-lightbox-component": "^1.2.1",
     "react-phone-input-2": "^2.15.1",
