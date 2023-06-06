@@ -4,8 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import { Badge, Col, Container, Row, Table } from 'react-bootstrap';
 
 import { useThemeHook } from '../../../providers/ThemeProvider';
-import apiService from '../../../services/apiService';
 import errorsService from '../../../services/errorsService';
+import ordersService from '../../../services/ordersService';
 import routes from '../../../common/routes';
 
 const OrderDetails = (): JSX.Element => {
@@ -15,8 +15,8 @@ const OrderDetails = (): JSX.Element => {
   const [orderData, setOrderData] = useState<any>({});
 
   useEffect(() => {
-    apiService
-      .get(`https://localhost:5001/orders/${id}`)
+    ordersService
+      .details(Number(id))
       .subscribe({
         next: value => setOrderData(value.data),
         error: errorsService.handle

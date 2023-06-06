@@ -1,6 +1,6 @@
 import apiService from './apiService';
 import jwtService from './jwtService';
-import { ENDPOINTS } from '../common/constants';
+import { ENDPOINTS, ROLES } from '../common/constants';
 
 const loginPath = ENDPOINTS.IDENTITY_PATH + 'login';
 const registerPath = ENDPOINTS.IDENTITY_PATH + 'register';
@@ -30,7 +30,7 @@ const usersService = {
       return false;
     }
 
-    return role === 'Administrator';
+    return role === ROLES.ADMINISTRATOR;
   },
   getRole: (): string | null => {
     const decoded = jwtService.decode();

@@ -9,9 +9,10 @@ import { BsCartPlus } from 'react-icons/bs';
 
 import './book-details.css';
 import { useThemeHook } from '../../../providers/ThemeProvider';
-import apiService from '../../../services/apiService';
+import booksService from '../../../services/booksService';
 import errorsService from '../../../services/errorsService';
 import usersService from '../../../services/usersService';
+import shoppingCartsService from '../../../services/shoppingCartsService';
 import routes from '../../../common/routes';
 
 const BookDetails = (): JSX.Element => {
@@ -22,8 +23,8 @@ const BookDetails = (): JSX.Element => {
   const [bookData, setBookData] = useState<any>({});
 
   useEffect(() => {
-    apiService
-      .get(`https://localhost:5001/books/${id}`)
+    booksService
+      .details(Number(id))
       .subscribe({
         next: value => setBookData(value.data),
         error: errorsService.handle
@@ -31,9 +32,9 @@ const BookDetails = (): JSX.Element => {
   }, [id]);
 
   const addToCart = () => {
-    apiService
-      .post('https://localhost:5001/shoppingCarts/addBook', {
-        bookId: id,
+    shoppingCartsService
+      .addBook({
+        bookId: Number(id),
         quantity: 1
       })
       .subscribe({
@@ -43,8 +44,8 @@ const BookDetails = (): JSX.Element => {
   };
 
   const deleteBook = () => {
-    apiService
-      .delete(`https://localhost:5001/books/${id}`)
+    booksService
+      .delete(Number(id))
       .subscribe({
         next: () => navigate(routes.home.getRoute()),
         error: errorsService.handle

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 
 import { BiSearch } from 'react-icons/bi';
+import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 
 import { useThemeHook } from '../../providers/ThemeProvider';
 import BookCard from '../../components/BookCard';
-import apiService from '../../services/apiService';
+import booksService from '../../services/booksService';
 import errorsService from '../../services/errorsService';
 
 const Home = () => {
@@ -14,8 +14,8 @@ const Home = () => {
   const [booksData, setBooksData] = useState<any[]>([]);
 
   useEffect(() => {
-    apiService
-      .get(`https://localhost:5001/books?title=${searchInput}`)
+    booksService
+      .search(searchInput)
       .subscribe({
         next: value => setBooksData(value.data.models),
         error: errorsService.handle

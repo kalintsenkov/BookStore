@@ -5,7 +5,7 @@ import 'react-lightbox-component/build/css/index.css';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 
 import { useThemeHook } from '../../../providers/ThemeProvider';
-import apiService from '../../../services/apiService';
+import booksService from '../../../services/booksService';
 import errorsService from '../../../services/errorsService';
 import routes from '../../../common/routes';
 import { Genre } from '../../../models/Genre';
@@ -25,8 +25,8 @@ const BookEdit = (): JSX.Element => {
   const [author, setAuthor] = useState<string>('');
 
   useEffect(() => {
-    apiService
-      .get(`https://localhost:5001/books/${id}`)
+    booksService
+      .details(Number(id))
       .subscribe({
         next: value => {
           const book = value.data;
@@ -48,8 +48,8 @@ const BookEdit = (): JSX.Element => {
     if (title && price && quantity && imageUrl && description && genre && author) {
       setLoading(true);
 
-      apiService
-        .put(`https://localhost:5001/books/${id}`, {
+      booksService
+        .edit(Number(id), {
           title,
           price,
           quantity,

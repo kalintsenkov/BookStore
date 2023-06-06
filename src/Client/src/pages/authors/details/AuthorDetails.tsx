@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 
 import { useThemeHook } from '../../../providers/ThemeProvider';
-import apiService from '../../../services/apiService';
+import authorsService from '../../../services/authorsService';
 import errorsService from '../../../services/errorsService';
 import usersService from '../../../services/usersService';
 import routes from '../../../common/routes';
@@ -17,8 +17,8 @@ const AuthorDetails = (): JSX.Element => {
   const [authorData, setAuthorData] = useState<any>({});
 
   useEffect(() => {
-    apiService
-      .get(`https://localhost:5001/authors/${id}`)
+    authorsService
+      .details(Number(id))
       .subscribe({
         next: value => setAuthorData(value.data),
         error: errorsService.handle
@@ -26,8 +26,8 @@ const AuthorDetails = (): JSX.Element => {
   }, [id]);
 
   const deleteAuthor = () => {
-    apiService
-      .delete(`https://localhost:5001/authors/${id}`)
+    authorsService
+      .delete(Number(id))
       .subscribe({
         next: () => navigate(routes.home.getRoute()),
         error: errorsService.handle

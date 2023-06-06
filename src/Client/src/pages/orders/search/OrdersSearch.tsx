@@ -4,12 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 
-import apiService from '../../../services/apiService';
+import { useThemeHook } from '../../../providers/ThemeProvider';
+import ordersService from '../../../services/ordersService';
 import errorsService from '../../../services/errorsService';
 import OrderCard from '../../../components/OrderCard';
 import Pagination from '../../../components/Pagination';
 import routes from '../../../common/routes';
-import { useThemeHook } from '../../../providers/ThemeProvider';
 
 const OrdersSearch = (): JSX.Element => {
   const { page } = useParams();
@@ -19,8 +19,8 @@ const OrdersSearch = (): JSX.Element => {
   const [ordersSearchData, setOrdersSearchData] = useState<any>({});
 
   useEffect(() => {
-    apiService
-      .get(`https://localhost:5001/orders?page=${page}&customer=${searchInput}`)
+    ordersService
+      .search(Number(page), searchInput)
       .subscribe({
         next: value => setOrdersSearchData(value.data),
         error: errorsService.handle

@@ -10,8 +10,8 @@ import profilePix from '../../images/profile-picture.png';
 import { useThemeHook } from '../../providers/ThemeProvider';
 import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import Heading from '../../components/Heading';
+import ordersService from '../../services/ordersService';
 import usersService from '../../services/usersService';
-import apiService from '../../services/apiService';
 import errorsService from '../../services/errorsService';
 import MyOrders from './MyOrders';
 import MyAddress from './MyAddress';
@@ -32,8 +32,8 @@ const MyAccount = () => {
   };
 
   useEffect(() => {
-    apiService
-      .get('https://localhost:5001/orders/mine')
+    ordersService
+      .mine()
       .subscribe({
         next: response => setOrdersData(response.data.models),
         error: errorsService.handle

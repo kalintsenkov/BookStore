@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
 import { useThemeHook } from '../../providers/ThemeProvider';
-import apiService from '../../services/apiService';
 import errorsService from '../../services/errorsService';
-import { Link, useNavigate } from 'react-router-dom';
+import ordersService from '../../services/ordersService';
+import shoppingCartsService from '../../services/shoppingCartsService';
 import routes from '../../common/routes';
 
 const Cart = (): JSX.Element => {
@@ -13,8 +15,8 @@ const Cart = (): JSX.Element => {
   const [booksData, setBooksData] = useState<any[]>([]);
 
   const getResponse = () => {
-    apiService
-      .get('https://localhost:5001/shoppingCarts/mine')
+    shoppingCartsService
+      .mine()
       .subscribe({
         next: value => setBooksData(value.data),
         error: errorsService.handle
@@ -26,8 +28,8 @@ const Cart = (): JSX.Element => {
   }, []);
 
   const editQuantity = async (bookId: number, quantity: number) => {
-    apiService
-      .put('https://localhost:5001/shoppingCarts/editQuantity', {
+    shoppingCartsService
+      .editQuantity({
         bookId,
         quantity
       })
@@ -38,12 +40,8 @@ const Cart = (): JSX.Element => {
   };
 
   const removeBook = async (bookId: number) => {
-    apiService
-      .delete('https://localhost:5001/shoppingCarts/removeBook', {
-        data: {
-          bookId
-        }
-      })
+    shoppingCartsService
+      .removeBook(bookId)
       .subscribe({
         next: () => getResponse(),
         error: errorsService.handle
@@ -51,8 +49,8 @@ const Cart = (): JSX.Element => {
   };
 
   const createOrder = async () => {
-    apiService
-      .post('https://localhost:5001/orders')
+    ordersService
+      .create()
       .subscribe({
         next: () => navigate(routes.myAccount.getRoute()),
         error: errorsService.handle

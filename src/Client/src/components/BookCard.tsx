@@ -1,11 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, Card } from 'react-bootstrap';
 
+import { Button, Card } from 'react-bootstrap';
 import { BsCartPlus } from 'react-icons/bs';
 
 import { useThemeHook } from '../providers/ThemeProvider';
-import apiService from '../services/apiService';
 import errorsService from '../services/errorsService';
+import shoppingCartsService from '../services/shoppingCartsService';
 import routes from '../common/routes';
 
 const BookCard = (props: any) => {
@@ -15,9 +15,9 @@ const BookCard = (props: any) => {
   const navigate = useNavigate();
 
   const addToCart = () => {
-    apiService
-      .post('https://localhost:5001/shoppingCarts/addBook', {
-        bookId: id,
+    shoppingCartsService
+      .addBook({
+        bookId: Number(id),
         quantity: 1
       })
       .subscribe({
