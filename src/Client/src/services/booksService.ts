@@ -2,8 +2,8 @@ import apiService from './apiService';
 import { ENDPOINTS } from '../common/constants';
 
 const booksService = {
-  search: (searchTerms: string) => {
-    return apiService.get(ENDPOINTS.BOOKS_PATH + `?title=${searchTerms}`);
+  search: (page: number, searchTerms: string) => {
+    return apiService.get(ENDPOINTS.BOOKS_PATH + `?page=${page}&title=${searchTerms}`);
   },
   create: (data: {
     title: string,

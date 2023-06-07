@@ -1,26 +1,35 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { BiSearch } from 'react-icons/bi';
 import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 
 import { useThemeHook } from '../../providers/ThemeProvider';
 import BookCard from '../../components/BookCard';
+import Pagination from '../../components/Pagination';
 import booksService from '../../services/booksService';
 import errorsService from '../../services/errorsService';
+import routes from '../../common/routes';
 
 const Home = () => {
+  const { page } = useParams();
+  const navigate = useNavigate();
   const [theme] = useThemeHook();
   const [searchInput, setSearchInput] = useState<string>('');
-  const [booksData, setBooksData] = useState<any[]>([]);
+  const [booksSearchData, setBooksSearchData] = useState<any>({});
 
   useEffect(() => {
     booksService
-      .search(searchInput)
+      .search(Number(page ?? 1), searchInput)
       .subscribe({
-        next: value => setBooksData(value.data.models),
+        next: value => setBooksSearchData(value.data),
         error: errorsService.handle
       });
-  }, [searchInput]);
+  }, [page, searchInput]);
+
+  const changePage = (page: number) => {
+    navigate(routes.home.getRoute(page));
+  };
 
   return (
     <Container className='py-4'>
@@ -41,11 +50,16 @@ const Home = () => {
           </InputGroup>
         </Col>
         <Row className='justify-content-center'>
-          {booksData.map((item: any, i: number) => (
+          {booksSearchData.models?.map((item: any, i: number) => (
             <BookCard data={item} key={i} />
           ))}
         </Row>
       </Row>
+      <Col xs={10} md={7} lg={6} xl={4} className='mb-3 mx-auto'>
+        <Pagination page={booksSearchData.page}
+                    totalPages={booksSearchData.totalPages}
+                    onPageSelected={changePage} />
+      </Col>
     </Container>
   );
 };

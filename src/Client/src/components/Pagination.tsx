@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 interface IPaginationProps {
   page: number;
@@ -17,21 +17,7 @@ interface ILink {
 const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPaginationProps): JSX.Element => {
   const [links, setLinks] = useState<ILink[]>([]);
 
-  useEffect(() => {
-    loadPages();
-  }, [page, totalPages, radius]);
-
-  const selectedPageInternal = async (link: ILink) => {
-    if (link.page === page || !link.enabled) {
-      return;
-    }
-
-    page = link.page;
-
-    await onPageSelected(link.page);
-  };
-
-  const loadPages = () => {
+  const loadPages = useCallback(() => {
     const previous = 'Previous';
     const next = 'Next';
     const isPreviousPageLinkEnabled = page !== 1;
@@ -68,12 +54,27 @@ const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPagin
     });
 
     setLinks(linkList);
+  }, [page, totalPages, radius]);
+  
+  useEffect(() => {
+    loadPages();
+  }, [page, totalPages, radius, loadPages]);
+
+  const selectedPageInternal = async (link: ILink) => {
+    if (link.page === page || !link.enabled) {
+      return;
+    }
+
+    page = link.page;
+
+    await onPageSelected(link.page);
   };
+
 
   return (
     <>
       {totalPages && (
-        <nav className='mt-4'>
+        <nav className='mt-4 d-flex justify-content-center'>
           <ul className='pagination'>
             {links.map((link, index) => (
               <li

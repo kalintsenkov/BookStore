@@ -1,7 +1,7 @@
 const routes = {
   home: {
-    path: '/',
-    getRoute: () => '/'
+    path: '/:page?',
+    getRoute: (page?: number) => `/${page ?? ''}`
   },
   login: {
     path: '/login',
