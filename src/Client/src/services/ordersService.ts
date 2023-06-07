@@ -13,6 +13,12 @@ const ordersService = {
   },
   details: (id: number) => {
     return apiService.get(ENDPOINTS.ORDERS_PATH + id);
+  },
+  cancel: (id: number) => {
+    return apiService.put(ENDPOINTS.ORDERS_PATH + id + '/cancel');
+  },
+  complete: (id: number) => {
+    return apiService.put(ENDPOINTS.ORDERS_PATH + id + '/complete');
   }
 };
 

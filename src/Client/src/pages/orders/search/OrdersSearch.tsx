@@ -20,7 +20,7 @@ const OrdersSearch = (): JSX.Element => {
 
   useEffect(() => {
     ordersService
-      .search(Number(page), searchInput)
+      .search(Number(page ?? 1), searchInput)
       .subscribe({
         next: value => setOrdersSearchData(value.data),
         error: errorsService.handle
@@ -54,7 +54,8 @@ const OrdersSearch = (): JSX.Element => {
             <OrderCard key={index}
                        id={order.id}
                        date={new Date(order.date).toLocaleString()}
-                       status={order.status} />
+                       status={order.status}
+                       customerName={order.customerName} />
           );
         })}
       </Row>

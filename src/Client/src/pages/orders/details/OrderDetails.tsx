@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
-import { Badge, Col, Container, Row, Table } from 'react-bootstrap';
+import { Badge, Button, Col, Container, Row, Table } from 'react-bootstrap';
 
 import { useThemeHook } from '../../../providers/ThemeProvider';
 import errorsService from '../../../services/errorsService';
 import ordersService from '../../../services/ordersService';
+import usersService from '../../../services/usersService';
 import routes from '../../../common/routes';
 
 const OrderDetails = (): JSX.Element => {
@@ -14,7 +15,7 @@ const OrderDetails = (): JSX.Element => {
   const [theme] = useThemeHook();
   const [orderData, setOrderData] = useState<any>({});
 
-  useEffect(() => {
+  const getDetails = useCallback(() => {
     ordersService
       .details(Number(id))
       .subscribe({
@@ -22,6 +23,28 @@ const OrderDetails = (): JSX.Element => {
         error: errorsService.handle
       });
   }, [id]);
+
+  useEffect(() => {
+    getDetails();
+  }, [id, getDetails]);
+
+  const cancelOrder = () => {
+    ordersService
+      .cancel(Number(id))
+      .subscribe({
+        next: _ => getDetails(),
+        error: errorsService.handle
+      });
+  };
+
+  const completeOrder = () => {
+    ordersService
+      .complete(Number(id))
+      .subscribe({
+        next: _ => getDetails(),
+        error: errorsService.handle
+      });
+  };
 
   const totalPrice = () => {
     const initialValue = 0;
@@ -76,6 +99,26 @@ const OrderDetails = (): JSX.Element => {
             })}
             </tbody>
           </Table>
+
+          {usersService.isAdministrator() && orderData.status === 'Pending' ? (
+            <>
+              <Button
+                variant='success'
+                onClick={completeOrder}
+                style={{ marginRight: 15 }}
+              >
+                Complete
+              </Button>
+              <Button
+                variant='danger'
+                onClick={cancelOrder}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : (
+            <></>
+          )}
         </Col>
       </Row>
     </Container>

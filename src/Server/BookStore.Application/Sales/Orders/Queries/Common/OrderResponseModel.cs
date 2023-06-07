@@ -10,4 +10,6 @@ public class OrderResponseModel : IMapFrom<Order>
     public string Date { get; private set; } = default!;
 
     public string Status { get; private set; } = default!;
+
+    public string CustomerName { get; private set; } = default!;
 }
