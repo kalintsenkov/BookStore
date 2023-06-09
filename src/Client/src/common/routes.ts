@@ -1,7 +1,7 @@
 const routes = {
   home: {
-    path: '/:page?',
-    getRoute: (page?: number) => `/${page ?? ''}`
+    path: '',
+    getRoute: () => '/'
   },
   login: {
     path: '/login',
@@ -14,6 +14,10 @@ const routes = {
   authorDetails: {
     path: '/author/details/:id',
     getRoute: (id: number) => `/author/details/${id}`
+  },
+  booksSearch: {
+    path: '/books/:page?',
+    getRoute: (page?: number) => `/books/${page ?? ''}`
   },
   bookDetails: {
     path: '/book/details/:id',
