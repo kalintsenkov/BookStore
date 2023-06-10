@@ -144,19 +144,19 @@ const BooksList = (): JSX.Element => {
             </Button>
           </Form>
         </Col>
-        <Col lg={2}>
-          <Row className='justify-content-center'>
+        <Col lg={8}>
+          <Row>
             {booksSearchData.models?.map((item: any, i: number) => (
               <BookCard data={item} key={i} />
             ))}
           </Row>
+          <Pagination
+            page={booksSearchData.page}
+            totalPages={booksSearchData.totalPages}
+            onPageSelected={changePage}
+          />
         </Col>
       </Row>
-      <Col xs={10} md={7} lg={6} xl={4} className='mb-3 mx-auto'>
-        <Pagination page={booksSearchData.page}
-                    totalPages={booksSearchData.totalPages}
-                    onPageSelected={changePage} />
-      </Col>
     </Container>
   );
 };

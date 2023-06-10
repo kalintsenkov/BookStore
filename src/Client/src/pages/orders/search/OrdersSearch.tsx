@@ -36,8 +36,7 @@ const OrdersSearch = (): JSX.Element => {
       <Col xs={10} md={7} lg={6} xl={4} className='mb-3 mx-auto text-center'>
         <h1 className={theme ? 'text-light my-5' : 'text-black my-5'}>Search orders</h1>
         <InputGroup className='mb-3'>
-          <InputGroup.Text
-            className={theme ? 'bg-black text-dark-primary' : 'bg-light text-light-primary'}>
+          <InputGroup.Text className={theme ? 'bg-black text-dark-primary' : 'bg-light text-light-primary'}>
             <BiSearch size='2rem' />
           </InputGroup.Text>
           <FormControl
@@ -51,18 +50,22 @@ const OrdersSearch = (): JSX.Element => {
       <Row className={`justify-content-center mt-5 ${theme ? 'text-light' : 'text-black'}`}>
         {ordersSearchData.models?.map((order: any, index: number) => {
           return (
-            <OrderCard key={index}
-                       id={order.id}
-                       date={new Date(order.date).toLocaleString()}
-                       status={order.status}
-                       customerName={order.customerName} />
+            <OrderCard
+              key={index}
+              id={order.id}
+              date={new Date(order.date).toLocaleString()}
+              status={order.status}
+              customerName={order.customerName}
+            />
           );
         })}
       </Row>
       <Col xs={10} md={7} lg={6} xl={4} className='mb-3 mx-auto'>
-        <Pagination page={ordersSearchData.page}
-                    totalPages={ordersSearchData.totalPages}
-                    onPageSelected={changePage} />
+        <Pagination
+          page={ordersSearchData.page}
+          totalPages={ordersSearchData.totalPages}
+          onPageSelected={changePage}
+        />
       </Col>
     </Container>
   );

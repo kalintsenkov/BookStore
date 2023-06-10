@@ -10,6 +10,7 @@ export class Genre extends Enumeration<Genre>() {
   static Fiction = new Genre(7, 'Fiction');
   static Drama = new Genre(8, 'Drama');
   static Dystopian = new Genre(9, 'Dystopian');
+  static Adventure = new Genre(10, 'Adventure');
 
   static _ = Genre.closeEnum();
 

@@ -1,5 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import { useThemeHook } from '../providers/ThemeProvider';
+
 interface IPaginationProps {
   page: number;
   totalPages: number;
@@ -15,6 +17,7 @@ interface ILink {
 }
 
 const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPaginationProps): JSX.Element => {
+  const [theme] = useThemeHook();
   const [links, setLinks] = useState<ILink[]>([]);
 
   const loadPages = useCallback(() => {
@@ -55,7 +58,7 @@ const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPagin
 
     setLinks(linkList);
   }, [page, totalPages, radius]);
-  
+
   useEffect(() => {
     loadPages();
   }, [page, totalPages, radius, loadPages]);
@@ -70,6 +73,28 @@ const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPagin
     await onPageSelected(link.page);
   };
 
+  const getLinkClassName = (link: ILink) => {
+    let className = '';
+    if (!theme) {
+      className = 'bg-light text-black';
+      if (link.active) {
+        className = 'bg-light-primary text-white fw-bold';
+      }
+      if (!link.enabled) {
+        className = 'bg-light text-gray';
+      }
+    } else {
+      className = 'bg-dark text-white';
+      if (link.active) {
+        className = 'bg-dark-primary text-black fw-bold';
+      }
+      if (!link.enabled) {
+        className = 'bg-dark text-gray';
+      }
+    }
+
+    return className;
+  };
 
   return (
     <>
@@ -80,12 +105,12 @@ const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPagin
               <li
                 key={index}
                 onClick={() => selectedPageInternal(link)}
-                style={{ cursor: 'pointer' }}
-                className={`page-item ${!link.enabled ? 'disabled' : ''} ${
-                  link.active ? 'active' : ''
-                }`}
+                style={{ cursor: link.enabled ? 'pointer' : 'not-allowed' }}
+                className={`page-item ${!link.enabled ? 'disabled' : ''} ${link.active ? 'active' : ''}`}
               >
-                <span className='page-link'>{link.text}</span>
+                <span className={`${getLinkClassName(link)} page-link border-0`}>
+                  {link.text}
+                </span>
               </li>
             ))}
           </ul>
