@@ -115,6 +115,7 @@ const BooksList = (): JSX.Element => {
                 name='genre'
                 as='select'
                 defaultValue={genre}
+                className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
                 onChange={updateData}
               >
                 <option value='' disabled selected hidden>Search by genre</option>
