@@ -101,6 +101,16 @@ internal class BookData : IInitialData
                 genre: Genre.History,
                 author: new Author(
                     "Yuval Noah Harari",
-                    @"Yuval Noah Harari is an Israeli historian and professor at the Hebrew University of Jerusalem. In Sapiens: A Brief History of Humankind, Harari draws on insights from various disciplines to provide a comprehensive and accessible account of human history. His thought-provoking analysis challenges conventional wisdom and prompts readers to contemplate the future of our species."))
+                    @"Yuval Noah Harari is an Israeli historian and professor at the Hebrew University of Jerusalem. In Sapiens: A Brief History of Humankind, Harari draws on insights from various disciplines to provide a comprehensive and accessible account of human history. His thought-provoking analysis challenges conventional wisdom and prompts readers to contemplate the future of our species.")),
+            new(
+                title: "Journey to the Center of the Earth",
+                price: 15.00M,
+                quantity: 100,
+                imageUrl: "https://m.media-amazon.com/images/I/612kwoyUQBL.jpg",
+                description: @"Journey to the Center of the Earth is a thrilling adventure novel written by Jules Verne. The story follows Professor Otto Lidenbrock, his nephew Axel, and their guide Hans as they embark on a perilous journey to the depths of the Earth. Through treacherous landscapes, ancient civilizations, and encounters with prehistoric creatures, the characters uncover remarkable wonders hidden beneath the Earth's surface. This captivating tale explores the spirit of exploration and the mysteries that lie within our planet.",
+                genre: Genre.Adventure,
+                author: new Author(
+                    "Jules Verne",
+                    @"Jules Verne was a French author and one of the pioneers of science fiction. Known for his imaginative storytelling and visionary ideas, Verne's works have inspired countless readers. Journey to the Center of the Earth is regarded as one of his most iconic adventure novels, showcasing his ability to transport readers to extraordinary worlds and ignite their sense of wonder."))
         };
 }

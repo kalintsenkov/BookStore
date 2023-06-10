@@ -55,6 +55,11 @@ internal class BookData : IInitialData
                 title: "Sapiens: A Brief History of Humankind",
                 price: 15.99M,
                 quantity: 100,
-                imageUrl: "https://m.media-amazon.com/images/I/716E6dQ4BXL.jpg")
+                imageUrl: "https://m.media-amazon.com/images/I/716E6dQ4BXL.jpg"),
+            new(
+                title: "Journey to the Center of the Earth",
+                price: 15.00M,
+                quantity: 100,
+                imageUrl: "https://m.media-amazon.com/images/I/612kwoyUQBL.jpg")
         };
 }

@@ -13,6 +13,7 @@ public class Genre : Enumeration
     public static readonly Genre Fiction = new(7, nameof(Fiction));
     public static readonly Genre Drama = new(8, nameof(Drama));
     public static readonly Genre Dystopian = new(9, nameof(Dystopian));
+    public static readonly Genre Adventure = new(10, nameof(Adventure));
 
     private Genre(int value)
         : this(value, FromValue<Genre>(value).Name)
