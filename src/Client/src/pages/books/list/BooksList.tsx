@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
 import { Button, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { BiSearch } from 'react-icons/bi';
 
 import { useThemeHook } from '../../../providers/ThemeProvider';
 import BookCard from '../../../components/BookCard';
@@ -8,7 +10,7 @@ import Pagination from '../../../components/Pagination';
 import booksService from '../../../services/booksService';
 import errorsService from '../../../services/errorsService';
 import routes from '../../../common/routes';
-import { BiSearch } from 'react-icons/bi';
+import { Genre } from '../../../models/Genre';
 
 const BooksList = (): JSX.Element => {
   const { page } = useParams();
@@ -98,10 +100,15 @@ const BooksList = (): JSX.Element => {
               <FormControl
                 placeholder='Search by genre'
                 name='genre'
-                type='number'
+                as='select'
                 className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
                 onChange={updateData}
-              />
+              >
+                <option value='' disabled selected hidden>Search by genre</option>
+                {Genre.values.map((genre, index) => {
+                  return <option key={index} value={genre.value}>{genre.name}</option>;
+                })}
+              </FormControl>
             </InputGroup>
             <InputGroup className='mb-3'>
               <InputGroup.Text
