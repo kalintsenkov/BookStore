@@ -2,6 +2,21 @@
 
 Book store application created as part of my Information Technology in Industry Bachelor Thesis Defense, at the Technical University of Sofia in Bulgaria.
 
+## :eyes: Try it out
+Make sure you have already installed [Docker Desktop](https://docs.docker.com/docker-for-windows/install/).
+
+You don't need to install Nginx or NPM, as both are provided by Docker images.
+
+Then do:
+
+```
+git clone https://github.com/kalintsenkov/BookStore.git
+cd BookStore\src
+docker-compose up --build -d
+```
+
+Then go to [http://localhost](http://localhost)
+
 ## :construction_worker: Built with
 
 - [.NET Core 7](https://github.com/dotnet/core) 
