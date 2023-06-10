@@ -29,9 +29,7 @@ const Home = (): JSX.Element => {
           <BookCard data={item} key={i} />
         ))}
         <Link to={routes.booksSearch.getRoute()}>
-          <Button
-            className={`${theme ? 'bg-dark-primary text-black' : 'bg-light-primary'} mt-3 border-0`}
-          >
+          <Button className={`${theme ? 'bg-dark-primary text-black' : 'bg-light-primary'} mt-3 border-0`}>
             View all books
           </Button>
         </Link>

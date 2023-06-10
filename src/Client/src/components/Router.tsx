@@ -34,7 +34,18 @@ const AppRouter = (): JSX.Element => {
           <Route path={routes.login.path} element={<Login />} />
           <Route path={routes.register.path} element={<Register />} />
           <Route path={routes.authorDetails.path} element={<AuthorDetails />} />
-          <Route path={routes.booksSearch.path} element={<BooksList />} />
+          {[
+            routes.booksSearch.path,
+            routes.booksByTitleSearch.path,
+            routes.booksByGenreSearch.path,
+            routes.booksByAuthorSearch.path,
+            routes.booksByTitleAndGenreSearch.path,
+            routes.booksByGenreAndAuthorSearch.path,
+            routes.booksByTitleAndAuthorSearch.path,
+            routes.booksByTitleGenreAndAuthorSearch.path,
+          ].map((path, index) =>
+            <Route path={path} element={<BooksList />} key={index} />
+          )}
           <Route path={routes.bookDetails.path} element={<BookDetails />} />
           <Route
             path={routes.bookEdit.path}

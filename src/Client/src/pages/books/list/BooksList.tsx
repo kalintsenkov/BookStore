@@ -13,7 +13,7 @@ import routes from '../../../common/routes';
 import { Genre } from '../../../models/Genre';
 
 const BooksList = (): JSX.Element => {
-  const { page } = useParams();
+  const { title, genre, author, page } = useParams();
   const navigate = useNavigate();
   const [theme] = useThemeHook();
   const [booksSearchData, setBooksSearchData] = useState<any>({});
@@ -27,29 +27,15 @@ const BooksList = (): JSX.Element => {
   };
 
   useEffect(() => {
-    booksService
-      .search(Number(page ?? 1), '')
-      .subscribe({
-        next: value => setBooksSearchData(value.data),
-        error: errorsService.handle
-      });
-  }, [page]);
-
-  const changePage = (page: number) => {
-    navigate(routes.booksSearch.getRoute(page));
-  };
-
-  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+    const urlParams: any = { title: title, genre: genre, author: author };
     const params = new URLSearchParams();
 
-    for (const key in searchTerms) {
-      if (!searchTerms[key]) {
+    for (const key in urlParams) {
+      if (!urlParams[key]) {
         continue;
       }
 
-      params.append(key, searchTerms[key]);
+      params.append(key, urlParams[key]);
     }
 
     const pageNumber = Number(page ?? 1);
@@ -61,6 +47,32 @@ const BooksList = (): JSX.Element => {
         next: value => setBooksSearchData(value.data),
         error: errorsService.handle
       });
+  }, [title, genre, author, page]);
+
+  const changePage = (page?: number) => {
+    if (searchTerms.title && searchTerms.genre && searchTerms.author) {
+      navigate(routes.booksByTitleGenreAndAuthorSearch.getRoute(searchTerms.title, searchTerms.genre, searchTerms.author, page));
+    } else if (searchTerms.title && searchTerms.genre) {
+      navigate(routes.booksByTitleAndGenreSearch.getRoute(searchTerms.title, searchTerms.genre, page));
+    } else if (searchTerms.title && searchTerms.author) {
+      navigate(routes.booksByTitleAndAuthorSearch.getRoute(searchTerms.title, searchTerms.author, page));
+    } else if (searchTerms.genre && searchTerms.author) {
+      navigate(routes.booksByGenreAndAuthorSearch.getRoute(searchTerms.genre, searchTerms.author, page));
+    } else if (searchTerms.title) {
+      navigate(routes.booksByTitleSearch.getRoute(searchTerms.title, page));
+    } else if (searchTerms.genre) {
+      navigate(routes.booksByGenreSearch.getRoute(searchTerms.genre, page));
+    } else if (searchTerms.author) {
+      navigate(routes.booksByAuthorSearch.getRoute(searchTerms.author, page));
+    } else {
+      navigate(routes.booksSearch.getRoute(page));
+    }
+  };
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    changePage();
   };
 
   return (
@@ -76,6 +88,7 @@ const BooksList = (): JSX.Element => {
               <FormControl
                 placeholder='Search by title'
                 name='title'
+                defaultValue={title}
                 className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
                 onChange={updateData}
               />
@@ -88,6 +101,7 @@ const BooksList = (): JSX.Element => {
               <FormControl
                 placeholder='Search by author'
                 name='author'
+                defaultValue={author}
                 className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
                 onChange={updateData}
               />
@@ -98,10 +112,9 @@ const BooksList = (): JSX.Element => {
                 <BiSearch size='2rem' />
               </InputGroup.Text>
               <FormControl
-                placeholder='Search by genre'
                 name='genre'
                 as='select'
-                className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
+                defaultValue={genre}
                 onChange={updateData}
               >
                 <option value='' disabled selected hidden>Search by genre</option>
@@ -146,13 +159,15 @@ const BooksList = (): JSX.Element => {
         </Col>
         <Col lg={8}>
           <Row>
-            {booksSearchData.models?.map((item: any, i: number) => (
-              <BookCard data={item} key={i} />
-            ))}
+            {booksSearchData.models?.length !== 0 ? (
+              booksSearchData.models?.map((item: any, i: number) => (<BookCard data={item} key={i} />))
+            ) : (
+              <h2 className={theme ? 'text-light' : 'text-black'}>Nothing found!</h2>
+            )}
           </Row>
           <Pagination
-            page={booksSearchData.page}
-            totalPages={booksSearchData.totalPages}
+            page={booksSearchData?.page}
+            totalPages={booksSearchData?.totalPages}
             onPageSelected={changePage}
           />
         </Col>

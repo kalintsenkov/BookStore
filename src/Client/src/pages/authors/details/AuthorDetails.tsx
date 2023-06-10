@@ -34,6 +34,10 @@ const AuthorDetails = (): JSX.Element => {
       });
   };
 
+  const navigateToAuthorBooks = () => {
+    navigate(routes.booksByAuthorSearch.getRoute(authorData.name));
+  };
+
   return (
     <Container className='py-5'>
       <Row className='justify-content-center mt-5'>
@@ -42,6 +46,11 @@ const AuthorDetails = (): JSX.Element => {
           <p className='mt-3 h5' style={{ opacity: '0.8', fontWeight: '400' }}>
             {authorData.description}
           </p>
+          <Button
+            onClick={navigateToAuthorBooks}
+            className={`${theme ? 'bg-dark-primary text-black' : 'bg-light-primary'} border-0 mt-lg-3`}>
+            More by {authorData.name}
+          </Button>
           {usersService.isAdministrator() ? (
             <>
               <Button

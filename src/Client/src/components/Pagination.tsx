@@ -98,7 +98,7 @@ const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPagin
 
   return (
     <>
-      {totalPages && (
+      {totalPages !== 0 && (
         <nav className='mt-4 d-flex justify-content-center'>
           <ul className='pagination'>
             {links.map((link, index) => (
