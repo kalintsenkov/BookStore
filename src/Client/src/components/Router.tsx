@@ -6,7 +6,7 @@ import { AuthenticationContext } from '../providers/AuthenticationContext';
 import routes from '../common/routes';
 import Header from './Header';
 import Home from '../pages/home/Home';
-import MyAccount from '../pages/my-account/MyAccount';
+import Administration from '../pages/administration/Administration';
 import Login from '../pages/authentication/Login';
 import Register from '../pages/authentication/Register';
 import AuthorsSearch from '../pages/authors/search/AuthorsSearch';
@@ -18,10 +18,10 @@ import BookCreate from '../pages/books/create/BookCreate';
 import OrderDetails from '../pages/orders/details/OrderDetails';
 import OrdersSearch from '../pages/orders/search/OrdersSearch';
 import Cart from '../pages/cart/Cart';
-import NotFound from './NotFound';
+import MyAccount from '../pages/my-account/MyAccount';
+import NotFound from '../pages/not-found/NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import usersService from '../services/usersService';
-import Administration from '../pages/administration/Administration';
 
 const AppRouter = (): JSX.Element => {
   const [theme] = useThemeHook();

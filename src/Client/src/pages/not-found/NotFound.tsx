@@ -1,6 +1,6 @@
 import { Container } from 'react-bootstrap';
 
-import { useThemeHook } from '../providers/ThemeProvider';
+import { useThemeHook } from '../../providers/ThemeProvider';
 
 const NotFound = () => {
   const [theme] = useThemeHook();
