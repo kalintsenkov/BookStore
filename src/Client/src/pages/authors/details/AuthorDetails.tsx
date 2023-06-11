@@ -48,6 +48,7 @@ const AuthorDetails = (): JSX.Element => {
           </p>
           <Button
             onClick={navigateToAuthorBooks}
+            style={{ marginRight: 15 }}
             className={`${theme ? 'bg-dark-primary text-black' : 'bg-light-primary'} border-0 mt-lg-3`}>
             More by {authorData.name}
           </Button>
@@ -56,12 +57,14 @@ const AuthorDetails = (): JSX.Element => {
               <Button
                 variant='warning'
                 onClick={() => navigate(routes.bookEdit.getRoute(Number(id)))}
+                className='mt-lg-3'
                 style={{ marginRight: 15 }}
               >
                 Edit
               </Button>
               <Button
                 variant='danger'
+                className='mt-lg-3'
                 onClick={() => deleteAuthor()}
               >
                 Delete

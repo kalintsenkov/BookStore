@@ -9,6 +9,7 @@ import Home from '../pages/home/Home';
 import MyAccount from '../pages/my-account/MyAccount';
 import Login from '../pages/authentication/Login';
 import Register from '../pages/authentication/Register';
+import AuthorsSearch from '../pages/authors/search/AuthorsSearch';
 import AuthorDetails from '../pages/authors/details/AuthorDetails';
 import BooksList from '../pages/books/list/BooksList';
 import BookDetails from '../pages/books/details/BookDetails';
@@ -20,6 +21,7 @@ import Cart from '../pages/cart/Cart';
 import NotFound from './NotFound';
 import ProtectedRoute from './ProtectedRoute';
 import usersService from '../services/usersService';
+import Administration from '../pages/administration/Administration';
 
 const AppRouter = (): JSX.Element => {
   const [theme] = useThemeHook();
@@ -33,6 +35,7 @@ const AppRouter = (): JSX.Element => {
           <Route path={routes.home.path} element={<Home />} />
           <Route path={routes.login.path} element={<Login />} />
           <Route path={routes.register.path} element={<Register />} />
+          <Route path={routes.authorsSearch.path} element={<AuthorsSearch />} />
           <Route path={routes.authorDetails.path} element={<AuthorDetails />} />
           {[
             routes.booksSearch.path,
@@ -42,7 +45,7 @@ const AppRouter = (): JSX.Element => {
             routes.booksByTitleAndGenreSearch.path,
             routes.booksByGenreAndAuthorSearch.path,
             routes.booksByTitleAndAuthorSearch.path,
-            routes.booksByTitleGenreAndAuthorSearch.path,
+            routes.booksByTitleGenreAndAuthorSearch.path
           ].map((path, index) =>
             <Route path={path} element={<BooksList />} key={index} />
           )}
@@ -92,6 +95,14 @@ const AppRouter = (): JSX.Element => {
             element={
               <ProtectedRoute isAllowed={isAuthenticated}>
                 <MyAccount />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.administration.path}
+            element={
+              <ProtectedRoute isAllowed={usersService.isAdministrator()}>
+                <Administration />
               </ProtectedRoute>
             }
           />

@@ -11,6 +11,10 @@ const routes = {
     path: '/register',
     getRoute: () => '/register'
   },
+  authorsSearch: {
+    path: '/authors/page/:page',
+    getRoute: (page: number = 1) => `/authors/page/${page}`
+  },
   authorDetails: {
     path: '/author/details/:id',
     getRoute: (id: number) => `/author/details/${id}`
@@ -74,6 +78,10 @@ const routes = {
   myAccount: {
     path: '/my-account',
     getRoute: () => '/my-account'
+  },
+  administration: {
+    path: '/administration',
+    getRoute: () => '/administration'
   }
 };
 

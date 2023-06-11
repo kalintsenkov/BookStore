@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 
 import { VscAccount } from 'react-icons/vsc';
-import { BiCart, BiMoon, BiSun } from 'react-icons/bi';
+import { BiCart, BiMoon, BiSun, BiEdit } from 'react-icons/bi';
 
 import { ThemeContext } from '../providers/ThemeProvider';
 import { AuthenticationContext } from '../providers/AuthenticationContext';
@@ -52,11 +52,11 @@ const Header = () => {
             </Nav.Link>
             {usersService.isAdministrator() ? (
               <Link
-                to={routes.ordersSearch.getRoute()}
+                to={routes.administration.getRoute()}
                 className={`${darkMode ? 'text-dark-primary' : 'text-light-primary'} nav-link d-flex align-items-center`}
               >
-                <BiCart size='2rem' />
-                <span>&nbsp;Orders</span>
+                <BiEdit size='2rem' />
+                <span>&nbsp;Administration</span>
               </Link>
             ) : (
               <></>
