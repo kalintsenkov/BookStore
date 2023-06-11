@@ -1,12 +1,14 @@
+const API_URL = 'https://localhost:5001/';
+
 export const ROLES = {
   ADMINISTRATOR: 'Administrator'
 };
 
 export const ENDPOINTS = {
-  AUTHORS_PATH: 'https://localhost:5001/authors/',
-  BOOKS_PATH: 'https://localhost:5001/books/',
-  CUSTOMERS_PATH: 'https://localhost:5001/customers/',
-  IDENTITY_PATH: 'https://localhost:5001/identity/',
-  ORDERS_PATH: 'https://localhost:5001/orders/',
-  SHOPPING_CARTS_PATH: 'https://localhost:5001/shoppingcarts/'
+  AUTHORS_PATH: API_URL + 'authors/',
+  BOOKS_PATH: API_URL + 'books/',
+  CUSTOMERS_PATH: API_URL + 'customers/',
+  IDENTITY_PATH: API_URL + 'identity/',
+  ORDERS_PATH: API_URL + 'orders/',
+  SHOPPING_CARTS_PATH: API_URL + 'shoppingCarts/'
 };
