@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Col, Container, Form, FormControl, InputGroup, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, FormControl, FormLabel, InputGroup, Row } from 'react-bootstrap';
 import { BiSearch } from 'react-icons/bi';
 
 import { useThemeHook } from '../../../providers/ThemeProvider';
@@ -80,75 +80,67 @@ const BooksList = (): JSX.Element => {
       <Row>
         <Col lg={3}>
           <Form onSubmit={handleSearch}>
+            <FormLabel
+              htmlFor='title'
+              className={theme ? 'text-dark-primary' : 'text-light-primary'}>
+              Title:
+            </FormLabel>
             <InputGroup className='mb-3'>
               <InputGroup.Text
                 className={theme ? 'bg-black text-dark-primary' : 'bg-light text-light-primary'}>
                 <BiSearch size='2rem' />
               </InputGroup.Text>
               <FormControl
-                placeholder='Search by title'
+                id='title'
                 name='title'
+                placeholder='Search by title'
                 defaultValue={title}
                 className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
                 onChange={updateData}
               />
             </InputGroup>
+            <FormLabel
+              htmlFor='author'
+              className={theme ? 'text-dark-primary' : 'text-light-primary'}>
+              Author:
+            </FormLabel>
             <InputGroup className='mb-3'>
               <InputGroup.Text
                 className={theme ? 'bg-black text-dark-primary' : 'bg-light text-light-primary'}>
                 <BiSearch size='2rem' />
               </InputGroup.Text>
               <FormControl
-                placeholder='Search by author'
+                id='author'
                 name='author'
+                placeholder='Search by author'
                 defaultValue={author}
                 className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
                 onChange={updateData}
               />
             </InputGroup>
+            <FormLabel
+              htmlFor='genre'
+              className={theme ? 'text-dark-primary' : 'text-light-primary'}>
+              Genre:
+            </FormLabel>
             <InputGroup className='mb-3'>
               <InputGroup.Text
                 className={theme ? 'bg-black text-dark-primary' : 'bg-light text-light-primary'}>
                 <BiSearch size='2rem' />
               </InputGroup.Text>
               <FormControl
+                id='genre'
                 name='genre'
                 as='select'
                 defaultValue={genre}
                 className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
                 onChange={updateData}
               >
-                <option value='' disabled selected hidden>Search by genre</option>
+                <option value='' disabled selected hidden></option>
                 {Genre.values.map((genre, index) => {
                   return <option key={index} value={genre.value}>{genre.name}</option>;
                 })}
               </FormControl>
-            </InputGroup>
-            <InputGroup className='mb-3'>
-              <InputGroup.Text
-                className={theme ? 'bg-black text-dark-primary' : 'bg-light text-light-primary'}>
-                <BiSearch size='2rem' />
-              </InputGroup.Text>
-              <FormControl
-                placeholder='Search by min price'
-                type='number'
-                name='minPrice'
-                className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
-                onChange={updateData}
-              />
-            </InputGroup>
-            <InputGroup className='mb-3'>
-              <InputGroup.Text
-                className={theme ? 'bg-black text-dark-primary' : 'bg-light text-light-primary'}>
-                <BiSearch size='2rem' />
-              </InputGroup.Text>
-              <FormControl
-                placeholder='Search by max price'
-                type='number'
-                name='maxPrice'
-                className={theme ? 'bg-light-black text-light' : 'bg-light text-black'}
-                onChange={updateData}
-              />
             </InputGroup>
             <Button
               type='submit'
