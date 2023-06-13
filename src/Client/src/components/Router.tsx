@@ -11,6 +11,8 @@ import Login from '../pages/authentication/Login';
 import Register from '../pages/authentication/Register';
 import AuthorsSearch from '../pages/authors/search/AuthorsSearch';
 import AuthorDetails from '../pages/authors/details/AuthorDetails';
+import AuthorEdit from '../pages/authors/edit/AuthorEdit';
+import AuthorCreate from '../pages/authors/create/AuthorCreate';
 import BooksList from '../pages/books/list/BooksList';
 import BookDetails from '../pages/books/details/BookDetails';
 import BookEdit from '../pages/books/edit/BookEdit';
@@ -37,6 +39,22 @@ const AppRouter = (): JSX.Element => {
           <Route path={routes.register.path} element={<Register />} />
           <Route path={routes.authorsSearch.path} element={<AuthorsSearch />} />
           <Route path={routes.authorDetails.path} element={<AuthorDetails />} />
+          <Route
+            path={routes.authorEdit.path}
+            element={
+              <ProtectedRoute isAllowed={usersService.isAdministrator()}>
+                <AuthorEdit />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.authorCreate.path}
+            element={
+              <ProtectedRoute isAllowed={usersService.isAdministrator()}>
+                <AuthorCreate />
+              </ProtectedRoute>
+            }
+          />
           {[
             routes.booksSearch.path,
             routes.booksByTitleSearch.path,

@@ -1,4 +1,4 @@
-const API_URL = 'https://localhost:5001/';
+const API_URL = 'http://localhost:5001/';
 
 export const ROLES = {
   ADMINISTRATOR: 'Administrator'

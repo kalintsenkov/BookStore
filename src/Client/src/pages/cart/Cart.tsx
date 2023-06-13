@@ -28,6 +28,10 @@ const Cart = (): JSX.Element => {
   }, []);
 
   const editQuantity = async (bookId: number, quantity: number) => {
+    if (quantity < 1 || quantity > 10) {
+      return;
+    }
+
     shoppingCartsService
       .editQuantity({
         bookId,

@@ -32,6 +32,10 @@ const MyAccount = () => {
   };
 
   useEffect(() => {
+    if (usersService.isAdministrator()) {
+      return;
+    }
+    
     ordersService
       .mine()
       .subscribe({

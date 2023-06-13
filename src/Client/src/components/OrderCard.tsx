@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { Badge, Card, Col, Row } from 'react-bootstrap';
+import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
 
 import { useThemeHook } from '../providers/ThemeProvider';
 import routes from '../common/routes';
@@ -45,10 +45,20 @@ const OrderCard = (props: IOrderCardProps) => {
               ) : (
                 <></>
               )}
-              <Card.Footer className='p-0 border-0'>
-                <Badge pill bg={getStatusBackground()}>
-                  Status: {props.status}
-                </Badge>
+              <Card.Footer className='p-0 border-0 bg-transparent'>
+                <Row className='justify-content-center'>
+                  <Col className='py-2'>
+                    <Badge pill bg={getStatusBackground()}>
+                      Status: {props.status}
+                    </Badge>
+                  </Col>
+                  <Col className='py-2'>
+                    <Button
+                      className={`${theme ? 'bg-dark-primary text-black' : 'bg-light-primary'} float-end border-0`}>
+                      See details
+                    </Button>
+                  </Col>
+                </Row>
               </Card.Footer>
             </Card.Body>
           </Col>

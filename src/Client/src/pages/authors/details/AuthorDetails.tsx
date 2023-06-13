@@ -56,7 +56,7 @@ const AuthorDetails = (): JSX.Element => {
             <>
               <Button
                 variant='warning'
-                onClick={() => navigate(routes.bookEdit.getRoute(Number(id)))}
+                onClick={() => navigate(routes.authorEdit.getRoute(Number(id)))}
                 className='mt-lg-3'
                 style={{ marginRight: 15 }}
               >

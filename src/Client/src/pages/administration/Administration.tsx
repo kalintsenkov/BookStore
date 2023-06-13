@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { BiEdit } from 'react-icons/bi';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 
 import { useThemeHook } from '../../providers/ThemeProvider';
 import routes from '../../common/routes';
-import { BiEdit } from 'react-icons/bi';
 
 const Administration = (): JSX.Element => {
   const [theme] = useThemeHook();
@@ -32,6 +32,28 @@ const Administration = (): JSX.Element => {
               <Card.Header>
                 <BiEdit size='2rem' />
                 &nbsp;Authors
+              </Card.Header>
+            </Card>
+          </Link>
+        </Col>
+        <Col>
+          <Link to={routes.authorCreate.getRoute()} className='nav-link'>
+            <Card className={`${theme ? 'bg-light-black text-light' : 'bg-light text-black'} mb-3`}
+                  border={theme ? 'warning' : 'primary'}>
+              <Card.Header>
+                <BiEdit size='2rem' />
+                &nbsp;Create Author
+              </Card.Header>
+            </Card>
+          </Link>
+        </Col>
+        <Col>
+          <Link to={routes.bookCreate.getRoute()} className='nav-link'>
+            <Card className={`${theme ? 'bg-light-black text-light' : 'bg-light text-black'} mb-3`}
+                  border={theme ? 'warning' : 'primary'}>
+              <Card.Header>
+                <BiEdit size='2rem' />
+                &nbsp;Create Book
               </Card.Header>
             </Card>
           </Link>

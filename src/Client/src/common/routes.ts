@@ -19,6 +19,14 @@ const routes = {
     path: '/author/details/:id',
     getRoute: (id: number) => `/author/details/${id}`
   },
+  authorEdit: {
+    path: '/author/edit/:id',
+    getRoute: (id: number) => `/author/edit/${id}`
+  },
+  authorCreate: {
+    path: '/author/create',
+    getRoute: () => '/author/create'
+  },
   booksSearch: {
     path: '/books/page/:page',
     getRoute: (page: number = 1) => `/books/page/${page}`
