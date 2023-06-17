@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, Col, Container, Row } from 'react-bootstrap';
-import { FaCheck } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 
 import routes from '../../../common/routes';
 import { useThemeHook } from '../../../providers/ThemeProvider';
@@ -18,8 +18,8 @@ const OrderSuccess = (): JSX.Element => {
       <Row>
         <Col className='p-5 text-center'>
           <div className='d-flex justify-content-center mb-5 flex-column align-items-center'>
-            <h3 className='bg-success text-light align-items-center' style={{ width: '3%', borderRadius: '50%' }}>
-              <FaCheck className='text-light' size='1.3rem' />
+            <h3 className='align-items-center'>
+              <FaCheckCircle className='text-success' size='2rem' />
             </h3>
             <h3 className={`font-weight-bold ${theme ? 'text-light' : 'text-black'}`}>
               Order Confirmed
