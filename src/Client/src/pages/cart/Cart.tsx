@@ -56,7 +56,10 @@ const Cart = (): JSX.Element => {
     ordersService
       .create()
       .subscribe({
-        next: () => navigate(routes.myAccount.getRoute()),
+        next: res => {
+          const id = Number(res.data);
+          navigate(routes.orderSuccess.getRoute(id));
+        },
         error: errorsService.handle
       });
   };

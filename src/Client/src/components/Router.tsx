@@ -19,6 +19,7 @@ import BookEdit from '../pages/books/edit/BookEdit';
 import BookCreate from '../pages/books/create/BookCreate';
 import OrderDetails from '../pages/orders/details/OrderDetails';
 import OrdersSearch from '../pages/orders/search/OrdersSearch';
+import OrderSuccess from '../pages/orders/success/OrderSuccess';
 import Cart from '../pages/cart/Cart';
 import MyAccount from '../pages/my-account/MyAccount';
 import NotFound from '../pages/not-found/NotFound';
@@ -97,6 +98,14 @@ const AppRouter = (): JSX.Element => {
             element={
               <ProtectedRoute isAllowed={isAuthenticated || usersService.isAdministrator()}>
                 <OrderDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={routes.orderSuccess.path}
+            element={
+              <ProtectedRoute isAllowed={isAuthenticated}>
+                <OrderSuccess />
               </ProtectedRoute>
             }
           />

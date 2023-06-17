@@ -79,6 +79,10 @@ const routes = {
     path: '/order/details/:id',
     getRoute: (id: number) => `/order/details/${id}`
   },
+  orderSuccess: {
+    path: '/order/success/:id',
+    getRoute: (id: number) => `/order/success/${id}`
+  },
   cart: {
     path: '/cart',
     getRoute: () => '/cart'
