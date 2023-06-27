@@ -1,22 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import 'react-phone-input-2/lib/high-res.css';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 
-import { useThemeHook } from '../../providers/ThemeProvider';
-import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import usersService from '../../services/usersService';
 import errorsService from '../../services/errorsService';
 import jwtService from '../../services/jwtService';
 import routes from '../../common/routes';
+import useTheme from '../../hooks/useTheme';
+import useAuthentication from '../../hooks/useAuthentication';
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthenticationContext);
-  // const [number, setNumber] = useState(null);
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
+  const { isAuthenticated, setIsAuthenticated } = useAuthentication();
 
   useEffect(() => {
     if (isAuthenticated) {

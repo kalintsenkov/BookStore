@@ -1,22 +1,22 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Col, Container, Form, InputGroup, Row, Spinner } from 'react-bootstrap';
 
 import { AiOutlineUser } from 'react-icons/ai';
 import { VscKey } from 'react-icons/vsc';
 
-import { useThemeHook } from '../../providers/ThemeProvider';
-import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import usersService from '../../services/usersService';
 import errorsService from '../../services/errorsService';
 import jwtService from '../../services/jwtService';
 import routes from '../../common/routes';
+import useTheme from '../../hooks/useTheme';
+import useAuthentication from '../../hooks/useAuthentication';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const navigate = useNavigate();
-  const { isAuthenticated, setIsAuthenticated } = useContext(AuthenticationContext);
+  const { isAuthenticated, setIsAuthenticated } = useAuthentication();
 
   useEffect(() => {
     if (isAuthenticated) {

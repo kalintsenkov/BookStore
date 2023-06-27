@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { useThemeHook } from '../providers/ThemeProvider';
+import useTheme from '../hooks/useTheme';
 
 interface IPaginationProps {
   page: number;
@@ -17,7 +17,7 @@ interface ILink {
 }
 
 const Pagination = ({ page = 1, totalPages, radius = 3, onPageSelected }: IPaginationProps): JSX.Element => {
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [links, setLinks] = useState<ILink[]>([]);
 
   const loadPages = useCallback(() => {

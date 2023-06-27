@@ -4,15 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import 'react-lightbox-component/build/css/index.css';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import booksService from '../../../services/booksService';
 import errorsService from '../../../services/errorsService';
 import routes from '../../../common/routes';
 import { Genre } from '../../../models/Genre';
+import useTheme from '../../../hooks/useTheme';
 
 const BookCreate = (): JSX.Element => {
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState<string>('');
   const [price, setPrice] = useState<number>(1);

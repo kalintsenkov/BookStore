@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { Container, Nav, Navbar } from 'react-bootstrap';
@@ -6,15 +6,15 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import { VscAccount } from 'react-icons/vsc';
 import { BiCart, BiMoon, BiSun, BiEdit } from 'react-icons/bi';
 
-import { ThemeContext } from '../providers/ThemeProvider';
-import { AuthenticationContext } from '../providers/AuthenticationContext';
 import routes from '../common/routes';
+import useTheme from '../hooks/useTheme';
+import useAuthentication from '../hooks/useAuthentication';
 import usersService from '../services/usersService';
 
 const Header = () => {
-  const [theme, setTheme] = useContext(ThemeContext);
+  const { theme, setTheme } = useTheme();
+  const { isAuthenticated } = useAuthentication();
   const [darkMode, setDarkMode] = useState(theme);
-  const { isAuthenticated } = useContext(AuthenticationContext);
 
   useEffect(() => {
     setTheme(darkMode);

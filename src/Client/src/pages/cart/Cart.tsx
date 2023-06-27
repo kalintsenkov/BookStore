@@ -3,15 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Button, Col, Container, Row, Table } from 'react-bootstrap';
 
-import { useThemeHook } from '../../providers/ThemeProvider';
 import errorsService from '../../services/errorsService';
 import ordersService from '../../services/ordersService';
 import shoppingCartsService from '../../services/shoppingCartsService';
 import routes from '../../common/routes';
+import useTheme from '../../hooks/useTheme';
 
 const Cart = (): JSX.Element => {
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [booksData, setBooksData] = useState<any[]>([]);
 
   const getResponse = () => {

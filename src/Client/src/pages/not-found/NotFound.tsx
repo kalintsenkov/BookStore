@@ -1,9 +1,9 @@
 import { Container } from 'react-bootstrap';
 
-import { useThemeHook } from '../../providers/ThemeProvider';
+import useTheme from '../../hooks/useTheme';
 
 const NotFound = () => {
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
 
   return (
     <Container className='py-5'>

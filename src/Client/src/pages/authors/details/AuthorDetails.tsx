@@ -3,17 +3,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, Col, Container, Row } from 'react-bootstrap';
 
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import authorsService from '../../../services/authorsService';
 import errorsService from '../../../services/errorsService';
 import usersService from '../../../services/usersService';
 import routes from '../../../common/routes';
+import useTheme from '../../../hooks/useTheme';
 
 const AuthorDetails = (): JSX.Element => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [authorData, setAuthorData] = useState<any>({});
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import { useThemeHook } from '../providers/ThemeProvider';
+import useTheme from '../hooks/useTheme';
 
 interface IHeadingProps {
   size?: string;
@@ -6,7 +6,7 @@ interface IHeadingProps {
 }
 
 const Heading = (props: IHeadingProps) => {
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
 
   return (
     <h1

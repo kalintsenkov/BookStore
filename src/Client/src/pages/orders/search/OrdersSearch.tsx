@@ -4,17 +4,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { Col, Container, FormControl, InputGroup, Row } from 'react-bootstrap';
 
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import ordersService from '../../../services/ordersService';
 import errorsService from '../../../services/errorsService';
 import OrderCard from '../../../components/OrderCard';
 import Pagination from '../../../components/Pagination';
 import routes from '../../../common/routes';
+import useTheme from '../../../hooks/useTheme';
 
 const OrdersSearch = (): JSX.Element => {
   const { page } = useParams();
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [searchInput, setSearchInput] = useState<string>('');
   const [ordersSearchData, setOrdersSearchData] = useState<any>({});
 

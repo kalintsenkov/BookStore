@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { Button, Container, Row } from 'react-bootstrap';
 
-import { useThemeHook } from '../../providers/ThemeProvider';
 import BookCard from '../../components/BookCard';
 import booksService from '../../services/booksService';
 import errorsService from '../../services/errorsService';
 import routes from '../../common/routes';
+import useTheme from '../../hooks/useTheme';
 
 const Home = (): JSX.Element => {
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [booksSearchData, setBooksSearchData] = useState<any>({});
 
   useEffect(() => {

@@ -4,18 +4,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Col, Container, Form, FormControl, FormLabel, InputGroup, Row } from 'react-bootstrap';
 import { BiSearch } from 'react-icons/bi';
 
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import BookCard from '../../../components/BookCard';
 import Pagination from '../../../components/Pagination';
 import booksService from '../../../services/booksService';
 import errorsService from '../../../services/errorsService';
 import routes from '../../../common/routes';
 import { Genre } from '../../../models/Genre';
+import useTheme from '../../../hooks/useTheme';
 
 const BooksList = (): JSX.Element => {
   const { title, genre, author, page } = useParams();
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [booksSearchData, setBooksSearchData] = useState<any>({});
   const [searchTerms, setSearchTerms] = useState<{ [key: string]: string }>({});
 

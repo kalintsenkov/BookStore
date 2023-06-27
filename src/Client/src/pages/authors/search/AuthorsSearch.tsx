@@ -4,16 +4,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { BiSearch } from 'react-icons/bi';
 import { Col, Container, FormControl, InputGroup, Row, Table } from 'react-bootstrap';
 
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import authorsService from '../../../services/authorsService';
 import errorsService from '../../../services/errorsService';
 import Pagination from '../../../components/Pagination';
 import routes from '../../../common/routes';
+import useTheme from '../../../hooks/useTheme';
 
 const AuthorsSearch = (): JSX.Element => {
   const { page } = useParams();
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [searchInput, setSearchInput] = useState<string>('');
   const [authorsSearchData, setAuthorsSearchData] = useState<any>({});
 

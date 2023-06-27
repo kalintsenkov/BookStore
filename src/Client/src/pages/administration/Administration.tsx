@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { BiEdit } from 'react-icons/bi';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 
-import { useThemeHook } from '../../providers/ThemeProvider';
 import routes from '../../common/routes';
+import useTheme from '../../hooks/useTheme';
 
 const Administration = (): JSX.Element => {
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
 
   return (
     <Container className='py-5 mt-5'>

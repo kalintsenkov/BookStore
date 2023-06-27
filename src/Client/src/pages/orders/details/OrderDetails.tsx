@@ -3,16 +3,16 @@ import { Link, useParams } from 'react-router-dom';
 
 import { Badge, Button, Col, Container, Row, Table } from 'react-bootstrap';
 
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import errorsService from '../../../services/errorsService';
 import ordersService from '../../../services/ordersService';
 import usersService from '../../../services/usersService';
 import routes from '../../../common/routes';
+import useTheme from '../../../hooks/useTheme';
 
 const OrderDetails = (): JSX.Element => {
   const { id } = useParams();
 
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [orderData, setOrderData] = useState<any>({});
 
   const getDetails = useCallback(() => {

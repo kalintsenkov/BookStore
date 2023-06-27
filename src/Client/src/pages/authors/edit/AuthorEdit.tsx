@@ -3,16 +3,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import authorsService from '../../../services/authorsService';
 import errorsService from '../../../services/errorsService';
 import routes from '../../../common/routes';
+import useTheme from '../../../hooks/useTheme';
 
 const AuthorEdit = (): JSX.Element => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Button, Card } from 'react-bootstrap';
 import { BsCartPlus } from 'react-icons/bs';
 
-import { useThemeHook } from '../providers/ThemeProvider';
+import useTheme from '../hooks/useTheme';
 import errorsService from '../services/errorsService';
 import shoppingCartsService from '../services/shoppingCartsService';
 import routes from '../common/routes';
@@ -11,7 +11,7 @@ import routes from '../common/routes';
 const BookCard = (props: any) => {
   const { id, title, price, imageUrl, genre, authorName, isAvailable } = props.data;
 
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   const addToCart = () => {

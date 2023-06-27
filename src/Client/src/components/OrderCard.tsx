@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { Badge, Button, Card, Col, Row } from 'react-bootstrap';
 
-import { useThemeHook } from '../providers/ThemeProvider';
+import useTheme from '../hooks/useTheme';
 import routes from '../common/routes';
 
 interface IOrderCardProps {
@@ -13,7 +13,7 @@ interface IOrderCardProps {
 }
 
 const OrderCard = (props: IOrderCardProps) => {
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
 
   const getStatusBackground = (): string => {
     if (props.status === 'Pending') {

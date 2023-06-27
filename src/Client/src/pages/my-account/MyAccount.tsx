@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Col, Container, Image, Nav, Row, Tab } from 'react-bootstrap';
@@ -7,8 +7,6 @@ import { IoLocationSharp, IoLogOut } from 'react-icons/io5';
 
 import './my-account.css';
 import profilePix from '../../images/profile-picture.png';
-import { useThemeHook } from '../../providers/ThemeProvider';
-import { AuthenticationContext } from '../../providers/AuthenticationContext';
 import Heading from '../../components/Heading';
 import ordersService from '../../services/ordersService';
 import usersService from '../../services/usersService';
@@ -18,11 +16,13 @@ import MyAddress from './MyAddress';
 import MyWallet from './MyWallet';
 import MyDetails from './MyDetails';
 import routes from '../../common/routes';
+import useTheme from '../../hooks/useTheme';
+import useAuthentication from '../../hooks/useAuthentication';
 
 const MyAccount = () => {
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useContext(AuthenticationContext);
+  const { setIsAuthenticated } = useAuthentication();
   const [ordersData, setOrdersData] = useState([]);
 
   const logout = () => {

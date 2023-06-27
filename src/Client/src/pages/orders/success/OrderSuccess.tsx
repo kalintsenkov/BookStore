@@ -5,12 +5,12 @@ import { Button, Col, Container, Row } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
 
 import routes from '../../../common/routes';
-import { useThemeHook } from '../../../providers/ThemeProvider';
+import useTheme from '../../../hooks/useTheme';
 
 const OrderSuccess = (): JSX.Element => {
   const { id } = useParams();
 
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
   return (

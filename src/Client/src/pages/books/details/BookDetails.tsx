@@ -8,18 +8,18 @@ import Lightbox from 'react-lightbox-component';
 import { BsCartPlus } from 'react-icons/bs';
 
 import './book-details.css';
-import { useThemeHook } from '../../../providers/ThemeProvider';
 import booksService from '../../../services/booksService';
 import errorsService from '../../../services/errorsService';
 import usersService from '../../../services/usersService';
 import shoppingCartsService from '../../../services/shoppingCartsService';
 import routes from '../../../common/routes';
+import useTheme from '../../../hooks/useTheme';
 
 const BookDetails = (): JSX.Element => {
   const { id } = useParams();
 
   const navigate = useNavigate();
-  const [theme] = useThemeHook();
+  const { theme } = useTheme();
   const [bookData, setBookData] = useState<any>({});
 
   useEffect(() => {
