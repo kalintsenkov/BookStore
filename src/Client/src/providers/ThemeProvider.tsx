@@ -9,7 +9,7 @@ type IThemeContext = [boolean, React.Dispatch<React.SetStateAction<boolean>>];
 const ThemeContext = createContext<IThemeContext>([false, () => false]);
 
 const ThemeProvider = (props: IThemeProvider) => {
-  const [theme, setTheme] = useState<boolean>(JSON.parse(localStorage.getItem('theme') || '') || false);
+  const [theme, setTheme] = useState<boolean>(JSON.parse(localStorage.getItem('theme')!) || false);
 
   useEffect(() => {
     localStorage.setItem('theme', JSON.stringify(theme));
