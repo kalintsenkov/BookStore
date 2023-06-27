@@ -69,8 +69,7 @@ internal class ShoppingCartRepository : DataRepository<ISalesDbContext, Shopping
         int id,
         CancellationToken cancellationToken = default)
         => await this
-            .Data
-            .ShoppingCarts
+            .All()
             .Where(sc => sc.Id == id)
             .SelectMany(sc => sc.Books)
             .ExecuteDeleteAsync(cancellationToken);
