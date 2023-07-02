@@ -1,8 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { renderToString } from 'react-dom/server';
 import { Link, useParams } from 'react-router-dom';
 
+import JsPDF from 'jspdf';
 import { Badge, Button, Col, Container, Row, Table } from 'react-bootstrap';
 
+import Invoice from '../../../components/Invoice';
 import errorsService from '../../../services/errorsService';
 import ordersService from '../../../services/ordersService';
 import usersService from '../../../services/usersService';
@@ -54,6 +57,23 @@ const OrderDetails = (): JSX.Element => {
     );
   };
 
+  const saveInvoice = () => {
+    const doc = new JsPDF('portrait', 'pt', 'letter');
+
+    doc
+      .html(
+        renderToString(
+          <Invoice
+            id={orderData.id}
+            date={new Date(orderData.date).toLocaleString()}
+            customerName={orderData.customerName}
+            orderedBooks={orderData.orderedBooks}
+          />
+        )
+      )
+      .then(() => doc.save(`invoice-${new Date(orderData.date).toLocaleString()}.pdf`));
+  };
+
   return (
     <Container className='py-5'>
       <Row className={`${theme ? 'justify-content-center mt-5 text-light' : 'justify-content-center mt-5 text-black'}`}>
@@ -99,6 +119,14 @@ const OrderDetails = (): JSX.Element => {
             })}
             </tbody>
           </Table>
+
+          <Button
+            onClick={saveInvoice}
+            style={{ border: 0, marginRight: 15 }}
+            className={theme ? 'bg-dark-primary text-black' : 'bg-light-primary'}
+          >
+            Print invoice
+          </Button>
 
           {usersService.isAdministrator() && orderData.status === 'Pending' ? (
             <>

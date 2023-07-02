@@ -1,17 +1,46 @@
 import React from 'react';
+import { renderToString } from 'react-dom/server';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import JsPDF from 'jspdf';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { FaCheckCircle } from 'react-icons/fa';
 
+import Invoice from '../../../components/Invoice';
 import routes from '../../../common/routes';
 import useTheme from '../../../hooks/useTheme';
+import ordersService from '../../../services/ordersService';
+import errorsService from '../../../services/errorsService';
 
 const OrderSuccess = (): JSX.Element => {
   const { id } = useParams();
 
   const { theme } = useTheme();
   const navigate = useNavigate();
+
+  const saveInvoice = () => {
+    ordersService
+      .details(Number(id))
+      .subscribe({
+        next: value => {
+          const doc = new JsPDF('portrait', 'pt', 'letter');
+
+          doc
+            .html(
+              renderToString(
+                <Invoice
+                  id={value.data.id}
+                  date={new Date(value.data.date).toLocaleString()}
+                  customerName={value.data.customerName}
+                  orderedBooks={value.data.orderedBooks}
+                />
+              )
+            )
+            .then(() => doc.save(`invoice-${new Date(value.data.date).toLocaleString()}.pdf`));
+        },
+        error: errorsService.handle
+      });
+  };
 
   return (
     <Container className='py-5'>
@@ -29,7 +58,7 @@ const OrderSuccess = (): JSX.Element => {
             </h5>
           </div>
           <Button
-            // onClick={() => printInvoice())}
+            onClick={saveInvoice}
             style={{ border: 0, marginRight: 15 }}
             className={theme ? 'bg-dark-primary text-black' : 'bg-light-primary'}
           >
