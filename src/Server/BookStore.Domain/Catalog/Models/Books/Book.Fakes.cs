@@ -7,19 +7,18 @@ using System.Linq;
 using Authors;
 using Common.Models;
 using FakeItEasy;
-
 using static Common.Models.ModelConstants.Book;
 using static Common.Models.ModelConstants.Common;
 
 public class BookFakes
 {
-    public class BetDummyFactory : IDummyFactory
+    public class BookDummyFactory : IDummyFactory
     {
+        public Priority Priority => Priority.Default;
+
         public bool CanCreate(Type type) => type == typeof(Book);
 
         public object? Create(Type type) => Data.GetBook();
-
-        public Priority Priority => Priority.Default;
     }
 
     public static class Data
